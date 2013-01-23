@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd" > 
+<tiles-definitions>
+    <definition name="main.layout" template="/WEB-INF/tiles/desktop.jsp">
+        <put-attribute name="menu" value="/WEB-INF/tiles/menu.jsp" />
+        <put-attribute name="header" value="/WEB-INF/tiles/header.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp" />
+    </definition>
+    <definition name="index" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
+    </definition>
+    <definition name="users" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/users.jsp" />
+    </definition>
+    <definition name="roles" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/roles.jsp" />
+    </definition>
+    
+    <!--For handling exceptions-->
+    <definition name="dataAccessFailure" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/dataAccessFailure.jsp" />
+    </definition>
+    <definition name="resourceNotFound" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jsp" />
+    </definition>
+    <definition name="uncaughtException" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jsp" />
+    </definition>
+</tiles-definitions>
