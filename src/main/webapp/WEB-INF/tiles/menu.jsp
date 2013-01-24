@@ -9,15 +9,15 @@
     </head>
     <body>
         <ul id="menu">
-            <li class="ui-state-disabled"><a href="#">Catalogs</a></li>
-            <li><a href="#">Processes</a></li>
+            <li class="ui-state-disabled"><a href="#"><spring:message code="menu.catalogs"/></a></li>
+            <li><a href="#"><spring:message code="menu.processes"/></a></li>
             <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <li><a href="#">Admin</a></li>
+                <li><a href="#"><spring:message code="menu.admin"/></a></li>
                 <li>
-                    <a href="#"><spring:message code="security"/></a>
+                    <a href="#"><spring:message code="menu.security"/></a>
                     <ul>
-                        <li><a href="<%=request.getContextPath()%>/users"><spring:message code="users"/></a></li>
-                        <li><a href="<%=request.getContextPath()%>/roles"><spring:message code="roles"/></a></li>
+                        <li><a href="<%=request.getContextPath()%>/users"><spring:message code="menu.security.users"/></a></li>
+                        <li><a href="<%=request.getContextPath()%>/roles"><spring:message code="menu.security.roles"/></a></li>
                     </ul>
                 </li>
             </sec:authorize>

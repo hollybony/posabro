@@ -43,31 +43,33 @@
     <!-- Resolves localized messages*.properties and application.properties files in the application to	allow for internationalization. 
   		The messages*.properties files translate messages, the application.properties
   		resource bundle localizes all application specific messages such as entity names and menu items. -->
-    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource" p:basenames="WEB-INF/i18n/messages" p:fallbackToSystemLocale="false"/>
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource" p:basenames="WEB-INF/i18n/messages" p:fallbackToSystemLocale="false"/>
 	
     <!-- store preferred language configuration in a cookie -->
-    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" 
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
           p:cookieName="locale"/>	
 	
     <!-- resolves localized <theme_name>.properties files in the classpath to allow for theme support -->
-    <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
+    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource"/>
 	
     <!-- store preferred theme configuration in a cookie -->
-    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
 
     <!-- This bean resolves specific types of exceptions to corresponding logical - view names for error views. 
     The default behaviour of DispatcherServlet - is to propagate all exceptions to the servlet container: 
     this will happen - here with all other types of exceptions. -->
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="uncaughtException">
+<!--    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="uncaughtException">
         <property name="exceptionMappings">
             <props>
                 <prop key=".DataAccessException">dataAccessFailure</prop>
                 <prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop>
                 <prop key=".TypeMismatchException">resourceNotFound</prop>
                 <prop key=".MissingServletRequestParameterException">resourceNotFound</prop>
+                <prop key=".AccessDeniedException">accessDenied/acd</prop>
+                
             </props>
         </property>
-    </bean>
+    </bean>-->
     
     <!--    <bean id="handlerExceptionResolverComposite" class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite" p:defaultErrorView="uncaughtException">
         <property name="exceptionResolvers">
@@ -85,14 +87,14 @@
     </bean>-->
 	
     <!-- Enable file upload functionality -->
-    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver" id="multipartResolver"/>
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
     
     <!-- Tiles Configuration -->
-    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
+    <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
     </bean>
     
-    <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">
             <list>
                 <value>/WEB-INF/tiles/defs/tiles.xml</value>

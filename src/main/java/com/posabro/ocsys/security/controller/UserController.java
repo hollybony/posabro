@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,10 +35,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class UserController {
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     @Autowired
     private UserService userService;
 
     @RequestMapping("queryUsers")
+    @PreAuthorize("hasRole('ROLE_ADMIN') and fullyAuthenticated")
     public @ResponseBody
     Page queryUsers(HttpServletRequest request) {
         logger.debug("queryUsers init");

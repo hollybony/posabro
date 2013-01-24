@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 <html>
     <head>
@@ -60,11 +61,33 @@
             </td>
         </tr>
     </table>
+    <div id="expiredSessionDialog" title="<spring:message code="session.expired"/>">
+        <span class="ui-icon ui-icon-alert"></span><p><spring:message code="session.expired.redirect"/></p>
+    </div>
     <script>
         (function($) {
+            var expiredSessionDialog =  $('#expiredSessionDialog').dialog({
+                autoOpen: false,
+                position: 'center',
+                resizable: false,
+                modal: true
+            });
+            
             $(document).ajaxError(function(event, xhr) {
-                var response = $.parseJSON(xhr.responseText);
-                alert(response.message);
+                var response = null;
+                if(xhr.responseText.substring(0, '<html>'.length),'<html>'){
+                    if(xhr.responseText.indexOf('Session has expired')!==-1){
+                        expiredSessionDialog.dialog('open');
+                        expiredSessionDialog.effect('shake',{}, 500, function(){
+                            document.location = ''; 
+                        });
+                    }else{
+                        alert('unknown exception');
+                    }
+                }else{
+                    response = $.parseJSON(xhr.responseText);
+                    alert(response.message);
+                }
             });      
         })(jQuery);
     </script>
