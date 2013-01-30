@@ -5,6 +5,7 @@
 package com.posabro.ocsys.security.services;
 
 import com.posabro.ocsys.security.domain.Role;
+import java.util.List;
 
 /**
  *
@@ -12,6 +13,6 @@ import com.posabro.ocsys.security.domain.Role;
  */
 public interface RoleService {
     
-    public Iterable<Role> getAllRoles();
+    public List<Role> getAllRoles();
     
 }

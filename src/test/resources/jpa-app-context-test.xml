@@ -19,14 +19,11 @@
 
     <aop:aspectj-autoproxy/>
     
-    <context:load-time-weaver/>
-    
-    <!-- Application properties -->
-    <context:property-placeholder location="classpath:springblog.properties"/>        
+    <context:load-time-weaver/>     
 
     <jdbc:embedded-database id="dataSource" type="H2">
-        <jdbc:script location="classpath:sql/schema.sql"/>
-        <jdbc:script location="classpath:sql/initial-data.sql"/>    
+<!--        <jdbc:script location="classpath:sql/schema.sql"/>
+        <jdbc:script location="classpath:sql/initial-data.sql"/>    -->
     </jdbc:embedded-database>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -84,18 +81,11 @@
 
     <context:annotation-config/>
     
-    <jpa:repositories base-package="com.apress.prospring3.springblog.repository"
+    <jpa:repositories base-package="com.posabro.ocsys.security.repository"
                       entity-manager-factory-ref="emf"
                       transaction-manager-ref="transactionManager"/>
     
-    <context:component-scan base-package="com.apress.prospring3.springblog.common, com.apress.prospring3.springblog.service.jpa"/>
+    <context:component-scan base-package="com.posabro.ocsys.security.services.jpa"/>
 
-    <jpa:auditing auditor-aware-ref="auditorAwareBean"/>
-    
-    <bean id="auditorAwareBean" class="com.apress.prospring3.springblog.auditor.AuditorAwareBean"/>
-
-    <util:list id="obscenities">
-        <value>crap</value>
-    </util:list>
     
 </beans>

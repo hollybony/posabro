@@ -5,9 +5,11 @@
 package com.posabro.ocsys.security.domain;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -18,8 +20,13 @@ import javax.persistence.Table;
 public class Role implements Serializable {
     
     @Id
+    @Column(length=32)
+    @Size(min=3,max=32)
     private String name;
     
+    
+    @Column(length=64)
+    @Size(min=6,max=64)
     private String description;
 
     public String getName() {

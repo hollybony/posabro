@@ -85,7 +85,7 @@
     
     <!-- Spring MVC Dispatcher Servlet for cosys application -->
     <servlet>
-        <servlet-name>blogAppServlet</servlet-name>
+        <servlet-name>cosysServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -98,7 +98,7 @@
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>blogAppServlet</servlet-name>
+        <servlet-name>cosysServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
     <session-config>

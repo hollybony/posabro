@@ -12,28 +12,10 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
         >
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+    <!-- Root Context: defines shared resources visible to all other web components -->
 
-    <!-- Application properties -->
-    <context:property-placeholder location="classpath:springblog.properties"/>
-
-    <!-- Enable AspectJ Load Time Weaving -->
-    <aop:aspectj-autoproxy/>
-    <context:load-time-weaver/>    
     
     <!-- Import security context -->
-    <import resource="security-context.xml"/>    
+    <import resource="security-context.xml"/>
 
-    <!-- Enable Task Scheduling support with annotation -->
-    <task:scheduler id="myScheduler" pool-size="10"/>
-    <task:annotation-driven scheduler="myScheduler"/>
-
-    <!-- Enable JSR-303 Bean Validation API -->
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
-		
-    <!-- List of words to be replaced by Obscenities Filter -->
-    <util:list id="obscenities">
-        <value>crap</value>
-    </util:list>        
-        
 </beans>

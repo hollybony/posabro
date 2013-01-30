@@ -4,27 +4,27 @@
  */
 package com.posabro.ocsys.security.controller;
 
-import com.posabro.ocsys.security.domain.ErrorMessage;
-import com.posabro.ocsys.security.domain.Page;
-import com.posabro.ocsys.security.domain.PageQuery;
-import com.posabro.ocsys.security.domain.QueryReportBuilder;
+import com.posabro.ocsys.security.domain.Misc;
+import com.posabro.ocsys.security.domain.PageRequestBuilder;
 import com.posabro.ocsys.security.domain.User;
 import com.posabro.ocsys.security.services.UserService;
-import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -32,26 +32,32 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @RequestMapping("/userController/*")
-public class UserController {
+public class UserController extends ValidationController{
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
-    
     @Autowired
     private UserService userService;
 
-    @RequestMapping("queryUsers")
+    @RequestMapping("filter")
     @PreAuthorize("hasRole('ROLE_ADMIN') and fullyAuthenticated")
     public @ResponseBody
-    Page queryUsers(HttpServletRequest request) {
-        logger.debug("queryUsers init");
-        PageQuery pageQuery = QueryReportBuilder.build(request);
-        Page page = userService.queryUsersPage(pageQuery);
-        logger.debug("queryUsers end page : " + page);
-        return page;
+    com.posabro.ocsys.security.domain.JQueryPage filterUsers(HttpServletRequest request) {
+        Pageable pageable = PageRequestBuilder.build(request);
+        String echo = request.getParameter("sEcho");
+        String searchPattern = request.getParameter("sSearch");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Page<User> page;
+        try {
+            Date creationDate = dateFormat.parse(searchPattern);
+            page = userService.queryPageByCreationDate(creationDate, pageable);
+        } catch (ParseException ex) {
+            page = userService.queryPageByName(searchPattern, pageable);
+        }
+        return Misc.pageToJQueryPage(page, echo);
     }
 
-    @RequestMapping(value = "store", method = RequestMethod.POST, consumes = "application/json")
-    public void storeUser(@RequestBody User user, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "store", method = RequestMethod.POST)
+    public void storeUser(@Valid @RequestBody User user, HttpServletResponse response) {
         logger.debug("storeUser init");
         userService.saveUser(user);
     }
@@ -69,16 +75,7 @@ public class UserController {
 
     @RequestMapping(value = "findById")
     public @ResponseBody
-    User findUser(@RequestBody String name) {
+    User findUserById(@RequestBody String name) {
         return userService.findUser(name);
-    }
-
-    @ExceptionHandler(JpaSystemException.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @RequestMapping(value = "JpaSystemException", method = {RequestMethod.POST, RequestMethod.POST})
-    public @ResponseBody
-    ErrorMessage handleException(JpaSystemException ex, HttpServletResponse response) {
-        logger.debug("handleException init");
-        return new ErrorMessage(ex.getMessage());
     }
 }

@@ -5,12 +5,19 @@
 package com.posabro.ocsys.security.repository;
 
 import com.posabro.ocsys.security.domain.User;
-import org.springframework.data.repository.CrudRepository;
+import java.util.Date;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos
  */
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends PagingAndSortingRepository<User, String> {
+    
+    public Page<User> findByNameContaining(String name, Pageable pageable);
+
+    public Page<User> findByCreationDate(Date creationDate, Pageable pageable);
     
 }

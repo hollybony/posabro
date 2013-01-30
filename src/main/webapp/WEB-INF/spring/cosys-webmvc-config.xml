@@ -12,8 +12,9 @@
 	
     <security:global-method-security pre-post-annotations="enabled"/>
     
-    <!-- Turns on support for mapping requests to Spring MVC @Controller methods
-    Also registers default Formatters and Validators for use across all @Controllers -->
+    <!-- Turns on support for mapping requests to Spring MVC @Controller methods, also registers default Formatters
+    and Validators for use across all @Controllers. Registers a RequestMappingHandlerMapping, a
+    RequestMappingHandlerAdapter, and an ExceptionHandlerExceptionResolver (among others)-->
     <mvc:annotation-driven validator="validator"/>
     
     <!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
@@ -24,11 +25,10 @@
 
 	
     <!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
-    <mvc:default-servlet-handler/>    
+    <mvc:default-servlet-handler/>
     
     <!-- register "global" interceptor beans to apply to all registered HandlerMappings -->
     <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
     </mvc:interceptors>
 	
@@ -47,43 +47,32 @@
 	
     <!-- store preferred language configuration in a cookie -->
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
-          p:cookieName="locale"/>	
+          p:cookieName="locale"/>
 	
-    <!-- resolves localized <theme_name>.properties files in the classpath to allow for theme support -->
-    <bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource"/>
-	
-    <!-- store preferred theme configuration in a cookie -->
-    <bean id="themeResolver" class="org.springframework.web.servlet.theme.CookieThemeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
-
     <!-- This bean resolves specific types of exceptions to corresponding logical - view names for error views. 
     The default behaviour of DispatcherServlet - is to propagate all exceptions to the servlet container: 
     this will happen - here with all other types of exceptions. -->
-<!--    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="uncaughtException">
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
                 <prop key=".DataAccessException">dataAccessFailure</prop>
                 <prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop>
                 <prop key=".TypeMismatchException">resourceNotFound</prop>
                 <prop key=".MissingServletRequestParameterException">resourceNotFound</prop>
-                <prop key=".AccessDeniedException">accessDenied/acd</prop>
-                
             </props>
+        </property>
+    </bean>
+    
+<!--    <bean class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite">
+        <property name="exceptionResolvers">
+            <list>
+                <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver"/>
+            </list>
         </property>
     </bean>-->
     
-    <!--    <bean id="handlerExceptionResolverComposite" class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite" p:defaultErrorView="uncaughtException">
-        <property name="exceptionResolvers">
-            <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-                <property name="exceptionMappings">
-                    <props>
-                        <prop key=".DataAccessException">dataAccessFailure</prop>
-                        <prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop>
-                        <prop key=".TypeMismatchException">resourceNotFound</prop>
-                        <prop key=".MissingServletRequestParameterException">resourceNotFound</prop>
-                    </props>
-                </property>
-            </bean>
-        </property>
+<!--    <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver">
+        <property name="order" value="1"/>
     </bean>-->
 	
     <!-- Enable file upload functionality -->
@@ -102,9 +91,11 @@
         </property>
     </bean>
 
-    <!-- Configure JSR-303 validation -->
+<!--    Configure JSR-303 validation, mvc annotation driven already comes with this kind of validator (as long as JSR-303
+    implementation is available on the classpath)
+    being in the classpath). But if we want to specify our message source we have to declare this bean-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
-    </bean> 
+    </bean>
 
 </beans>

@@ -6,3 +6,9 @@ The application is built with:
 - Spring AOP
 - Spring MVC, JSP, jQuery, jQueryUI
 ## In order to run it on tomcat you must add spring-instrument-3.1.0.RELEASE.jar file to Catalina lib folder
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-instrument-tomcat</artifactId>
+	<version>3.1.0.RELEASE</version>
+</dependency>

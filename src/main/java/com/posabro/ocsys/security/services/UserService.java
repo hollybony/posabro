@@ -4,9 +4,11 @@
  */
 package com.posabro.ocsys.security.services;
 
-import com.posabro.ocsys.security.domain.Page;
-import com.posabro.ocsys.security.domain.PageQuery;
 import com.posabro.ocsys.security.domain.User;
+import java.util.Date;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  *
@@ -14,13 +16,17 @@ import com.posabro.ocsys.security.domain.User;
  */
 public interface UserService {
     
-    public Page queryUsersPage(PageQuery pageQuery);
+//    public Page queryUsersPage(PageQuery pageQuery);
+    
+    public Page<User> queryPageByName(String name, Pageable pageable);
+    
+    public Page<User> queryPageByCreationDate(Date creationDate, Pageable pageable);
 
     public void saveUser(User user);
     
     public void updateUser(User user);
 
-    public Iterable<User> getAllUsers();
+    public List<User> getAllUsers();
 
     public void removeUser(String name);
 

@@ -14,6 +14,7 @@
         <property name="entityManagerFactory" ref="emf"/>
     </bean>
 
+    <!--It allows using @Transactional on repository layer-->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
     <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -29,7 +30,8 @@
                 <prop key="hibernate.jdbc.fetch_size">50</prop>
                 <prop key="hibernate.jdbc.batch_size">10</prop>
                 <prop key="hibernate.show_sql">true</prop>
-
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                
                 <!-- Listeners for Hibernate Envers -->
               
                 <prop key="hibernate.ejb.event.post-insert">
@@ -66,9 +68,5 @@
     <jpa:repositories base-package="com.posabro.ocsys.security.repository"
                       entity-manager-factory-ref="emf"
                       transaction-manager-ref="transactionManager"/>
-    
-    <jpa:auditing auditor-aware-ref="auditorAwareBean"/>
-    
-    <bean id="auditorAwareBean" class="com.apress.prospring3.springblog.auditor.AuditorAwareBean"/>
-
+        
 </beans>

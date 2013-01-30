@@ -75,18 +75,17 @@
             
             $(document).ajaxError(function(event, xhr) {
                 var response = null;
+                /*it's a session timeout error*/
                 if(xhr.responseText.substring(0, '<html>'.length),'<html>'){
                     if(xhr.responseText.indexOf('Session has expired')!==-1){
                         expiredSessionDialog.dialog('open');
                         expiredSessionDialog.effect('shake',{}, 500, function(){
                             document.location = ''; 
                         });
-                    }else{
-                        alert('unknown exception');
-                    }
-                }else{
-                    response = $.parseJSON(xhr.responseText);
-                    alert(response.message);
+                    }/*else{
+                        response = $.parseJSON(xhr.responseText);
+                        alert(response.message);
+                    }*/
                 }
             });      
         })(jQuery);

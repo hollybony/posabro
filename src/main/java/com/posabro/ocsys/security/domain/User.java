@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -26,12 +28,15 @@ public class User implements Serializable {
     
     @Id
     @Column(length=32)
+    @Size(min=3,max=32)
     private String name;
     
     @Column(length=32, columnDefinition="VARCHAR(32)", nullable=false)
+    @Size(min=3,max=32)
     private char[] password;
     
-    @ManyToMany(fetch= FetchType.EAGER)
+    @NotEmpty
+    @ManyToMany(fetch= FetchType.LAZY)
     private List<Role> roles;
     
     @Temporal(javax.persistence.TemporalType.DATE)

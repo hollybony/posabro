@@ -4,13 +4,19 @@
     <head>
         <title><spring:message code="users" /></title>
         <style>
-            /*following 3 classes are for form dialog*/
+            /*following 4 classes are for form dialog*/
             /*round input text elements*/
             input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
             /*this is for the checkboxes div*/
             div.text { margin-bottom:12px; width:92%; padding: .4em; }
             .ui-dialog .ui-state-error { padding: .3em; }
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            /*this class is used by some columns of datatable*/
+            td.right{text-align: right}
+            /*the curreny team makes the pagination buttons color too dark, with this class we make these colors lighter*/
+            .paging_full_numbers .ui-button {
+                color: #336699 !important;
+            }
         </style>
     </head>
     <body>
@@ -28,13 +34,15 @@
             </thead>
         </table>
         <div id="formDialog" title='<spring:message code="users.data" />'>
-            <p class="validateTips"></p>
-            <form>
+            <form id="userForm">
                 <label for="nameInput"><spring:message code="user.name" /></label>
+                <span class="validateTips"></span>
                 <input id="nameInput" name="nameInput" type="text" class="text ui-widget-content ui-corner-all" />
                 <label for="passwordInput"><spring:message code="user.password" /></label>
+                <span class="validateTips"></span>
                 <input id="passwordInput" name="passwordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
                 <label for="rolesSelect"><spring:message code="user.rolesAssigned" /></label>
+                <span class="validateTips"></span>
                 <div id="rolesSelect" class="text ui-widget-content ui-corner-all">
                 </div>
             </form>
@@ -42,6 +50,7 @@
         <div id="deleteConfirmDialog" title="<spring:message code="users.delete"/>">
             <span class="ui-icon ui-icon-alert"></span><p><spring:message code="user.delete.confirm" /></p>
         </div>
+        <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
             $(function() {
                 /*fields are declares here and they are required by different functions*/
@@ -63,10 +72,10 @@
                         'bServerSide': true,
                         'bDestroy' : true,
                         'bPaginate': true,
-                        'sAjaxSource': 'userController/queryUsers',
+                        'sAjaxSource': 'userController/filter',
                         'aoColumns': [
-                            { 'mData': 'name'},
-                            { 'mData': 'creationDate'},
+                            {'mData': 'name'},
+                            {'mData': 'creationDate', 'sClass':'right'},
                         ],
                         'sPaginationType': 'full_numbers',
                         'oLanguage': {
@@ -74,10 +83,13 @@
                             'sSearch' : '<spring:message code="dataTable.search"/>',
                             'sLengthMenu' : '<spring:message code="dataTable.pageSizes"/>',
                             'sInfo' : '<spring:message code="dataTable.recordsInfo"/>'
-                        }
+                        }/*,
+                        'fnServerParams': function ( aoData ) {
+                            aoData.push( { "name": "more_data", "value": "my_value" } );
+                        }*/
                     });
                     oTable.dblclick(function(){
-                        CrudHandler.editElement();
+                        CrudHandler.editUser();
                     });
                     /* Add a click handler to the rows - this could be used as a callback */
                     $('#usersTable tbody').click(function(event) {
@@ -95,75 +107,74 @@
                         });
                     });                
                 };
-                CrudHandler.newElement = function(){
+                CrudHandler.newUser = function(){
                     currentUser = null;
+                    name.prop('disabled',false);
                     $("#formDialog").dialog('open');
                 };
-                CrudHandler.editElement = function(){
-                    isNew = false;
+                CrudHandler.editUser = function(){
                     var trSelected = CrudHandler.getTrSelected(oTable);
                     if(trSelected!==null){
                         currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
                         name.val(currentUser.name);
+                        name.prop('disabled',true);
                         $.each(currentUser.roles,function(){
-                            rolesSelect.children('#' +  this.name).attr('checked',true);
+                            rolesSelect.children('#' + this.name).prop('checked',true);
                         });
                         $("#formDialog").dialog('open');
-                        name.focus().select();
+                        password.focus().select();
                     }
                 };
-                CrudHandler.updateElement = function(){
-                    var bValid = true;
+                CrudHandler.updateUser = function(){
                     /*if previously was any error*/
                     allFields.removeClass('ui-state-error');
-                
-                    bValid = bValid && Validator.checkLength(name, '<spring:message code="user.name.length" />', 3, 32 );
-                    //                        bValid = bValid && Validator.checkLength( email, "email", 6, 80 );
-                    bValid = bValid && Validator.checkLength( password, '<spring:message code="user.password.length" />', 5, 16 );
-                    bValid = bValid && Validator.checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, '<spring:message code="user.name.rules" />');
-                    // From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
-                    //bValid = bValid && CrudHandler.checkRegexp( email, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
-                    bValid = bValid && Validator.checkRegexp( password, /^([0-9a-zA-Z])+$/, '<spring:message code="user.password.rules" />');
-                    if(bValid){
-                        if(!rolesSelect.children('input').is(':checked')){
-                            bValid = false;
-                            rolesSelect.addClass('ui-state-error');
-                            Validator.updateTips('<spring:message code="user.role.rules" />');
-                        }
+                    var roles = [];
+                    var isNew = currentUser?false:true;
+                    var method = null;
+                    if(isNew){
+                        method = 'store';
+                        currentUser = {};
+                    }else{
+                        method = 'update';
                     }
-                    if (bValid) {
-                        var roles = [];
-                        var isNew = currentUser?false:true;
-                        var method = null;
-                        if(isNew){
-                            method = 'store';
-                            currentUser = {};
-                        }else{
-                            method = 'update';
-                        }
-                        rolesSelect.children('input:checked').each(function(useless, value){
-                            $.each(rolesAvailable, function(){
-                                if($(value).attr('id')==this.name){
-                                    roles.push(this);
-                                }
+                    rolesSelect.children('input:checked').each(function(useless, value){
+                        $.each(rolesAvailable, function(){
+                            if($(value).prop('id')==this.name){
+                                roles.push(this);
+                            }
+                        });
+                    });
+                    currentUser.name =  name.val();
+                    currentUser.password =  password.val();
+                    currentUser.roles = roles;
+                    var successCallback = function(data){
+                        $('#formDialog').dialog('close');
+                        CrudHandler.refreshTable();
+                    };
+                    var errorCallback = function(xhr){
+                        if(xhr.status===500){//bussiness exceptions
+                            var errors = $.parseJSON(xhr.responseText);
+                            $.each(errors,function(){
+                                alert('message : ' + this.defaultMessage);
                             });
-                        });
-                        currentUser.name =  name.val();
-                        currentUser.password =  password.val();
-                        currentUser.roles = roles;
-                        var successCallback = function(data){
-                            $('#formDialog').dialog('close');
-                            CrudHandler.refreshTable();
-                        };
-                        //                        $.post('userController/store',JSON.stringify(currentUser),callback,'json');
-                        $.ajax(
-                        { type: "POST",
-                            url:'userController/' + method,
-                            data:JSON.stringify(currentUser),
-                            contentType: "application/json",
-                            success:successCallback
-                        });
-                    }
+                        }else if (xhr.status===400){//validation errors
+                            var errors = $.parseJSON(xhr.responseText);
+                            $.each(errors, function(){
+                                Validator.updateError(this);
+                            });
+                        }else{
+                            alert('unknown error');
+                        }
+                    };
+                    //                        $.post('userController/store',JSON.stringify(currentUser),callback,'json');
+                    $.ajax(
+                    { type: "POST",
+                        url:'userController/' + method,
+                        data:JSON.stringify(currentUser),
+                        contentType: "application/json",
+                        success:successCallback,
+                        error:errorCallback
+                    });
                 };
                 CrudHandler.askForDelete = function(){
                     var trSelected = CrudHandler.getTrSelected(oTable);
@@ -173,7 +184,7 @@
                         $('#deleteConfirmDialog').text(newMessage).data('id',aElement.name).dialog('open');
                     }
                 };
-                CrudHandler.deleteElement = function(id){
+                CrudHandler.deleteUser = function(id){
                     $.ajax({
                         type: "POST",
                         url:'userController/delete',
@@ -191,10 +202,10 @@
                         CrudHandler.refreshTable();
                     });
                     $('#newButton').click(function(event){
-                        CrudHandler.newElement();
+                        CrudHandler.newUser();
                     });
                     $('#editButton').click(function(event){
-                        CrudHandler.editElement();
+                        CrudHandler.editUser();
                     });
                     /*set askForDelete method in click event*/
                     $('#deleteButton').click(function(event){
@@ -209,7 +220,7 @@
                         buttons: {
                             '<spring:message code="ok" />': function() {
                                 $(this).dialog('close');
-                                CrudHandler.deleteElement($(this).data('id'));
+                                CrudHandler.deleteUser($(this).data('id'));
                             },
                             '<spring:message code="cancel" />': function() {
                                 $(this).dialog('close');
@@ -218,12 +229,11 @@
                     });
                     $('#formDialog').dialog({
                         autoOpen: false,
-                        height: 300,
-                        width: 350,
+                        width: 400,
                         modal: true,
                         buttons: {
                             '<spring:message code="ok" />': function() {
-                                CrudHandler.updateElement();
+                                CrudHandler.updateUser();
                             },
                             '<spring:message code="cancel" />': function() {
                                 $( this ).dialog('close');
@@ -231,12 +241,11 @@
                         },
                         close: function() {
                             allFields.val('').removeClass('ui-state-error');
-                            rolesSelect.children('input').attr('checked',false);
+                            rolesSelect.children('input').prop('checked',false);
                         }
                     });
                     CrudHandler.refreshRoles();
                 };
-                CrudHandler.formatDate = '<spring:message code="jsShortFormatDate" />';
                 CrudHandler.getTrSelected = function(oTableLocal){
                     var aReturn = null;
                     var aTrs = oTableLocal.fnGetNodes();
@@ -247,35 +256,6 @@
                         }
                     }
                     return aReturn;
-                };
-  
-                Validator = {};
-                Validator.updateTips = function(t) {
-                    var tips = $('.validateTips');
-                    tips
-                    .text(t)
-                    .addClass('ui-state-highlight');
-                    setTimeout(function() {
-                        tips.removeClass('ui-state-highlight', 1500 );
-                    }, 500 );
-                };
-                Validator.checkLength = function(o, message, min, max){
-                    if (o.val().length > max || o.val().length < min ) {
-                        o.addClass('ui-state-error');
-                        Validator.updateTips(message.replace('{0}',min).replace('{1}',max));
-                        return false;
-                    } else {
-                        return true;
-                    }
-                };
-                Validator.checkRegexp = function(o, regexp, n) {
-                    if (!(regexp.test(o.val()))){
-                        o.addClass('ui-state-error');
-                        Validator.updateTips(n);
-                        return false;
-                    } else {
-                        return true;
-                    }
                 };
                 CrudHandler.init();
             });

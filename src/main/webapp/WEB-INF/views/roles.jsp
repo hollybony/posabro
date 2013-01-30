@@ -1,56 +1,49 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
     <head>
-
+        <title><spring:message code="roles" /></title>
+        <style>
+        </style>
     </head>
     <body>
-        <table id="usersTable" class="display">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Last name</th>                  
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Pedro</td>
-                    <td>Perez</td>
-                </tr>
-                <tr>
-                    <td>Quino</td>
-                    <td>Quinonez</td>
-                </tr>
-                <tr>
-                    <td>Raul</td>
-                    <td>Ramirez</td>
-                </tr>
-                <tr>
-                    <td>Samuel</td>
-                    <td>Soto</td>
-                </tr>
-            </tbody>
-        </table>
+        <button id="newButton"><spring:message code="new" /></button>
         <script>
-        </script>
-        <script>
-            (function($) {
-                $('#usersTable').dataTable(/*{
-                    'bJQueryUI': true,
-                    'bProcessing': true,
-                    'bServerSide': true,
-                    'bDestroy' : true,
-                    'bPaginate': true,
-                    'sAjaxSource': '<%=request.getContextPath()%>/userController/' + service,
-                    'fnServerParams': function ( aoData ) {
-                        aoData.push( argument );
-                    },
-                    'aoColumns': [
-                        { 'mData': 'name'},
-                        { 'mData': 'creationDate'},
-                    ],
-                    'sPaginationType': 'full_numbers'
-                });             
-            }*/);
-                })(jQuery);
+            $(function() {
+                var CrudHandler = {};
+                CrudHandler.init = function(){
+                    /*to turn into jquery buttons al the button tags */            
+                    $("button").button().click(function(){
+                        $.ajax({
+                            type:'POST',
+                            url:'roleController/store',
+                            data:"{\"name\":\"aa\", \"description\":\"baasss\"}",
+                            contentType: "application/json",
+                            success:function(xhr){
+                                if(xhr instanceof Array){
+                                    
+                                }
+                            },                                
+                            error:function(xhr){
+                                if(xhr.status===500){//bussiness exceptions
+                                    var errors = $.parseJSON(xhr.responseText);
+                                    $.each(errors,function(){
+                                        alert('message : ' + this.defaultMessage);
+                                    });
+                                }else if (xhr.status===400){//validation errors
+                                    var errors = $.parseJSON(xhr.responseText);
+                                    $.each(errors, function(){
+                                        alert('error in field : ' + this.field + ' from object : ' + this.objectName + ' message : ' + this.defaultMessage);
+                                    });
+                                }else{
+                                    alert('unknown error');
+                                }
+                            }
+                        });
+                    });
+                };
+                CrudHandler.init();
+            });
         </script>
     </body>
 </html>

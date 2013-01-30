@@ -4,6 +4,6 @@
     <head>
     </head>
     <body>
-        <div>Bienvenido a la pagina de Ing. Edmundo</div>
+        <div><spring:message code="welcome.message"/></div>
     </body>
 </html>
