@@ -9,21 +9,16 @@ import com.posabro.ocsys.security.services.UserService;
 import java.util.Arrays;
 import java.util.Date;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * @author Clarence
  *
  */
-public class DefaultUserServiceTest extends AbstractServiceTest{
-
-    @Autowired
-    private UserService userService;
-
-    @Test
-    public void testInsert() {
-        User user = new User("Nacho", "nacho".toCharArray(), Arrays.asList(new Role()), new Date());
-        userService.saveUser(user);
-        System.out.println("User: " + user);
-    }
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/jpa-app-context-test.xml"})
+public class AbstractServiceTest {
 }
