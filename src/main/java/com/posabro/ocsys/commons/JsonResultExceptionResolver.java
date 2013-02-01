@@ -14,7 +14,7 @@ import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionRes
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public class JsonResultExceptionResolver extends AbstractHandlerMethodExceptionResolver {
     

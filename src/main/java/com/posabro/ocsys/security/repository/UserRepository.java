@@ -12,7 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public interface UserRepository extends PagingAndSortingRepository<User, String> {
     

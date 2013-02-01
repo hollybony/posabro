@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort.Order;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public class PageRequestBuilder {
 

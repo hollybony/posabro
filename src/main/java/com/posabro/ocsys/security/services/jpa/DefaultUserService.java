@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 @Service("userService")
 @Repository

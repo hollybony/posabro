@@ -30,7 +30,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public class AjaxTimeoutRedirectFilter extends GenericFilterBean {
 

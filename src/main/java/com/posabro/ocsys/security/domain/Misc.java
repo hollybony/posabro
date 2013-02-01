@@ -6,7 +6,7 @@ package com.posabro.ocsys.security.domain;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public class Misc {
     

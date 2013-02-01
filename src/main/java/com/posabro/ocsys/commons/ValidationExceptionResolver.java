@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public class ValidationExceptionResolver extends AbstractHandlerExceptionResolver {
 

@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 @Controller
 @RequestMapping("/userController/*")

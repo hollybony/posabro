@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 @Entity
 @Table(name="WEB_ROLE")

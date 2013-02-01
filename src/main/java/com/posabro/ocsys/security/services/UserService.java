@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 /**
  *
- * @author Carlos
+ * @author Carlos Juarez
  */
 public interface UserService {
     

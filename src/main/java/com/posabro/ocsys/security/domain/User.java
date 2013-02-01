@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
- * @author CarlosTable
+ * @author Carlos Juarez
  */
 @Entity
 @Table(name="WEB_USER")

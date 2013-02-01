@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.posabro.ocsys.security.domain.Role;
 
 /**
- * @author Clarence
+ * @author Carlos Juarez
  *
  */
 public interface RoleRepository extends CrudRepository<Role, String> {
