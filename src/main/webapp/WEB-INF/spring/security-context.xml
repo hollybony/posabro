@@ -8,13 +8,22 @@
     <beans:bean id="ajaxTimeoutRedirectFilter" class="com.posabro.ocsys.commons.AjaxTimeoutRedirectFilter">
     </beans:bean>
     
-    <http auto-config="true" use-expressions="true" access-denied-page="/accessDenied.jsp" >
+<!--    <beans:bean id="ipTokenBasedRememberMeServicesBean" class="com.posabro.ocsys.commons.IPTokenBasedRememberMeServices">
+        <beans:property name="key">
+            <beans:value>cosysRememberorb:friTh?56paEan10ORs:</beans:value>
+        </beans:property>
+        <beans:property name="userDetailsService" ref="userService"/>
+    </beans:bean>-->
+    
+    <http auto-config="true" use-expressions="true" access-denied-page="/accessDenied.jsp">
+        <remember-me key="cosysRememberorb:friTh?56paEan10ORs:"/>
         <form-login login-page="/login.jsp" default-target-url="/" 
                     authentication-failure-url="/login.jsp?error=true" />
         <custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER" />
-        <intercept-url pattern="/" access="hasAnyRole('ROLE_GUEST','ROLE_ADMIN')" />
-        <intercept-url pattern="/users*" access="hasRole('ROLE_ADMIN') and fullyAuthenticated" />
-        <intercept-url pattern="/roles*" access="hasRole('ROLE_ADMIN') and fullyAuthenticated" />
+        <!--<intercept-url pattern="/" access="hasAnyRole('ROLE_GUEST','ROLE_ADMIN')" />-->
+        <intercept-url pattern="/" access="isAuthenticated()" />
+        <intercept-url pattern="/users*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/roles*" access="hasRole('ROLE_ADMIN')" />
     </http>
     
     <authentication-manager>
@@ -23,8 +32,9 @@
             <jdbc-user-service data-source-ref="dataSource"
                                users-by-username-query="SELECT name as username, password as password, 'true' as enabled FROM WEB_USER
                                         where name = ?"
-                               authorities-by-username-query="SELECT WEB_USER_name as username, roles_name as authorities FROM WEB_USER_WEB_ROLE
-                                        WHERE WEB_USER_name = ?" />
+                               authorities-by-username-query="select * from (SELECT WEB_USER_name as username, roles_name as authorities FROM WEB_USER_WEB_ROLE union distinct
+                                        select members_name as username, roles_name as authorities FROM web_group g, web_group_web_role r, web_group_web_user u
+                                        where g.id = r.WEB_GROUP_id and g.id = u.WEB_GROUP_id) things where things.username = ?" />
         </authentication-provider>
     </authentication-manager>
     

@@ -22,10 +22,10 @@
                     <td align="right">Password</td>
                     <td><input type="password" name="j_password" /></td>
                 </tr>
-<!--                <tr>
+                <tr>
                     <td align="right">Remember me</td>
                     <td><input type="checkbox" name="_spring_security_remember_me" /></td>
-                </tr>-->
+                </tr>
                 <tr>
                     <td colspan="2" align="right">
                         <input type="submit" value="Login" />

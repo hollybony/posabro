@@ -4,18 +4,20 @@
  */
 package com.posabro.ocsys.security.domain;
 
+import com.posabro.ocsys.auditor.domain.AuditData;
+import com.posabro.ocsys.auditor.domain.Auditable;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -23,35 +25,38 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Carlos Juarez
  */
 @Entity
-@Table(name="WEB_USER")
-public class User implements Serializable {
-    
+@Table(name = "WEB_USER")
+public class User implements Auditable, Serializable {
+
     @Id
-    @Column(length=32)
-    @Size(min=3,max=32)
+    @Column(length = 32)
+    @Size(min = 3, max = 32)
     private String name;
     
-    @Column(length=32, columnDefinition="VARCHAR(32)", nullable=false)
-    @Size(min=3,max=32)
+    @Column(length = 32, columnDefinition = "VARCHAR(32)", nullable = false)
+    @Size(min = 3, max = 32)
     private char[] password;
     
     @NotEmpty
-    @ManyToMany(fetch= FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Role> roles;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(nullable=false)
-    private Date creationDate;
+    @Size(min = 3, max = 64)
+    @Email
+    private String email;
     
-    public User(){
-        this(null,null,new ArrayList<Role>(),null);
+    @Embedded
+    private AuditData auditData;
+
+    public User() {
+        this(null, null, new ArrayList<Role>());
     }
-    
-    public User(String name, char[] password, List<Role> roles, Date creationDate){
+
+    public User(String name, char[] password, List<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
-        this.creationDate = creationDate;
+        this.auditData = new AuditData();
     }
 
     public String getName() {
@@ -65,7 +70,7 @@ public class User implements Serializable {
     public char[] getPassword() {
         return password;
     }
-    
+
     public void setPassword(char[] password) {
         this.password = password;
     }
@@ -78,17 +83,25 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public AuditData getAuditData() {
+        return auditData;
+    }
+
+    public void setAuditData(AuditData auditData) {
+        this.auditData = auditData;
     }
 
     @Override
     public String toString() {
-        return "User{" + "name=" + name + ", password=" + password + ", creationDate=" + creationDate + '}';
+        return "User{" + "name=" + name + ", password=" + password + '}';
     }
-    
 }

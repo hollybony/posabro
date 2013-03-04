@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.ocsys.security.domain;
+package com.posabro.ocsys.commons;
 
 /**
  *

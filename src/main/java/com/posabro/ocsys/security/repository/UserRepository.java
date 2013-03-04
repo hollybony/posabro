@@ -16,8 +16,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface UserRepository extends PagingAndSortingRepository<User, String> {
     
-    public Page<User> findByNameContaining(String name, Pageable pageable);
+    public Page<User> findByNameContainingOrEmailContainingOrAuditDataCreatedByContainingOrAuditDataModifiedByContaining(String name, String email, String createdBy, String modifiedBy, Pageable pageable);
 
-    public Page<User> findByCreationDate(Date creationDate, Pageable pageable);
+    public Page<User> findByAuditDataCreatedDateBetweenOrAuditDataModifiedDateBetween(Date fromCreatedDate, Date toCreatedDate, Date fromModifiedDate, Date toModifiedDate, Pageable pageable);
     
 }

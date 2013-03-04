@@ -29,11 +29,10 @@
             <thead>
                 <tr>
                     <th><spring:message code="user.name" /></th>
-                    <th><spring:message code="user.email" /></th>
-                    <th><spring:message code="auditor.createdDate" /></th>
+                    <th><spring:message code="user.creationDate" /></th>
                     <th><spring:message code="auditor.createdBy" /></th>
-                    <th><spring:message code="auditor.modifiedBy" /></th>
                     <th><spring:message code="auditor.modifiedDate" /></th>
+                    <th><spring:message code="auditor.modifiedBy" /></th>
                 </tr>
             </thead>
         </table>
@@ -42,9 +41,6 @@
                 <label for="nameInput"><spring:message code="user.name" /></label>
                 <span class="validateTips"></span>
                 <input id="nameInput" name="nameInput" type="text" class="text ui-widget-content ui-corner-all" />
-                <label for="emailInput"><spring:message code="user.email" /></label>
-                <span class="validateTips"></span>
-                <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all" />
                 <label for="passwordInput"><spring:message code="user.password" /></label>
                 <span class="validateTips"></span>
                 <input id="passwordInput" name="passwordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
@@ -53,8 +49,8 @@
                 <input id="confirmPasswordInput" name="confirmPasswordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
                 <label for="rolesSelect"><spring:message code="user.rolesAssigned" /></label>
                 <span class="validateTips"></span>
-                <select id="rolesSelect" name="rolesSelect" multiple="multiple" class="text ui-widget-content ui-corner-all">
-                </select>
+                <div id="rolesSelect" class="text ui-widget-content ui-corner-all">
+                </div>
             </form>
         </div>
         <div id="deleteConfirmDialog" title="<spring:message code="users.delete"/>">
@@ -65,11 +61,10 @@
             $(function() {
                 /*fields are declares here and they are required by different functions*/
                 var name = $('#nameInput'),
-                email = $('#emailInput'),
                 password = $('#passwordInput'),
                 rolesSelect = $('#rolesSelect'),
                 confirmPass = $('#confirmPasswordInput');
-                var allFields = $([]).add(name).add(email).add(password).add(rolesSelect).add(confirmPass);
+                var allFields = $([]).add(name).add(password).add(rolesSelect).add(confirmPass);
                 var rolesAvailable = null;
                 var oTable = null;
                 var currentUser = null;
@@ -87,7 +82,6 @@
                         'sAjaxSource': 'userController/filter',
                         'aoColumns': [
                             {'mData': 'name'},
-                            {'mData': 'email'},
                             {'mData': 'auditData.createdDate', 'sClass':'right'},
                             {'mData': 'auditData.createdBy'},
                             {'mData': 'auditData.modifiedDate', 'sClass':'right'},
@@ -104,14 +98,6 @@
                             aoData.push( { "name": "more_data", "value": "my_value" } );
                         }*/
                     });
-                    oTable.prev().find('input[type=text]').datepicker(
-                        {
-                            constrainInput: false,
-                            dateFormat: "yy-mm-dd",
-                            onSelect:function(dateText){
-                                oTable.fnFilter(dateText);
-                            }
-                        });
                     oTable.dblclick(function(){
                         CrudHandler.editUser();
                     });
@@ -127,9 +113,9 @@
                     $.get('roleController/getAll',function(data){
                         rolesAvailable = data;
                         $.each(rolesAvailable, function(index, value){
-                            rolesSelect.append($('<option></option>').attr('id',value.name).text(value.name));
+                            rolesSelect.append('<input type="checkbox" id="' + value.name + '"/><label for="' + value.name + '">' + value.name + '</label>');
                         });
-                    });
+                    });                
                 };
                 CrudHandler.newUser = function(){
                     currentUser = null;
@@ -141,13 +127,10 @@
                     if(trSelected!==null){
                         currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
                         name.val(currentUser.name);
-                        email.val(currentUser.email);
                         name.prop('disabled',true);
-                        var roleNames = [];
                         $.each(currentUser.roles,function(){
-                            roleNames.push(this.name);
+                            rolesSelect.children('#' + this.name).prop('checked',true);
                         });
-                        rolesSelect.val(roleNames);
                         $("#formDialog").dialog('open');
                         password.focus().select();
                     }
@@ -171,15 +154,14 @@
                         webMethod = 'update';
                     }
                     /*getting the selected roles*/
-                    $.each(rolesSelect.val()===null?[]:rolesSelect.val(),function(index, roleName){
+                    rolesSelect.children('input:checked').each(function(useless, value){
                         $.each(rolesAvailable, function(){
-                            if(roleName==this.name){
+                            if($(value).prop('id')==this.name){
                                 roles.push(this);
                             }
                         });
                     });
-                    currentUser.name = name.val();
-                    currentUser.email = email.val();
+                    currentUser.name =  name.val();
                     currentUser.password =  password.val();
                     currentUser.roles = roles;
                     var successCallback = function(data){
@@ -199,9 +181,6 @@
                             });
                         }else{
                             alert('unknown error contact, your webmaster');
-                        }
-                        if(isNew){
-                            currentUser = null;
                         }
                     };
                     //                        $.post('userController/store',JSON.stringify(currentUser),callback,'json');

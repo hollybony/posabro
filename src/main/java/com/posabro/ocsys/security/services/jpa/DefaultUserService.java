@@ -9,17 +9,15 @@ import com.posabro.ocsys.security.controller.UserController;
 import com.posabro.ocsys.security.domain.User;
 import com.posabro.ocsys.security.repository.UserRepository;
 import com.posabro.ocsys.security.services.UserService;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -38,26 +36,34 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultUserService implements UserService {
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     @Autowired
     private UserRepository userRepository;
+    
     @PersistenceContext
     private EntityManager em;
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> queryPageByName(String name, Pageable pageable) {
-        return userRepository.findByNameContaining(name, pageable);
+    public Page<User> queryPageByStringPattern(String pattern, Pageable pageable) {
+        return userRepository.findByNameContainingOrEmailContainingOrAuditDataCreatedByContainingOrAuditDataModifiedByContaining(pattern, pattern, pattern, pattern, pageable);
     }
-
+    
     @Override
-    public Page<User> queryPageByCreationDate(Date creationDate, Pageable pageable) {
-        return userRepository.findByCreationDate(creationDate, pageable);
+    public Page<User> queryPageByDatePattern(Date datePattern, Pageable pageable) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(datePattern);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);       
+        Date upToDate = calendar.getTime();
+        return userRepository.findByAuditDataCreatedDateBetweenOrAuditDataModifiedDateBetween(datePattern, upToDate, datePattern, upToDate, pageable);
     }
 
     @Override
     public void saveUser(User user) {
-        user.setCreationDate(new Date());
-        logger.debug("saveUser " + user);
+        logger.debug("about to save : " + user);
         user.setPassword(hashParameter(user.getPassword()));
         if (!userRepository.exists(user.getName())) {
             userRepository.save(user);
@@ -68,6 +74,7 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void updateUser(User user) {
+        logger.debug("about to update : " + user);
         user.setPassword(hashParameter(user.getPassword()));
         userRepository.save(user);
     }
@@ -94,4 +101,5 @@ public class DefaultUserService implements UserService {
         String hashedPass = encoder.encodePassword(new String(password), null);
         return hashedPass.toCharArray();
     }
+
 }

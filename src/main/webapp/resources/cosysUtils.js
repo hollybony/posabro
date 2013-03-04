@@ -1,5 +1,5 @@
 //                    var bValid = true;
-                    /*if previously was any error*/
+/*if previously was any error*/
 //                    allFields.removeClass('ui-state-error');
 //                
 //                    bValid = bValid && Validator.checkLength(name, '<spring:message code="user.name.length" />', 3, 32 );
@@ -24,9 +24,7 @@ if (!this.Validator) {
 $(function() {
     Validator.updateTips = function(t) {
         var tips = $('.validateTips');
-        tips
-        .text(t)
-        .addClass('ui-state-highlight');
+        tips.text(t).addClass('ui-state-highlight');
         setTimeout(function() {
             tips.removeClass('ui-state-highlight', 1500 );
         }, 500 );
@@ -46,10 +44,28 @@ $(function() {
             return true;
         }
     };
-    Validator.updateError = function(error) {
-        //                    alert('error in field : ' + error.field + ' from object : ' + error.objectName + ' message : ' + error.defaultMessage);
-        var element = $('#' + error.objectName + 'Form [id^=' + error.field + ']').addClass('ui-state-error');
-        Validator.updateTip(element.prev(),  error.defaultMessage);
+    Validator.checkRegexp = function(o, regexp, n) {
+        if (!(regexp.test(o.val()))){
+            o.addClass( "ui-state-error" );
+            Validator.updateTips(n);
+            return false;
+        } else {
+            return true;
+        }
+    };
+    Validator.updateError = function(error, msg) {
+        var element;
+        var msgError;
+        if(!(error instanceof jQuery)){
+            //                    alert('error in field : ' + error.field + ' from object : ' + error.objectName + ' message : ' + error.defaultMessage);
+            element = $('#' + error.objectName + 'Form [id^=' + error.field + ']').addClass('ui-state-error');
+            msgError = error.defaultMessage;
+        }else{
+            element = error;
+            element.addClass('ui-state-error');
+            msgError = msg;
+        }
+        Validator.updateTip(element.prev(), msgError);
     };
 });
 

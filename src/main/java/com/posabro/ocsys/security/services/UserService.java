@@ -18,10 +18,10 @@ public interface UserService {
     
 //    public Page queryUsersPage(PageQuery pageQuery);
     
-    public Page<User> queryPageByName(String name, Pageable pageable);
+    public Page<User> queryPageByStringPattern(String pattern, Pageable pageable);
     
-    public Page<User> queryPageByCreationDate(Date creationDate, Pageable pageable);
-
+    public Page<User> queryPageByDatePattern(Date datePattern, Pageable pageable);
+    
     public void saveUser(User user);
     
     public void updateUser(User user);

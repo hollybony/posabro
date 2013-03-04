@@ -12,10 +12,22 @@
 	
     <security:global-method-security pre-post-annotations="enabled"/>
     
+    <bean id="objectMapperFactory" class="com.posabro.ocsys.commons.ObjectMapperFactory"/>
+    
+    <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper" factory-bean="objectMapperFactory" factory-method="instanceObjectMapper"/>
+    
     <!-- Turns on support for mapping requests to Spring MVC @Controller methods, also registers default Formatters
     and Validators for use across all @Controllers. Registers a RequestMappingHandlerMapping, a
     RequestMappingHandlerAdapter, and an ExceptionHandlerExceptionResolver (among others)-->
-    <mvc:annotation-driven validator="validator"/>
+    <mvc:annotation-driven validator="validator">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     
     <!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
     <context:component-scan base-package="com.posabro.ocsys.security.controller"/>
@@ -63,7 +75,7 @@
         </property>
     </bean>
     
-<!--    <bean class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite">
+    <!--    <bean class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite">
         <property name="exceptionResolvers">
             <list>
                 <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver"/>
@@ -71,7 +83,7 @@
         </property>
     </bean>-->
     
-<!--    <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver">
+    <!--    <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver">
         <property name="order" value="1"/>
     </bean>-->
 	
@@ -81,6 +93,7 @@
     <!-- Tiles Configuration -->
     <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+        <property name="order" value="1"/>
     </bean>
     
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
@@ -90,12 +103,20 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="reportExcelView" class="com.posabro.ocsys.excel.ReportExcelView"/>
+    
+    <bean id="reportPdfView" class="com.posabro.ocsys.pdf.ReportPdfView"/>
+    
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
 
-<!--    Configure JSR-303 validation, mvc annotation driven already comes with this kind of validator (as long as JSR-303
+    <!--    Configure JSR-303 validation, mvc annotation driven already comes with this kind of validator (as long as JSR-303
     implementation is available on the classpath)
     being in the classpath). But if we want to specify our message source we have to declare this bean-->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
-
+    
 </beans>

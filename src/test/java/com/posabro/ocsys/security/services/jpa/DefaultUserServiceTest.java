@@ -22,8 +22,8 @@ public class DefaultUserServiceTest extends AbstractServiceTest{
 
     @Test
     public void testInsert() {
-        User user = new User("Nacho", "nacho".toCharArray(), Arrays.asList(new Role()), new Date());
-        userService.saveUser(user);
-        System.out.println("User: " + user);
+//        User user = new User("Nacho", "nacho".toCharArray(), Arrays.asList(new Role()), new Date());
+//        userService.saveUser(user);
+//        System.out.println("User: " + user);
     }
 }
