@@ -12,7 +12,7 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
 >
 	
-    <bean id="mailService" class="com.posabro.ocsys.mail.MailService">
+    <bean id="mailService" class="com.posabro.ocsys.mail.JavaMailService">
         <property name="mailSender" ref="mailSender"/>
         <property name="senderEmailAddress" value="carloantonioj@gmail.com"/>
     </bean>
@@ -21,13 +21,19 @@
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="465"/>
         <property name="protocol" value="smtps"/>
-        <property name="username" value="carloantonioj@gmail.com" />
-        <property name="password" value="Prueba027" />
+        <property name="username" value="posabro@gmail.com" />
+        <property name="password" value="posabro1" />
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtps.auth">true</prop>
             </props>
         </property>
+    </bean>
+    
+    <bean id="confirmationEmailSender" class="com.posabro.ocsys.security.services.mail.ConfirmationEmailSenderImpl">
+        <property name="mailService" ref="mailSender"/>
+        <property name="url" value="http://localhost:8080/cosys/userController/confirmEmailAddress/{userName}/{key}"/>
+        <property name="title" value="[Posabro] Please verify your email '{emailAddress}'"/>
     </bean>
     
     <!-- Import security context -->
