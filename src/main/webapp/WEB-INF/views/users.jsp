@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
     <head>
         <title><spring:message code="users" /></title>
@@ -13,13 +14,14 @@
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
             /*this class is used by some columns of datatable*/
             td.right{text-align: right}
-            /*the curreny team makes the pagination buttons color too dark, with this class we make these colors lighter*/
+            /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/
             .paging_full_numbers .ui-button {
                 color: #336699 !important;
             }
         </style>
     </head>
     <body>
+        <sec:authentication property="principal" var="userLogged" />
         <button id="newButton"><spring:message code="new" /></button>
         <button id="editButton"><spring:message code="edit" /></button>
         <button id="deleteButton"><spring:message code="delete" /></button>
@@ -30,10 +32,11 @@
                 <tr>
                     <th><spring:message code="user.name" /></th>
                     <th><spring:message code="user.email" /></th>
+                    <th><spring:message code="user.enabled" /></th>
                     <th><spring:message code="auditor.createdDate" /></th>
                     <th><spring:message code="auditor.createdBy" /></th>
-                    <th><spring:message code="auditor.modifiedBy" /></th>
                     <th><spring:message code="auditor.modifiedDate" /></th>
+                    <th><spring:message code="auditor.modifiedBy" /></th>
                 </tr>
             </thead>
         </table>
@@ -45,6 +48,11 @@
                 <label for="emailInput"><spring:message code="user.email" /></label>
                 <span class="validateTips"></span>
                 <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all" />
+                <label for="enabledInput"><spring:message code="user.enabled" /></label>
+                <span class="validateTips"></span>
+                <div class="text ui-widget-content ui-corner-all">
+                    <input id="enabledInput" name="enabledInput" type="checkbox"/>
+                </div>
                 <label for="passwordInput"><spring:message code="user.password" /></label>
                 <span class="validateTips"></span>
                 <input id="passwordInput" name="passwordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
@@ -58,7 +66,7 @@
             </form>
         </div>
         <div id="deleteConfirmDialog" title="<spring:message code="users.delete"/>">
-            <span class="ui-icon ui-icon-alert"></span><p><spring:message code="user.delete.confirm" /></p>
+            <span class="ui-icon ui-icon-alert"></span><p></p>
         </div>
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
@@ -66,10 +74,11 @@
                 /*fields are declares here and they are required by different functions*/
                 var name = $('#nameInput'),
                 email = $('#emailInput'),
+                enabled = $('#enabledInput'),
                 password = $('#passwordInput'),
                 rolesSelect = $('#rolesSelect'),
                 confirmPass = $('#confirmPasswordInput');
-                var allFields = $([]).add(name).add(email).add(password).add(rolesSelect).add(confirmPass);
+                var allFields = $([]).add(name).add(email).add(enabled).add(password).add(rolesSelect).add(confirmPass);
                 var rolesAvailable = null;
                 var oTable = null;
                 var currentUser = null;
@@ -88,6 +97,7 @@
                         'aoColumns': [
                             {'mData': 'name'},
                             {'mData': 'email'},
+                            {'mData': 'enabled'},
                             {'mData': 'auditData.createdDate', 'sClass':'right'},
                             {'mData': 'auditData.createdBy'},
                             {'mData': 'auditData.modifiedDate', 'sClass':'right'},
@@ -107,7 +117,7 @@
                     oTable.prev().find('input[type=text]').datepicker(
                         {
                             constrainInput: false,
-                            dateFormat: "yy-mm-dd",
+                            dateFormat: '<spring:message code="jsShortFormatDate"/>',
                             onSelect:function(dateText){
                                 oTable.fnFilter(dateText);
                             }
@@ -142,6 +152,7 @@
                         currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
                         name.val(currentUser.name);
                         email.val(currentUser.email);
+                        enabled.prop('checked',currentUser.enabled);
                         name.prop('disabled',true);
                         var roleNames = [];
                         $.each(currentUser.roles,function(){
@@ -180,8 +191,13 @@
                     });
                     currentUser.name = name.val();
                     currentUser.email = email.val();
+                    currentUser.enabled = enabled.prop('checked');
                     currentUser.password =  password.val();
                     currentUser.roles = roles;
+                    if('${userLogged.username}'===currentUser.name){
+                        Validator.updateError(name,'<spring:message code="user.userLoggedConstraint"/>');
+                        return;
+                    }
                     var successCallback = function(data){
                         $('#formDialog').dialog('close');
                         CrudHandler.refreshTable();
@@ -218,8 +234,10 @@
                     var trSelected = CrudHandler.getTrSelected(oTable);
                     if(trSelected!==null){
                         var aElement = oTable.fnGetData(trSelected._DT_RowIndex);
-                        var newMessage = $('#deleteConfirmDialog').text().replace('{0}', aElement.name);
-                        $('#deleteConfirmDialog').text(newMessage).data('id',aElement.name).dialog('open');
+                        if('${userLogged.username}'!==aElement.name){
+                            var newMessage = '<spring:message code="user.delete.confirm" />'.replace('{0}', aElement.name);
+                            $('#deleteConfirmDialog').text(newMessage).data('id',aElement.name).dialog('open');
+                        }
                     }
                 };
                 CrudHandler.deleteUser = function(id){
@@ -228,7 +246,15 @@
                         url:'userController/delete',
                         data:id,
                         contentType: "application/json",
-                        success:function(){CrudHandler.refreshTable();}
+                        success:function(){CrudHandler.refreshTable();},
+                        error:function(xhr){
+                            if(xhr.status===500){//bussiness exceptions
+                                var errors = $.parseJSON(xhr.responseText);
+                                $.each(errors,function(){
+                                    alert('message : ' + this.defaultMessage);
+                                });
+                            }
+                        }
                     });
                 };
                 CrudHandler.init = function(){
@@ -279,6 +305,7 @@
                         },
                         close: function() {
                             allFields.val('').removeClass('ui-state-error');
+                            enabled.prop('checked',false);
                             rolesSelect.children('input').prop('checked',false);
                         }
                     });

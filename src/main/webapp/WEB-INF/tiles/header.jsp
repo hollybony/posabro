@@ -1,10 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 <html>
     <body>
-        <security:authentication property="principal" var="userLogged" />
+        <sec:authentication property="principal" var="userLogged" />
         <table style="width: 100%" cellspacing="0" cellpadding="0">
             <tr>
                 <td style="width: 60%" rowspan="3">

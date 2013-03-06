@@ -43,6 +43,9 @@
 <body>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <div id="loadingImage" style="text-align:center;vertical-align:middle;position:absolute;display: none;width: 100%;height: 100%;background-color: #222222;opacity: 0.4%">
+        <img src="resources/images/18_clock_five_24.gif" />
+    </div>
     <table width="1250px" align="center">
         <tr>
             <td colspan="2">
@@ -89,7 +92,18 @@
                         alert(response.message);
                     }*/
                 }
-            });      
+            });
+            
+            $(document).ajaxStart(function(){
+                $("body").css("cursor", "progress");
+//                $("#loadingImage").show();
+                
+            });
+            $(document).ajaxStop(function(){
+                $("body").css("cursor", "auto");
+//                $("#loadingImage").hide();
+                //                $("button").prop("disabled", false);
+            });
         })(jQuery);
     </script>
 </body>

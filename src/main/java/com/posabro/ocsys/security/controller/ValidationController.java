@@ -34,10 +34,10 @@ public class ValidationController {
         return ex.getBindingResult().getAllErrors();
     }
 
-    @ExceptionHandler(JpaSystemException.class)
+    @ExceptionHandler({JpaSystemException.class,org.springframework.dao.DataIntegrityViolationException.class})
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
-    List<ObjectError> handleException(JpaSystemException ex, HttpServletResponse response) {
+    List<ObjectError> handleException(RuntimeException ex, HttpServletResponse response) {
         logger.debug("handleException init ex : " + ex.getMessage());
         return Arrays.asList(new ObjectError("", ex.getMessage()));
     }

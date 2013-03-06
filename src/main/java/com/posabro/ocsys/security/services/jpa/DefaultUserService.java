@@ -6,8 +6,10 @@ package com.posabro.ocsys.security.services.jpa;
 
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.security.controller.UserController;
+import com.posabro.ocsys.security.domain.Role;
 import com.posabro.ocsys.security.domain.User;
 import com.posabro.ocsys.security.repository.UserRepository;
+import com.posabro.ocsys.security.services.GroupService;
 import com.posabro.ocsys.security.services.UserService;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,10 +37,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultUserService implements UserService {
 
-    final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private GroupService groupService;
     
     @PersistenceContext
     private EntityManager em;
@@ -50,6 +55,7 @@ public class DefaultUserService implements UserService {
     }
     
     @Override
+    @Transactional(readOnly = true)
     public Page<User> queryPageByDatePattern(Date datePattern, Pageable pageable) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(datePattern);
@@ -81,6 +87,9 @@ public class DefaultUserService implements UserService {
 
     @Override
     public void removeUser(String name) {
+        if(groupService.isGivenMemberNameBeingUsed(name)){
+            throw new JpaSystemException(new PersistenceException("user " + name + " is used by some groups"));
+        }
         userRepository.delete(name);
     }
 
@@ -96,6 +105,14 @@ public class DefaultUserService implements UserService {
         return userRepository.findOne(name);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isGivenRoleNameBeingUsed(String name){
+        List<User> usersFound = userRepository.findByRoleName(name);
+        logger.debug("usersFound : " + usersFound);
+        return !usersFound.isEmpty();
+    }
+    
     private char[] hashParameter(char[] password) {
         PasswordEncoder encoder = new Md5PasswordEncoder();
         String hashedPass = encoder.encodePassword(new String(password), null);

@@ -45,6 +45,9 @@ public class User implements Auditable, Serializable {
     @Email
     private String email;
     
+    @Column(nullable=false)
+    private boolean enabled;
+    
     @Embedded
     private AuditData auditData;
 
@@ -89,6 +92,14 @@ public class User implements Auditable, Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

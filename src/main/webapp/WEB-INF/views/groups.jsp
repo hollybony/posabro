@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
     <head>
-        <title><spring:message code="users" /></title>
+        <title><spring:message code="groups" /></title>
         <style>
             /*following 4 classes are for form dialog*/
             /*round input text elements*/
@@ -25,52 +25,55 @@
         <button id="deleteButton"><spring:message code="delete" /></button>
         <button id="refreshButton"><spring:message code="refresh" /></button>
         <div style="height: 8px"></div>
-        <table id="usersTable" class="display">
+        <table id="groupsTable" class="display">
             <thead>
                 <tr>
-                    <th><spring:message code="user.name" /></th>
-                    <th><spring:message code="user.creationDate" /></th>
+                    <th><spring:message code="group.id" /></th>
+                    <th><spring:message code="group.name" /></th>
+                    <th><spring:message code="auditor.createdDate" /></th>
                     <th><spring:message code="auditor.createdBy" /></th>
                     <th><spring:message code="auditor.modifiedDate" /></th>
                     <th><spring:message code="auditor.modifiedBy" /></th>
                 </tr>
             </thead>
         </table>
-        <div id="formDialog" title='<spring:message code="users.data" />'>
-            <form id="userForm">
-                <label for="nameInput"><spring:message code="user.name" /></label>
+        <div id="formDialog" title='<spring:message code="groups.data" />'>
+            <form id="groupForm">
+                <label for="idInput"><spring:message code="group.id" /></label>
+                <span class="validateTips"></span>
+                <input id="idInput" name="idInput" type="text" class="text ui-widget-content ui-corner-all" />
+                <label for="nameInput"><spring:message code="group.name" /></label>
                 <span class="validateTips"></span>
                 <input id="nameInput" name="nameInput" type="text" class="text ui-widget-content ui-corner-all" />
-                <label for="passwordInput"><spring:message code="user.password" /></label>
-                <span class="validateTips"></span>
-                <input id="passwordInput" name="passwordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
-                <label for="confirmPasswordInput"><spring:message code="user.confirmPassword" /></label>
-                <span class="validateTips"></span>
-                <input id="confirmPasswordInput" name="confirmPasswordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
-                <label for="rolesSelect"><spring:message code="user.rolesAssigned" /></label>
+                <label for="rolesSelect"><spring:message code="group.roles" /></label>
                 <span class="validateTips"></span>
                 <div id="rolesSelect" class="text ui-widget-content ui-corner-all">
                 </div>
+                <label for="usersSelect"><spring:message code="group.members" /></label>
+                <span class="validateTips"></span>
+                <select id="usersSelect" name="usersSelect" multiple="multiple" class="text ui-widget-content ui-corner-all">
+                </select>
             </form>
         </div>
-        <div id="deleteConfirmDialog" title="<spring:message code="users.delete"/>">
-            <span class="ui-icon ui-icon-alert"></span><p><spring:message code="user.delete.confirm" /></p>
+        <div id="deleteConfirmDialog" title="<spring:message code="groups.delete"/>">
+            <span class="ui-icon ui-icon-alert"></span><p></p>
         </div>
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
             $(function() {
                 /*fields are declares here and they are required by different functions*/
-                var name = $('#nameInput'),
-                password = $('#passwordInput'),
+                var id = $('#idInput'),
+                name = $('#nameInput'),
                 rolesSelect = $('#rolesSelect'),
-                confirmPass = $('#confirmPasswordInput');
-                var allFields = $([]).add(name).add(password).add(rolesSelect).add(confirmPass);
+                usersSelect = $('#usersSelect');
+                var allFields = $([]).add(id).add(name).add(rolesSelect).add(usersSelect);
                 var rolesAvailable = null;
+                var usersAvailable = null;
                 var oTable = null;
-                var currentUser = null;
+                var currentGroup = null;
                 var CrudHandler = {};
                 CrudHandler.refreshTable = function(){
-                    oTable = $('#usersTable').dataTable({
+                    oTable = $('#groupsTable').dataTable({
                         'bJQueryUI': true,
                         /*'sScrollX': 500,
                     'sScrollXInner': '90%',
@@ -79,8 +82,9 @@
                         'bServerSide': true,
                         'bDestroy' : true,
                         'bPaginate': true,
-                        'sAjaxSource': 'userController/filter',
+                        'sAjaxSource': 'groupController/filter',
                         'aoColumns': [
+                            {'mData': 'id'},
                             {'mData': 'name'},
                             {'mData': 'auditData.createdDate', 'sClass':'right'},
                             {'mData': 'auditData.createdBy'},
@@ -95,14 +99,22 @@
                             'sInfo' : '<spring:message code="dataTable.recordsInfo"/>'
                         }/*,
                         'fnServerParams': function ( aoData ) {
-                            aoData.push( { "name": "more_data", "value": "my_value" } );
+                            aoData.push( { "id": "more_data", "value": "my_value" } );
                         }*/
                     });
+                    oTable.prev().find('input[type=text]').datepicker(
+                        {
+                            constrainInput: false,
+                            dateFormat: '<spring:message code="jsShortFormatDate"/>',
+                            onSelect:function(dateText){
+                                oTable.fnFilter(dateText);
+                            }
+                        });
                     oTable.dblclick(function(){
-                        CrudHandler.editUser();
+                        CrudHandler.editGroup();
                     });
                     /* Add a click handler to the rows - this could be used as a callback */
-                    $('#usersTable tbody').click(function(event) {
+                    $('#groupsTable tbody').click(function(event) {
                         $(oTable.fnSettings().aoData).each(function (){
                             $(this.nTr).removeClass('row_selected');
                         });
@@ -117,39 +129,49 @@
                         });
                     });                
                 };
-                CrudHandler.newUser = function(){
-                    currentUser = null;
-                    name.prop('disabled',false);
-                    $("#formDialog").dialog('open');
+                CrudHandler.refreshUsers = function(){
+                    $.get('userController/getAll',function(data){
+                        usersAvailable = data;
+                        $.each(usersAvailable, function(index, value){
+                            usersSelect.append($('<option></option>').attr('id',value.name).text(value.name));
+                        });
+                    });
                 };
-                CrudHandler.editUser = function(){
+                CrudHandler.newGroup = function(){
+                    currentGroup = null;
+                    id.prop('disabled',true);
+                    $("#formDialog").dialog('open');
+                    name.focus();
+                };
+                CrudHandler.editGroup = function(){
                     var trSelected = CrudHandler.getTrSelected(oTable);
                     if(trSelected!==null){
-                        currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
-                        name.val(currentUser.name);
-                        name.prop('disabled',true);
-                        $.each(currentUser.roles,function(){
+                        currentGroup = oTable.fnGetData(trSelected._DT_RowIndex);
+                        id.val(currentGroup.id);
+                        id.prop('disabled',true);
+                        name.val(currentGroup.name);
+                        $.each(currentGroup.roles,function(){
                             rolesSelect.children('#' + this.name).prop('checked',true);
                         });
+                        var userNames = [];
+                        $.each(currentGroup.members,function(){
+                            userNames.push(this.name);
+                        });
+                        usersSelect.val(userNames);
                         $("#formDialog").dialog('open');
-                        password.focus().select();
+                        name.focus().select();
                     }
                 };
-                CrudHandler.updateUser = function(){
+                CrudHandler.updateGroup = function(){
                     /*if previously was any error*/
                     allFields.removeClass('ui-state-error');
-                    
-                    if(password.val()!==confirmPass.val()){
-                        Validator.updateError(password,'<spring:message code="user.passNotEqual"/>');
-                        Validator.updateError(confirmPass,'<spring:message code="user.passNotEqual"/>');
-                        return;
-                    }
                     var roles = [];
-                    var isNew = currentUser?false:true;
+                    var users = [];
+                    var isNew = currentGroup?false:true;
                     var webMethod = null;
                     if(isNew){
                         webMethod = 'store';
-                        currentUser = {};
+                        currentGroup = {};
                     }else{
                         webMethod = 'update';
                     }
@@ -161,9 +183,18 @@
                             }
                         });
                     });
-                    currentUser.name =  name.val();
-                    currentUser.password =  password.val();
-                    currentUser.roles = roles;
+                    /*getting the users selected*/
+                    $.each(usersSelect.val()===null?[]:usersSelect.val(),function(index, userName){
+                        $.each(usersAvailable, function(){
+                            if(userName==this.name){
+                                users.push(this);
+                            }
+                        });
+                    });
+                    currentGroup.id =  id.val()===null?null:parseInt(id.val());
+                    currentGroup.name =  name.val();
+                    currentGroup.roles = roles;
+                    currentGroup.members = users;
                     var successCallback = function(data){
                         $('#formDialog').dialog('close');
                         CrudHandler.refreshTable();
@@ -182,12 +213,15 @@
                         }else{
                             alert('unknown error contact, your webmaster');
                         }
+                        if(isNew){
+                            currentGroup = null;
+                        }
                     };
-                    //                        $.post('userController/store',JSON.stringify(currentUser),callback,'json');
+                    //                        $.post('groupController/store',JSON.stringify(currentGroup),callback,'json');
                     $.ajax(
                     { type: "POST",
-                        url:'userController/' + webMethod,
-                        data:JSON.stringify(currentUser),
+                        url:'groupController/' + webMethod,
+                        data:JSON.stringify(currentGroup),
                         contentType: "application/json",
                         success:successCallback,
                         error:errorCallback
@@ -197,17 +231,25 @@
                     var trSelected = CrudHandler.getTrSelected(oTable);
                     if(trSelected!==null){
                         var aElement = oTable.fnGetData(trSelected._DT_RowIndex);
-                        var newMessage = $('#deleteConfirmDialog').text().replace('{0}', aElement.name);
-                        $('#deleteConfirmDialog').text(newMessage).data('id',aElement.name).dialog('open');
+                        var newMessage = '<spring:message code="group.delete.confirm" />'.replace('{0}', aElement.id);
+                        $('#deleteConfirmDialog').text(newMessage).data('id',aElement.id).dialog('open');
                     }
                 };
-                CrudHandler.deleteUser = function(id){
+                CrudHandler.deleteGroup = function(id){
                     $.ajax({
                         type: "POST",
-                        url:'userController/delete',
-                        data:id,
+                        url:'groupController/delete',
+                        data:id + '',
                         contentType: "application/json",
-                        success:function(){CrudHandler.refreshTable();}
+                        success:function(){CrudHandler.refreshTable();},
+                        error:function(xhr){
+                            if(xhr.status===500){//bussiness exceptions
+                                var errors = $.parseJSON(xhr.responseText);
+                                $.each(errors,function(){
+                                    alert('message : ' + this.defaultMessage);
+                                });
+                            }
+                        }
                     });
                 };
                 CrudHandler.init = function(){
@@ -219,10 +261,10 @@
                         CrudHandler.refreshTable();
                     });
                     $('#newButton').click(function(event){
-                        CrudHandler.newUser();
+                        CrudHandler.newGroup();
                     });
                     $('#editButton').click(function(event){
-                        CrudHandler.editUser();
+                        CrudHandler.editGroup();
                     });
                     /*set askForDelete method in click event*/
                     $('#deleteButton').click(function(event){
@@ -237,7 +279,7 @@
                         buttons: {
                             '<spring:message code="ok" />': function() {
                                 $(this).dialog('close');
-                                CrudHandler.deleteUser($(this).data('id'));
+                                CrudHandler.deleteGroup($(this).data('id'));
                             },
                             '<spring:message code="cancel" />': function() {
                                 $(this).dialog('close');
@@ -250,7 +292,7 @@
                         modal: true,
                         buttons: {
                             '<spring:message code="ok" />': function() {
-                                CrudHandler.updateUser();
+                                CrudHandler.updateGroup();
                             },
                             '<spring:message code="cancel" />': function() {
                                 $( this ).dialog('close');
@@ -262,6 +304,7 @@
                         }
                     });
                     CrudHandler.refreshRoles();
+                    CrudHandler.refreshUsers();
                 };
                 CrudHandler.getTrSelected = function(oTableLocal){
                     var aReturn = null;

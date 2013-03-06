@@ -15,9 +15,7 @@ import org.springframework.data.domain.Pageable;
  * @author Carlos Juarez
  */
 public interface UserService {
-    
-//    public Page queryUsersPage(PageQuery pageQuery);
-    
+        
     public Page<User> queryPageByStringPattern(String pattern, Pageable pageable);
     
     public Page<User> queryPageByDatePattern(Date datePattern, Pageable pageable);
@@ -31,4 +29,7 @@ public interface UserService {
     public void removeUser(String name);
 
     public User findUser(String name);
+    
+    public boolean isGivenRoleNameBeingUsed(String name);
+    
 }

@@ -15,6 +15,9 @@
     <definition name="roles" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/roles.jsp" />
     </definition>
+    <definition name="groups" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/groups.jsp" />
+    </definition>
     
     <!--For handling exceptions-->
     <definition name="dataAccessFailure" extends="main.layout">

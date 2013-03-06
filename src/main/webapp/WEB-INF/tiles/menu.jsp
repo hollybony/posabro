@@ -18,6 +18,7 @@
                     <ul>
                         <li><a href="<%=request.getContextPath()%>/users"><spring:message code="menu.security.users"/></a></li>
                         <li><a href="<%=request.getContextPath()%>/roles"><spring:message code="menu.security.roles"/></a></li>
+                        <li><a href="<%=request.getContextPath()%>/groups"><spring:message code="menu.security.groups"/></a></li>
                     </ul>
                 </li>
             </sec:authorize>

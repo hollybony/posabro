@@ -48,6 +48,7 @@
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/users"/>
     <mvc:view-controller path="/roles"/>
+    <mvc:view-controller path="/groups"/>
     <mvc:view-controller path="/dataAccessFailure"/>
     <mvc:view-controller path="/resourceNotFound"/>
     <mvc:view-controller path="/uncaughtException"/>

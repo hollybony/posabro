@@ -9,8 +9,9 @@ import com.posabro.ocsys.commons.Misc;
 import com.posabro.ocsys.commons.PageRequestBuilder;
 import com.posabro.ocsys.commons.ReportSpec;
 import com.posabro.ocsys.excel.ReportExcelView;
+import com.posabro.ocsys.security.domain.Group;
 import com.posabro.ocsys.security.domain.Role;
-import com.posabro.ocsys.security.services.RoleService;
+import com.posabro.ocsys.security.services.GroupService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,66 +38,66 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Carlos Juarez
  */
 @Controller
-@RequestMapping("/roleController/*")
-public class RoleController extends ValidationController{
-
-    final org.slf4j.Logger logger = LoggerFactory.getLogger(RoleController.class);
+@RequestMapping("/groupController/*")
+public class GroupController extends ValidationController{
+    
+    final org.slf4j.Logger logger = LoggerFactory.getLogger(GroupController.class);
     
     @Autowired
-    private RoleService roleService;
+    private GroupService groupService;
     
     @RequestMapping("filter")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public @ResponseBody JQueryPage filterRoles(HttpServletRequest request) {
+    public @ResponseBody JQueryPage filterGroups(HttpServletRequest request) {
         Pageable pageable = PageRequestBuilder.build(request);
         String echo = request.getParameter("sEcho");
         String searchPattern = request.getParameter("sSearch");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Page<Role> page;
+        Page<Group> page;
         try {
             Date datePattern = dateFormat.parse(searchPattern);
-            page = roleService.queryPageByDatePattern(datePattern, pageable);
+            page = groupService.queryPageByDatePattern(datePattern, pageable);
         } catch (ParseException ex) {
-            page = roleService.queryPageByStringPattern(searchPattern, pageable);
+            page = groupService.queryPageByStringPattern(searchPattern, pageable);
         }
         return Misc.pageToJQueryPage(page, echo);
     }
-
+    
     @RequestMapping(value = "store", method = RequestMethod.POST)
-    public void storeRole(@Valid @RequestBody Role role, HttpServletResponse response) {
-        logger.debug("storeRole init");
-        roleService.saveRole(role);
+    public void storeGroup(@Valid @RequestBody Group group, HttpServletResponse response) {
+        logger.debug("storeGroup init");
+        groupService.saveGroup(group);
     }
     
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public void updateRole(@Valid @RequestBody Role role, HttpServletResponse response) {
-        roleService.updateRole(role);
+    public void updateGroup(@Valid @RequestBody Group group, HttpServletResponse response) {
+        groupService.updateGroup(group);
     }
     
     @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public void deleteRole(@RequestBody String name, HttpServletResponse response) {
-        logger.debug("deleteUser init : " + name);
-        roleService.removeRole(name);
+    public void deleteGroup(@RequestBody long id, HttpServletResponse response) {
+        logger.debug("deleteGroup init : " + id);
+        groupService.removeGroup(id);
     }
     
     @RequestMapping(value = "findById")
     public @ResponseBody
-    Role findRoleById(@RequestBody String name) {
-        return roleService.findRole(name);
+    Group findGroupById(@RequestBody Long id) {
+        return groupService.findGroup(id);
     }
-
+    
     @RequestMapping("getAll")
     public @ResponseBody
-    List<Role> getAll() {
-        return roleService.getAllRoles();
+    List<Group> getAll() {
+        return groupService.getAllGroups();
     }
     
     @RequestMapping(value = "export/{output}", method= RequestMethod.GET)
     public ModelAndView export(@PathVariable String output){
-        List<Role> allRoles = roleService.getAllRoles();
-        ReportSpec<Role> reportSpec = new ReportSpec<Role>(allRoles);
-        reportSpec.setTitleKey("roles.report.title");
-        reportSpec.addColumn(new ReportSpec.Column("role.name","name")).addColumn(new ReportSpec.Column("role.description","description")).
+        List<Group> allGroups = groupService.getAllGroups();
+        ReportSpec<Group> reportSpec = new ReportSpec<Group>(allGroups);
+        reportSpec.setTitleKey("groups.report.title");
+        reportSpec.addColumn(new ReportSpec.Column("group.id","id")).addColumn(new ReportSpec.Column("group.name","name")).
                 addColumn(new ReportSpec.Column("auditor.createdDate","auditData.createdDate"));
         ModelAndView mav = new ModelAndView();
         if(output.equals("excel")){

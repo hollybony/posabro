@@ -19,9 +19,10 @@ import javax.persistence.TemporalType;
 public class AuditData implements Serializable{
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable=false)
     private Date createdDate;
     
-    @Column(length=32)
+    @Column(length=32,nullable=false)
     private String createdBy;
     
     @Temporal(TemporalType.TIMESTAMP)

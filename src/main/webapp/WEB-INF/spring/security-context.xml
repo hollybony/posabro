@@ -24,13 +24,14 @@
         <intercept-url pattern="/" access="isAuthenticated()" />
         <intercept-url pattern="/users*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/roles*" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/groups*" access="hasRole('ROLE_ADMIN')" />
     </http>
     
     <authentication-manager>
         <authentication-provider>
             <password-encoder hash="md5" />
             <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="SELECT name as username, password as password, 'true' as enabled FROM WEB_USER
+                               users-by-username-query="SELECT name as username, password as password, enabled FROM WEB_USER
                                         where name = ?"
                                authorities-by-username-query="select * from (SELECT WEB_USER_name as username, roles_name as authorities FROM WEB_USER_WEB_ROLE union distinct
                                         select members_name as username, roles_name as authorities FROM web_group g, web_group_web_role r, web_group_web_user u

@@ -41,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController extends ValidationController{
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     @Autowired
     private UserService userService;
 
@@ -70,7 +71,7 @@ public class UserController extends ValidationController{
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public void updateUser(@RequestBody User user, HttpServletResponse response) {
+    public void updateUser(@Valid @RequestBody User user, HttpServletResponse response) {
         userService.updateUser(user);
     }
 
@@ -84,6 +85,12 @@ public class UserController extends ValidationController{
     public @ResponseBody
     User findUserById(@RequestBody String name) {
         return userService.findUser(name);
+    }
+    
+    @RequestMapping("getAll")
+    public @ResponseBody
+    List<User> getAll() {
+        return userService.getAllUsers();
     }
     
     @RequestMapping(value = "export/{output}", method= RequestMethod.GET)
