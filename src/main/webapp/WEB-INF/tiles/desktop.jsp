@@ -17,19 +17,19 @@
         <!--It must be before any ui js-->
         <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/jquery-1.8.3.js"/>"></script>
 
-        <!--This includes all the js ui files use it instead of resources/jquery-ui-1.9.1/development-bundle/ui/*-->
+        <!--This includes all the js ui files use it instead of resources/jquery-ui-1.9.2/development-bundle/ui/*-->
         <script src="<c:url value="/resources/jquery-ui-1.9.2/js/jquery-ui-1.9.2.custom.js"/>"></script>
 
 
 
-<!--        <script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.core.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.widget.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.tabs.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.datepicker.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.tooltip.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.button.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.menu.js"/>"></script>
-<script src="<c:url value="/resources/jquery-ui-1.9.1/development-bundle/ui/jquery.ui.dialog.js"/>"></script>
+<!--        <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.core.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.widget.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.tabs.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.datepicker.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.tooltip.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.button.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.menu.js"/>"></script>
+<script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.dialog.js"/>"></script>
         -->
 
         <!--A dependency of dialog component-->
