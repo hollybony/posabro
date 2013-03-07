@@ -31,4 +31,6 @@ public interface RoleService {
 
     public Role findRole(String name);
     
+    public Role getDefaultRole();
+    
 }

@@ -49,7 +49,7 @@ public class UserController extends ValidationController{
 
     @RequestMapping("filter")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public @ResponseBody JQueryPage filterUsers(HttpServletRequest request) {
+    public @ResponseBody JQueryPage filter(HttpServletRequest request) {
         Pageable pageable = PageRequestBuilder.build(request);
         String echo = request.getParameter("sEcho");
         String searchPattern = request.getParameter("sSearch");
@@ -65,7 +65,8 @@ public class UserController extends ValidationController{
     }
 
     @RequestMapping(value = "store", method = RequestMethod.POST)
-    public void storeUser(@Valid @RequestBody User user, HttpServletResponse response) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void store(@Valid @RequestBody User user, HttpServletResponse response) {
         logger.debug("storeUser init");
         userService.registerUser(user);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,19 +76,19 @@ public class UserController extends ValidationController{
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    public void updateUser(@Valid @RequestBody User user, HttpServletResponse response) {
+    public void update(@Valid @RequestBody User user, HttpServletResponse response) {
         userService.updateUser(user);
     }
 
     @RequestMapping(value = "delete", method = RequestMethod.POST)
-    public void deleteUser(@RequestBody String name, HttpServletResponse response) {
+    public void delete(@RequestBody String name, HttpServletResponse response) {
         logger.debug("deleteUser init : " + name);
         userService.removeUser(name);
     }
 
     @RequestMapping(value = "findById")
     public @ResponseBody
-    User findUserById(@RequestBody String name) {
+    User findById(@RequestBody String name) {
         return userService.findUser(name);
     }
     
@@ -122,5 +123,11 @@ public class UserController extends ValidationController{
         }
         mav.addObject(ReportExcelView.REPORT_SPEC, reportSpec);
         return mav;
+    }
+    
+    @RequestMapping(value = "registerGuest", method = RequestMethod.POST)
+    public void registerGuest(@Valid @RequestBody User user, HttpServletResponse response) {
+        logger.debug("registerGuest init");
+        userService.registerGuest(user);
     }
 }

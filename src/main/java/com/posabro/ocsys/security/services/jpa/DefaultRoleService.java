@@ -7,6 +7,7 @@ package com.posabro.ocsys.security.services.jpa;
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.security.domain.Role;
 import com.posabro.ocsys.security.repository.RoleRepository;
+import com.posabro.ocsys.security.repository.UserRepository;
 import com.posabro.ocsys.security.services.GroupService;
 import com.posabro.ocsys.security.services.RoleService;
 import com.posabro.ocsys.security.services.UserService;
@@ -38,7 +39,7 @@ public class DefaultRoleService implements RoleService {
     private RoleRepository roleRepository;
     
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
     
     @Autowired
     private GroupService groupService;
@@ -91,7 +92,7 @@ public class DefaultRoleService implements RoleService {
     @Override
     public void removeRole(String name) {
         logger.debug("about to delete role " + name);
-        if(userService.isGivenRoleNameBeingUsed(name)){
+        if(!userRepository.findByRoleName(name).isEmpty()){
             throw new JpaSystemException(new PersistenceException("role " + name + " is used by some users"));
         }else if(groupService.isGivenRoleNameBeingUsed(name)){
             throw new JpaSystemException(new PersistenceException("role " + name + " is used by some groups"));
@@ -103,6 +104,12 @@ public class DefaultRoleService implements RoleService {
     @Override
     public Role findRole(String name) {
         return roleRepository.findOne(name);
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Role getDefaultRole() {
+        return roleRepository.findAll().iterator().next();
     }
 
 }

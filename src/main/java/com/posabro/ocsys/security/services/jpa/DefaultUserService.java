@@ -7,12 +7,16 @@ package com.posabro.ocsys.security.services.jpa;
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.mail.MailService;
 import com.posabro.ocsys.security.domain.EmailConfirmationKey;
+import com.posabro.ocsys.security.domain.Role;
 import com.posabro.ocsys.security.domain.User;
+import com.posabro.ocsys.security.repository.RoleRepository;
 import com.posabro.ocsys.security.repository.UserRepository;
 import com.posabro.ocsys.security.services.ConfirmationEmailSender;
 import com.posabro.ocsys.security.services.GroupService;
+import com.posabro.ocsys.security.services.RoleService;
 import com.posabro.ocsys.security.services.UserService;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,12 +44,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultUserService implements UserService {
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultUserService.class);
+    
     @Autowired
     private UserRepository userRepository;
+    
     @Autowired
     private GroupService groupService;
+    
+    @Autowired
+    private RoleService roleService;
+    
     @Autowired
     private ConfirmationEmailSender confirmationEmailSender;
+    
     @PersistenceContext
     private EntityManager em;
 
@@ -75,8 +86,16 @@ public class DefaultUserService implements UserService {
         EmailConfirmationKey key = saveEmailConfirmKey(user.getName());
         confirmationEmailSender.sendEmail(user.getName(), user.getEmail(), key.getKey());
     }
+    
+    @Override
+    public void registerGuest(User user) {
+        Role defaultRole = roleService.getDefaultRole();
+        user.setRoles(Arrays.asList(defaultRole));
+        user.setEnabled(true);
+        registerUser(user);
+    }
 
-    public void saveUser(User user) {
+    protected void saveUser(User user) {
         logger.debug("about to save : " + user);
         user.setPassword(hashParameter(user.getPassword()));
         if (!userRepository.exists(user.getName())) {
@@ -121,14 +140,6 @@ public class DefaultUserService implements UserService {
         return userRepository.findOne(name);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public boolean isGivenRoleNameBeingUsed(String name) {
-        List<User> usersFound = userRepository.findByRoleName(name);
-        logger.debug("usersFound : " + usersFound);
-        return !usersFound.isEmpty();
-    }
-
     private char[] hashParameter(char[] password) {
         PasswordEncoder encoder = new Md5PasswordEncoder();
         String hashedPass = encoder.encodePassword(new String(password), null);
@@ -158,4 +169,5 @@ public class DefaultUserService implements UserService {
             return userRepository.save(userFound);
         }
     }
+
 }
