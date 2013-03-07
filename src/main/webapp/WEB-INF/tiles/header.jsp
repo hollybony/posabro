@@ -11,10 +11,12 @@
                     <div align="center" style=" height: 105px;  background-size:800px 105px; background-image: url('<%=request.getContextPath()%>/resources/images/ocsystem-banner.jpg');background-repeat:no-repeat;"></div>
                 </td>
                 <td style="background-color: #565656;color: white;float: right;padding:4px" class="ui-corner-all">
-                    <spring:message code="welcome" arguments="${userLogged.username}"/>
-                    <a href="<%=request.getContextPath()%>/">
-                        <img src="<%=request.getContextPath()%>/resources/images/home.png"/>
-                    </a>
+                    <sec:authorize var="loggedIn" access="isAuthenticated()" />
+                    <c:if test="${loggedIn}">
+                        <a href="<%=request.getContextPath()%>/">
+                            <img src="<%=request.getContextPath()%>/resources/images/home.png"/>
+                        </a>
+                    </c:if>
                     <a href="<c:url value="/j_spring_security_logout" />">
                         <img src="<%=request.getContextPath()%>/resources/images/log-out.png" />
                     </a>

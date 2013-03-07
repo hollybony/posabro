@@ -16,8 +16,6 @@ public class AuditorAwareBean implements AuditorAware<String> {
 
     @Override
     public String getCurrentAuditor() {
-        AuditingEntityListener a;
-        
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUser;
         if (authentication != null) {
