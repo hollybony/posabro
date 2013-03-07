@@ -20,8 +20,8 @@ public interface UserService {
     
     public Page<User> queryPageByDatePattern(Date datePattern, Pageable pageable);
     
-    public void saveUser(User user);
-    
+    public void registerUser(User user);
+        
     public void updateUser(User user);
 
     public List<User> getAllUsers();
@@ -32,4 +32,5 @@ public interface UserService {
     
     public boolean isGivenRoleNameBeingUsed(String name);
     
+    public User confirmEmailAddress(String key, String userName);
 }

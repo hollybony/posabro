@@ -1,7 +1,7 @@
 insert into WEB_ROLE(name,description,createdDate,createdBy) values('ROLE_GUEST','You are welcome to play',CURDATE(), 'system');
 insert into WEB_ROLE(name,description,createdDate,createdBy) values('ROLE_ADMIN','You can do whatever you want',CURDATE(), 'system');
-insert into WEB_USER(name,password,email,enabled,createdDate,createdBy) values('guest','084e0343a0486ff05530df6c705c8bb4','guest@myemail.com',true,CURDATE(), 'system');
-insert into WEB_USER(name,password,email,enabled,createdDate,createdBy) values('admin','21232f297a57a5a743894a0e4a801fc3','carloantonioj@gmail.com',true,CURDATE(), 'system');
+insert into WEB_USER(name,password,email,enabled,verifiedEmail,createdDate,createdBy) values('guest','084e0343a0486ff05530df6c705c8bb4','carloantonioj@gmail.com',true,true,CURDATE(), 'system');
+insert into WEB_USER(name,password,email,enabled,verifiedEmail,createdDate,createdBy) values('admin','21232f297a57a5a743894a0e4a801fc3','carloantonioj@gmail.com',true,true,CURDATE(), 'system');
 insert into WEB_USER_WEB_ROLE(WEB_USER_name,roles_name) values('guest','ROLE_GUEST');
 insert into WEB_USER_WEB_ROLE(WEB_USER_name,roles_name) values('admin','ROLE_ADMIN');
 insert into WEB_GROUP(name,createdDate,createdBy) values('WEB MASTERS',CURDATE(), 'system');

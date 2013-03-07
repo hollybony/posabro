@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,9 +67,11 @@ public class UserController extends ValidationController{
     @RequestMapping(value = "store", method = RequestMethod.POST)
     public void storeUser(@Valid @RequestBody User user, HttpServletResponse response) {
         logger.debug("storeUser init");
-        userService.saveUser(user);
-//        TODO it makes the user log out so it is important to warn that this will happen
-//        SecurityContextHolder.clearContext();
+        userService.registerUser(user);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getName().equals(user.getName())) {
+            SecurityContextHolder.clearContext();
+        }
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
@@ -91,6 +95,16 @@ public class UserController extends ValidationController{
     public @ResponseBody
     List<User> getAll() {
         return userService.getAllUsers();
+    }
+    
+    @RequestMapping(value = "confirmEmailAddress/{userName}/{key}", method= RequestMethod.GET)
+    public ModelAndView confirmEmailAddress(@PathVariable String userName, @PathVariable String key){
+        ModelAndView mav = new ModelAndView("emailVerified");
+        if(userName!=null && key!=null){
+            User user = userService.confirmEmailAddress(key, userName);
+            mav.addObject("userVerified", user);
+        }
+        return mav;
     }
     
     @RequestMapping(value = "export/{output}", method= RequestMethod.GET)

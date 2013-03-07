@@ -32,6 +32,7 @@
                 <tr>
                     <th><spring:message code="user.name" /></th>
                     <th><spring:message code="user.email" /></th>
+                    <th><spring:message code="user.verifiedEmail" /></th>
                     <th><spring:message code="user.enabled" /></th>
                     <th><spring:message code="auditor.createdDate" /></th>
                     <th><spring:message code="auditor.createdBy" /></th>
@@ -97,6 +98,7 @@
                         'aoColumns': [
                             {'mData': 'name'},
                             {'mData': 'email'},
+                            {'mData': 'verifiedEmail'},
                             {'mData': 'enabled'},
                             {'mData': 'auditData.createdDate', 'sClass':'right'},
                             {'mData': 'auditData.createdBy'},

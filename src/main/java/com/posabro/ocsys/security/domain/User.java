@@ -48,6 +48,8 @@ public class User implements Auditable, Serializable {
     @Column(nullable=false)
     private boolean enabled;
     
+    private boolean verifiedEmail;
+    
     @Embedded
     private AuditData auditData;
 
@@ -100,6 +102,14 @@ public class User implements Auditable, Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+    
+    public boolean isVerifiedEmail() {
+        return verifiedEmail;
+    }
+
+    public void setVerifiedEmail(boolean verifiedEmail) {
+        this.verifiedEmail = verifiedEmail;
     }
 
     @Override

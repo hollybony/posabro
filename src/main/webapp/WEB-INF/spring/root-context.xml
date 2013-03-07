@@ -14,7 +14,7 @@
 	
     <bean id="mailService" class="com.posabro.ocsys.mail.JavaMailService">
         <property name="mailSender" ref="mailSender"/>
-        <property name="senderEmailAddress" value="carloantonioj@gmail.com"/>
+        <property name="senderEmailAddress" value="posabro@gmail.com"/>
     </bean>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -31,7 +31,7 @@
     </bean>
     
     <bean id="confirmationEmailSender" class="com.posabro.ocsys.security.services.mail.ConfirmationEmailSenderImpl">
-        <property name="mailService" ref="mailSender"/>
+        <property name="mailService" ref="mailService"/>
         <property name="url" value="http://localhost:8080/cosys/userController/confirmEmailAddress/{userName}/{key}"/>
         <property name="title" value="[Posabro] Please verify your email '{emailAddress}'"/>
     </bean>

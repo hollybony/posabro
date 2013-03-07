@@ -49,6 +49,7 @@
     <mvc:view-controller path="/users"/>
     <mvc:view-controller path="/roles"/>
     <mvc:view-controller path="/groups"/>
+    <mvc:view-controller path="/emailVerified"/>
     <mvc:view-controller path="/dataAccessFailure"/>
     <mvc:view-controller path="/resourceNotFound"/>
     <mvc:view-controller path="/uncaughtException"/>
@@ -90,6 +91,12 @@
 	
     <!-- Enable file upload functionality -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+    
+     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+        <property name="order" value="2"/>
+    </bean>
     
     <!-- Tiles Configuration -->
     <bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
