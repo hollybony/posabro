@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -130,4 +131,33 @@ public class UserController extends ValidationController{
         logger.debug("registerGuest init");
         userService.registerGuest(user);
     }
+    
+    @RequestMapping(value="getTempPassword", method= RequestMethod.POST)
+    public void getTemPassword(@RequestBody Map<String,String> params, HttpServletResponse response){
+        String userName = params.get("userName");
+        String email = params.get("email");
+        logger.debug("generate temp password for " + userName +" email address " + email);
+        userService.generateTempPassword(userName, email);
+    }
+    
+    @RequestMapping(value = "verifyTempPasswordKey/{userName}/{key}", method= RequestMethod.GET)
+    public ModelAndView verifyTempPasswordKey(@PathVariable String userName, @PathVariable String key){
+        boolean verifyTempPassword = userService.isVerifiedTempPassword(userName, key);
+        ModelAndView mav = new ModelAndView("generateNewPassword");
+        mav.addObject("userName", userName);
+        mav.addObject("key", key);
+        mav.addObject("verifyTempPassword", verifyTempPassword);
+        return mav;
+    }
+    
+    @RequestMapping(value="getNewPassword", method= RequestMethod.POST)
+    public void getNewPassword(@RequestBody Map<String,String> params, HttpServletResponse response){
+        String userName = params.get("userName");
+        String tempPassword = params.get("tempPassword");
+        String newPassword = params.get("newPassword");
+        String key = params.get("key");
+        logger.debug("retrieve password for userName {0} and key {1}", new Object[]{userName, key});
+        userService.retrievePassword(userName,tempPassword.toCharArray(), newPassword.toCharArray(),key);
+    }
+    
 }

@@ -12,6 +12,12 @@
     <definition name="register" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/register.jsp" />
     </definition>
+    <definition name="retrievePassword" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/retrievePassword.jsp" />
+    </definition>
+    <definition name="generateNewPassword" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/generateNewPassword.jsp" />
+    </definition>
     <definition name="index" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/welcome.jsp" />
     </definition>

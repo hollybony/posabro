@@ -7,10 +7,9 @@
     </head>
     <body>
         <c:if test="${not empty param.error}">
-            <font color="red">
-            Login error. <br />
-            Reason : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
-            </font>
+            <c:if test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message=='Bad credentials'}">
+                <a href="retrievePassword">Forgot your password?</a>
+            </c:if>
         </c:if>
         <div style="margin-left:500px;text-align:center">
             <form method="POST" action="<c:url value="/j_spring_security_check" />">

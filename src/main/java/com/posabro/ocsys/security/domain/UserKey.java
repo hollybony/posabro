@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,8 +22,12 @@ import javax.validation.constraints.Size;
  * @author Carlos
  */
 @Entity
-@Table(name = "WEB_EMAIL_KEYS")
-public class EmailConfirmationKey implements Serializable {
+@Table(name = "USER_KEYS")
+public class UserKey implements Serializable {
+    
+    public enum Type{
+        EMAIL,TEMP_PASSWORD
+    }
     
     @Id
     @Column(name="confirmKey", length = 32)
@@ -33,19 +39,22 @@ public class EmailConfirmationKey implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name="keyType")
+    private Type type;
 
-    public EmailConfirmationKey(){
+    public UserKey(){
         this(null,null);
     }
     
-    public EmailConfirmationKey(String key, String userName){
+    public UserKey(String key, String userName){
         this.key = key;
         this.userName = userName;
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, cal.get(Calendar.MONTH) + 1);
         this.expirationDate = cal.getTime();
     }
-    
     
     public String getKey() {
         return key;
@@ -69,6 +78,14 @@ public class EmailConfirmationKey implements Serializable {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+    
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
     
 }

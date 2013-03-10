@@ -5,7 +5,7 @@
 package com.posabro.ocsys.security.services.mail;
 
 import com.posabro.ocsys.mail.MailService;
-import com.posabro.ocsys.security.services.ConfirmationEmailSender;
+import com.posabro.ocsys.security.services.DeliveryBoy;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -13,7 +13,7 @@ import java.net.URL;
  *
  * @author Carlos
  */
-public class ConfirmationEmailSenderImpl implements ConfirmationEmailSender {
+public class DeliveryBoyImpl implements DeliveryBoy {
 
     private MailService mailService;
     
@@ -22,7 +22,7 @@ public class ConfirmationEmailSenderImpl implements ConfirmationEmailSender {
     private String title;
 
     @Override
-    public void sendEmail(String userName, String emailAdrress, String key) {
+    public void sendEmailVerification(String userName, String emailAdrress, String key) {
         String title = this.title.replace("{emailAddress}", userName);
         String url = this.url.replace("{userName}", userName).replace("{key}", key);
         StringBuilder sb = new StringBuilder();
@@ -64,5 +64,22 @@ public class ConfirmationEmailSenderImpl implements ConfirmationEmailSender {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public void sendTempPassword(String userName, String emailAddress, String key, char[] password) {
+        String title = "[Posabro] Retrieve password {userName}".replace("{userName}", userName);
+        String url = "http://localhost:8080/cosys/userController/verifyTempPasswordKey/{userName}/{key}".
+                replace("{userName}", userName).replace("{key}", key);
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Hey %s, we know your forgot your password. Here you have a temporary one:", userName));
+        sb.append(System.getProperty("line.separator"));
+        sb.append(String.copyValueOf(password));
+        sb.append(System.getProperty("line.separator"));
+        sb.append("Just click the following link and follow the instructions");
+        sb.append(System.getProperty("line.separator"));
+        sb.append(url);
+        sb.append(System.getProperty("line.separator"));
+        mailService.sendEmail(emailAddress, title, sb.toString());
     }
 }

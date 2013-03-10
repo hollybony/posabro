@@ -30,7 +30,7 @@
         </property>
     </bean>
     
-    <bean id="confirmationEmailSender" class="com.posabro.ocsys.security.services.mail.ConfirmationEmailSenderImpl">
+    <bean id="confirmationEmailSender" class="com.posabro.ocsys.security.services.mail.DeliveryBoyImpl">
         <property name="mailService" ref="mailService"/>
         <property name="url" value="http://localhost:8080/cosys/userController/confirmEmailAddress/{userName}/{key}"/>
         <property name="title" value="[Posabro] Please verify your email '{emailAddress}'"/>

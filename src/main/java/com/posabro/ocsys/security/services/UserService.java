@@ -33,4 +33,10 @@ public interface UserService {
     public User findUser(String name);
         
     public User confirmEmailAddress(String key, String userName);
+    
+    public void generateTempPassword(String userName, String emailAddress);
+    
+    public boolean isVerifiedTempPassword(String userName, String key);
+
+    public void retrievePassword(String userName, char[] tempPassword,char[] newPassword, String key);
 }

@@ -33,7 +33,7 @@
                     <th><spring:message code="user.name" /></th>
                     <th><spring:message code="user.email" /></th>
                     <th><spring:message code="user.verifiedEmail" /></th>
-                    <th><spring:message code="user.enabled" /></th>
+                    <th><spring:message code="user.status" /></th>
                     <th><spring:message code="auditor.createdDate" /></th>
                     <th><spring:message code="auditor.createdBy" /></th>
                     <th><spring:message code="auditor.modifiedDate" /></th>
@@ -49,10 +49,12 @@
                 <label for="emailInput"><spring:message code="user.email" /></label>
                 <span class="validateTips"></span>
                 <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all" />
-                <label for="enabledInput"><spring:message code="user.enabled" /></label>
+                <label for="enabledInput"><spring:message code="user.status" /></label>
                 <span class="validateTips"></span>
-                <div class="text ui-widget-content ui-corner-all">
-                    <input id="enabledInput" name="enabledInput" type="checkbox"/>
+                <div id="statusSelect" class="text ui-widget-content ui-corner-all">
+                    <input name="status" type="radio" value="ENABLED"/><spring:message code="user.status.enabled" />
+                    <input name="status" type="radio" value="DISABLED"/><spring:message code="user.status.disabled" />
+                    <input name="status" type="radio" value="TEMP_PASSWORD"/><spring:message code="user.status.tempPsw" />
                 </div>
                 <label for="passwordInput"><spring:message code="user.password" /></label>
                 <span class="validateTips"></span>
@@ -75,11 +77,11 @@
                 /*fields are declares here and they are required by different functions*/
                 var name = $('#nameInput'),
                 email = $('#emailInput'),
-                enabled = $('#enabledInput'),
+                statusSelect = $('#statusSelect'),
                 password = $('#passwordInput'),
                 rolesSelect = $('#rolesSelect'),
                 confirmPass = $('#confirmPasswordInput');
-                var allFields = $([]).add(name).add(email).add(enabled).add(password).add(rolesSelect).add(confirmPass);
+                var allFields = $([]).add(name).add(email).add(statusSelect).add(password).add(rolesSelect).add(confirmPass);
                 var rolesAvailable = null;
                 var oTable = null;
                 var currentUser = null;
@@ -99,7 +101,7 @@
                             {'mData': 'name'},
                             {'mData': 'email'},
                             {'mData': 'verifiedEmail'},
-                            {'mData': 'enabled'},
+                            {'mData': 'status'},
                             {'mData': 'auditData.createdDate', 'sClass':'right'},
                             {'mData': 'auditData.createdBy'},
                             {'mData': 'auditData.modifiedDate', 'sClass':'right'},
@@ -154,7 +156,7 @@
                         currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
                         name.val(currentUser.name);
                         email.val(currentUser.email);
-                        enabled.prop('checked',currentUser.enabled);
+                        statusSelect.children('[value="' + currentUser.status + '"').prop('checked',true);
                         name.prop('disabled',true);
                         var roleNames = [];
                         $.each(currentUser.roles,function(){
@@ -193,7 +195,7 @@
                     });
                     currentUser.name = name.val();
                     currentUser.email = email.val();
-                    currentUser.enabled = enabled.prop('checked');
+                    currentUser.status = statusSelect.children(':checked').val();
                     currentUser.password =  password.val();
                     currentUser.roles = roles;
                     if('${userLogged.username}'===currentUser.name){
@@ -307,7 +309,7 @@
                         },
                         close: function() {
                             allFields.val('').removeClass('ui-state-error');
-                            enabled.prop('checked',false);
+                            statusSelect.prop('checked',false);
                             rolesSelect.children('input').prop('checked',false);
                         }
                     });

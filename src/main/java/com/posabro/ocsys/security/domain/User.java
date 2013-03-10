@@ -12,6 +12,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -27,6 +29,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Table(name = "WEB_USER")
 public class User implements Auditable, Serializable {
+    
+    public enum Status{
+        ENABLED,DISABLED,TEMP_PASSWORD
+    }
 
     @Id
     @Column(length = 32)
@@ -45,10 +51,11 @@ public class User implements Auditable, Serializable {
     @Email
     private String email;
     
-    @Column(nullable=false)
-    private boolean enabled;
-    
     private boolean verifiedEmail;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private Status status;
     
     @Embedded
     private AuditData auditData;
@@ -62,6 +69,7 @@ public class User implements Auditable, Serializable {
         this.password = password;
         this.roles = roles;
         this.auditData = new AuditData();
+        this.status = Status.DISABLED;
     }
 
     public String getName() {
@@ -96,20 +104,20 @@ public class User implements Auditable, Serializable {
         this.email = email;
     }
     
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-    
     public boolean isVerifiedEmail() {
         return verifiedEmail;
     }
 
     public void setVerifiedEmail(boolean verifiedEmail) {
         this.verifiedEmail = verifiedEmail;
+    }
+    
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
