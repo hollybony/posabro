@@ -6,80 +6,55 @@ package com.posabro.ocsys.security.services.mail;
 
 import com.posabro.ocsys.mail.MailService;
 import com.posabro.ocsys.security.services.DeliveryBoy;
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Carlos
  */
 public class DeliveryBoyImpl implements DeliveryBoy {
+    
+    final org.slf4j.Logger logger = LoggerFactory.getLogger(DeliveryBoyImpl.class);
 
     private MailService mailService;
     
-    private String url;
-    
-    private String title;
-
     @Override
     public void sendEmailVerification(String userName, String emailAdrress, String key) {
-        String title = this.title.replace("{emailAddress}", userName);
-        String url = this.url.replace("{userName}", userName).replace("{key}", key);
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Hey, we want to verify that you are indeed \"%s\".  If that's the case, please follow the link below:", userName));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(url);
-        sb.append(System.getProperty("line.separator"));
-        sb.append(String.format("If you're not %s or didn't request verification you can ignore this email.", userName));
-        mailService.sendEmail(emailAdrress, title, sb.toString());
+        String subject = resolveString("emailVerification.subject",userName);
+        String url = resolveString("emailVerification.url",userName,key);
+        String content = resolveString("emailVerification.content",userName,url);
+        mailService.sendEmail(emailAdrress, subject, content);
+    }
+
+    @Override
+    public void sendTempPassword(String userName, String emailAddress, String key, char[] password) {
+        String subject = resolveString("tempPassword.subject",userName);
+        String url = resolveString("tempPassword.url",userName, key);
+        String content = resolveString("tempPassword.content",userName,new String(password),url);
+        mailService.sendEmail(emailAddress, subject, content);
     }
 
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-
-    /**
-     * The URL. Consider to use placeholders to modify the URL, example:
-     * 
-     * http://myduckisdead/{userName}/{key}
-     * 
-     * @param url 
-     */
-    public void setUrl(String url) {
-        try {
-            URL urL = new URL(url);
-            this.url = url;
-            urL = null;
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException("invalid URL",ex);
+    
+    protected String resolveString(final String key, Object...args){
+        if(key.equals("emailVerification.subject")){
+            return String.format("[Posabro] Please verify your email '%s'",args);
+        }else if(key.equals("emailVerification.url")){
+            return String.format("http://localhost:8080/cosys/userController/confirmEmailAddress/%s/%s",args);
+        }else if(key.equals("emailVerification.content")){
+            return String.format("Hey, we want to verify that you are indeed %s.  If that's the case, please follow the link below:" +
+                    "\n%s\n If you're not %s or didn't request verification you can ignore this email",args);
+        }else if(key.equals("tempPassword.subject")){
+            return String.format("[Posabro] Retrieve password %s",args);
+        }else if(key.equals("tempPassword.url")){
+            return String.format("http://localhost:8080/cosys/userController/verifyTempPasswordKey/%s/%s",args);
+        }else if(key.equals("tempPassword.content")){
+            return String.format("Hey %s, we know your forgot your password. Here you have a temporary one:" +
+                    "\n%s\nJust click the following link and follow the instructions\n%s",args);
         }
+        throw new RuntimeException(String.format("The key %s was not found", key));
     }
 
-    /**
-     * The title of the email. Consider to place a placeholder include the email address, example:
-     * 
-     * Dear Mama my email address is {emailAddress}
-     * 
-     * @param title 
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Override
-    public void sendTempPassword(String userName, String emailAddress, String key, char[] password) {
-        String title = "[Posabro] Retrieve password {userName}".replace("{userName}", userName);
-        String url = "http://localhost:8080/cosys/userController/verifyTempPasswordKey/{userName}/{key}".
-                replace("{userName}", userName).replace("{key}", key);
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Hey %s, we know your forgot your password. Here you have a temporary one:", userName));
-        sb.append(System.getProperty("line.separator"));
-        sb.append(String.copyValueOf(password));
-        sb.append(System.getProperty("line.separator"));
-        sb.append("Just click the following link and follow the instructions");
-        sb.append(System.getProperty("line.separator"));
-        sb.append(url);
-        sb.append(System.getProperty("line.separator"));
-        mailService.sendEmail(emailAddress, title, sb.toString());
-    }
 }

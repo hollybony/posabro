@@ -13,16 +13,16 @@
                 <td >
                     <sec:authorize var="loggedIn" access="isAuthenticated()" />
                     <c:if test="${not loggedIn}">
-                        <div style="background-color: #565656;color: white;float: right;padding:4px" class="ui-corner-all">
-                            <a href="register"><spring:message code="register"/></a>
+                        <div style="color: white;float: right;padding:4px" class="ui-corner-all ui-state-highlight">
+                            <a href="register"><spring:message code="register"/></a>                            
                         </div>
                     </c:if>
-                    <div style="background-color: #565656;color: white;float: right;padding:4px" class="ui-corner-all">
+                    <div style="float: right;padding:4px" class="ui-corner-all ui-state-highlight">
                         <a href="<%=request.getContextPath()%>/">
                             <img src="<%=request.getContextPath()%>/resources/images/home.png"/>
                         </a>
                         <c:if test="${loggedIn}">
-                            <spring:message code="welcome" arguments="${userLogged.username}"/>
+                            <label><spring:message code="welcome" arguments="${userLogged.username}"/></label>
                             <a href="<c:url value="/j_spring_security_logout" />">
                                 <img src="<%=request.getContextPath()%>/resources/images/log-out.png" />
                             </a>

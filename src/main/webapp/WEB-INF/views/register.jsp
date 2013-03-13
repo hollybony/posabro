@@ -11,10 +11,6 @@
             /*this is for the checkboxes div*/
             .ui-dialog .ui-state-error { padding: .3em; }
             .validateTips { border: 1px solid transparent; padding: 0.3em; }
-            /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/
-            .paging_full_numbers .ui-button {
-                color: #336699 !important;
-            }
         </style>
     </head>
     <body>

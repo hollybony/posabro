@@ -13,7 +13,7 @@
         </style>
     </head>
     <body>
-        <div style="width: 300px">
+        <div id="retrievePassDiv" style="width: 300px;padding: 20px" class="ui-state-highlight ui-corner-all">
             <label for="userInput"><spring:message code="login.username"/></label>
             <span class="validateTips"></span>
             <input id="userInput" name="userInput" type="text" class="text ui-widget-content ui-corner-all"/>
@@ -70,6 +70,7 @@
                     }
                 };
                 Handler.init = function(){
+                    $('#retrievePassDiv').draggable();
                     $("#sendButton").button();
                     sendButton.click(function(event){
                         Handler.requestPassword();

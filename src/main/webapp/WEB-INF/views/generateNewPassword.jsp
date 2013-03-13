@@ -13,7 +13,7 @@
         </style>
     </head>
     <body>
-        <div style="width: 300px">
+        <div style="width: 300px;padding: 20px" class="ui-state-highlight">
             <label for="tempPasswordInput"><spring:message code="temporaryPassword"/></label>
             <span class="validateTips"></span>
             <input id="tempPasswordInput" name="tempPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>

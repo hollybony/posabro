@@ -48,6 +48,7 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 public class ReportPdfView extends AbstractPdfView implements MessageSourceAware {
 
     final org.slf4j.Logger logger = LoggerFactory.getLogger(ReportPdfView.class);
+    
     public static final String REPORT_SPEC = "reportSpec";
     private static Font catFont = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
     private static Font smallBold = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
@@ -59,6 +60,7 @@ public class ReportPdfView extends AbstractPdfView implements MessageSourceAware
         if (reportSpec != null) {
             LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
             Locale locale = localeResolver.resolveLocale(request);
+            logger.debug("the messageSource is kind " + messageSource.getClass());
             String title = messageSource.getMessage(reportSpec.getTitleKey(), null, locale);
             addMetaData(document, title);
             String realPath = request.getServletContext().getRealPath("/resources/images/psb-small.png");

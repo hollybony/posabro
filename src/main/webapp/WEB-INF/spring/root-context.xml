@@ -9,9 +9,19 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
->
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 	
+    
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="WEB-INF/i18n/messages"/>
+        <property name="fallbackToSystemLocale" value="false"/>
+    </bean>
+
+    
+    <bean id="deliveryBoy" class="com.posabro.ocsys.security.services.mail.PolyglotDeliveryBoy">
+        <property name="mailService" ref="mailService"/>
+    </bean>
+    
     <bean id="mailService" class="com.posabro.ocsys.mail.JavaMailService">
         <property name="mailSender" ref="mailSender"/>
         <property name="senderEmailAddress" value="posabro@gmail.com"/>
@@ -28,12 +38,6 @@
                 <prop key="mail.smtps.auth">true</prop>
             </props>
         </property>
-    </bean>
-    
-    <bean id="confirmationEmailSender" class="com.posabro.ocsys.security.services.mail.DeliveryBoyImpl">
-        <property name="mailService" ref="mailService"/>
-        <property name="url" value="http://localhost:8080/cosys/userController/confirmEmailAddress/{userName}/{key}"/>
-        <property name="title" value="[Posabro] Please verify your email '{emailAddress}'"/>
     </bean>
     
     <!-- Import security context -->

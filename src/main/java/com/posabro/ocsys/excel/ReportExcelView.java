@@ -5,7 +5,6 @@
 package com.posabro.ocsys.excel;
 
 import com.posabro.ocsys.commons.ReportSpec;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -15,7 +14,6 @@ import org.apache.commons.beanutils.BeanMap;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.web.servlet.LocaleResolver;
@@ -45,6 +43,7 @@ public class ReportExcelView extends AbstractExcelView implements MessageSourceA
         if (reportSpec != null) {
             LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
             Locale locale = localeResolver.resolveLocale(request);
+            
             HSSFSheet sheet = workbook.createSheet(messageSource.getMessage(reportSpec.getTitleKey(), null, locale));
             HSSFRow currentRow;
             int i = -1;
