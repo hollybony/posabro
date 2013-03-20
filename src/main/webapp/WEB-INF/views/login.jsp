@@ -5,11 +5,10 @@
     <head>
         <title><spring:message code="login"/></title>
         <style>
-            /*following 3 classes are for form dialog*/
+            /*following 2 classes are for form*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .1em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
         </style>
     </head>
     <body>
@@ -18,21 +17,24 @@
                 <a href="retrievePassword">Forgot your password?</a>
             </c:if>
         </c:if>
-        <div id="formDiv" style="width: 300px;padding:20px" class="ui-corner-all ui-state-highlight">
-            <form id="loginForm" method="POST" action="<c:url value="/j_spring_security_check" />">
-                <label for="j_username"><spring:message code="login.username"/></label>
-                <span class="validateTips"></span>
-                <input id="j_username" name="j_username" type="text" class="text ui-widget-content ui-corner-all"/>
-                <label for="j_password"><spring:message code="login.password"/></label>
-                <span class="validateTips"></span>
-                <input id="j_password" name="j_password" type="password" class="text ui-widget-content ui-corner-all"/>
-                <label for="_spring_security_remember_me"><spring:message code="login.rememberMe"/></label>
-                <span class="validateTips"></span>
-                <input id="_spring_security_remember_me" name="_spring_security_remember_me" type="checkbox" class="ui-widget-content ui-corner-all"/>
-                <br>
-                <input id="loginButton" type="button" value="<spring:message code="login"/>" />
-                <input type="reset" value="<spring:message code="login.reset"/>" />
-            </form>
+        <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
+            <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="login"/></h3>
+            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+                <form id="loginForm" method="POST" action="<c:url value="/j_spring_security_check" />">
+                    <label for="j_username"><spring:message code="login.username"/></label>
+                    <span class="validateTips"></span>
+                    <input id="j_username" name="j_username" type="text" class="text ui-widget-content ui-corner-all"/>
+                    <label for="j_password"><spring:message code="login.password"/></label>
+                    <span class="validateTips"></span>
+                    <input id="j_password" name="j_password" type="password" class="text ui-widget-content ui-corner-all"/>
+                    <label for="_spring_security_remember_me"><spring:message code="login.rememberMe"/></label>
+                    <span class="validateTips"></span>
+                    <input id="_spring_security_remember_me" name="_spring_security_remember_me" type="checkbox" class="ui-widget-content ui-corner-all"/>
+                    <br/><br/>
+                    <input id="loginButton" type="submit" value="<spring:message code="login"/>" />
+                    <input type="reset" value="<spring:message code="login.reset"/>" />
+                </form>
+            </div>
         </div>
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
@@ -51,10 +53,11 @@
                     }
                 };
                 Handler.init = function(){
-                    $('input[type=button],input[type=reset]').button();
+                    $('input[type=button],input[type=reset],input[type=submit]').button();
                     $('#formDiv').draggable();
                     $("#loginButton").click(function(){
                         Handler.login();
+                        return false;
                     });
                 };
                 Handler.init();

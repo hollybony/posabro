@@ -4,11 +4,10 @@
     <head>
         <title><spring:message code="roles" /></title>
         <style>
-            /*following 3 classes are for form dialog*/
+            /*following 2 classes are for form dialog*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
             /*this class is used by some columns of datatable*/
             td.right{text-align: right}
             /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/

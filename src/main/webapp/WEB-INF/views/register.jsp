@@ -5,31 +5,32 @@
     <head>
         <title><spring:message code="register" /></title>
         <style>
-            /*following 3 classes are for form dialog*/
+            /*following 2 classes are for form*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
-            /*this is for the checkboxes div*/
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text, select.text, div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
         </style>
     </head>
     <body>
-        <div id="formDialog" style="width: 180px">
-            <form id="userForm" method="POST" action="<c:url value="/j_spring_security_check" />">
-                <label for="nameInput"><spring:message code="user.name" /></label>
-                <span class="validateTips"></span>
-                <input id="nameInput" name="j_username" type="text" class="text ui-widget-content ui-corner-all" />
-                <label for="emailInput"><spring:message code="user.email" /></label>
-                <span class="validateTips"></span>
-                <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all" />
-                <label for="passwordInput"><spring:message code="user.password" /></label>
-                <span class="validateTips"></span>
-                <input id="passwordInput" name="j_password" type="password" value="" class="text ui-widget-content ui-corner-all" />
-                <label for="confirmPasswordInput"><spring:message code="user.confirmPassword" /></label>
-                <span class="validateTips"></span>
-                <input id="confirmPasswordInput" name="confirmPasswordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
-                <input id="registerButton" name="registerButton" type="button" value="<spring:message code="register" />"/>
-            </form>
+        <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
+            <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="register"/></h3>
+            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+                <form id="userForm" method="POST" action="<c:url value="/j_spring_security_check" />">
+                    <label for="nameInput"><spring:message code="user.name" /></label>
+                    <span class="validateTips"></span>
+                    <input id="nameInput" name="j_username" type="text" class="text ui-widget-content ui-corner-all" />
+                    <label for="emailInput"><spring:message code="user.email" /></label>
+                    <span class="validateTips"></span>
+                    <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all" />
+                    <label for="passwordInput"><spring:message code="user.password" /></label>
+                    <span class="validateTips"></span>
+                    <input id="passwordInput" name="j_password" type="password" value="" class="text ui-widget-content ui-corner-all" />
+                    <label for="confirmPasswordInput"><spring:message code="user.confirmPassword" /></label>
+                    <span class="validateTips"></span>
+                    <input id="confirmPasswordInput" name="confirmPasswordInput" type="password" value="" class="text ui-widget-content ui-corner-all" />
+                    <input id="registerButton" name="registerButton" type="button" value="<spring:message code="register" />"/>
+                </form>
+            </div>
         </div>
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
@@ -87,6 +88,7 @@
                     $('#registerButton').click(function(event){
                         CrudHandler.registerUser();
                     });
+                    $('#formDiv').draggable();
                 };
                 CrudHandler.init();
             });

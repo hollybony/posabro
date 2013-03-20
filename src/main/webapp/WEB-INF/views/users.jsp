@@ -5,13 +5,12 @@
     <head>
         <title><spring:message code="users" /></title>
         <style>
-            /*following 4 classes are for form dialog*/
+            /*following 3 classes are for form dialog*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
-            /*this is for the checkboxes div*/
-            div.text { margin-bottom:12px; width:92%; padding: .4em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text, select.text, div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            /*this is for the radio buttons div*/
+            div.text {width:97%;}
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
             /*this class is used by some columns of datatable*/
             td.right{text-align: right}
             /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/
@@ -156,7 +155,7 @@
                         currentUser = oTable.fnGetData(trSelected._DT_RowIndex);
                         name.val(currentUser.name);
                         email.val(currentUser.email);
-                        statusSelect.children('[value="' + currentUser.status + '"').prop('checked',true);
+                        statusSelect.children('input[value="' + currentUser.status + '"]').prop('checked',true);
                         name.prop('disabled',true);
                         var roleNames = [];
                         $.each(currentUser.roles,function(){

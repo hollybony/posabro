@@ -7,21 +7,23 @@
         <style>
             /*following 3 classes are for form dialog*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
         </style>
     </head>
     <body>
-        <div id="retrievePassDiv" style="width: 300px;padding: 20px" class="ui-state-highlight ui-corner-all">
-            <label for="userInput"><spring:message code="login.username"/></label>
-            <span class="validateTips"></span>
-            <input id="userInput" name="userInput" type="text" class="text ui-widget-content ui-corner-all"/>
-            <label for="emailInput"><spring:message code="user.email"/></label>
-            <span class="validateTips"></span>
-            <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all"/>
-            <input id="sendButton" name="sendButton" type="button" value="<spring:message code="accept"/>" />
-            <div id="answerDiv" style="display: none"><spring:message code="tempPasswordSent" /></div>
+        <div id="retrievePassDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
+            <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="retrievePassword"/></h3>
+            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+                <label for="userInput"><spring:message code="login.username"/></label>
+                <span class="validateTips"></span>
+                <input id="userInput" name="userInput" type="text" class="text ui-widget-content ui-corner-all"/>
+                <label for="emailInput"><spring:message code="user.email"/></label>
+                <span class="validateTips"></span>
+                <input id="emailInput" name="emailInput" type="text" class="text ui-widget-content ui-corner-all"/>
+                <input id="sendButton" name="sendButton" type="button" value="<spring:message code="accept"/>" />
+                <div id="answerDiv" style="display: none"><spring:message code="tempPasswordSent" /></div>
+            </div>
         </div>
         <div id="returnDialog" title="<spring:message code="retrievePassword"/>">
             <span class="ui-icon ui-icon-alert"></span><p><spring:message code="tempPasswordSent" /></p>

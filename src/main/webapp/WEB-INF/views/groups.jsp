@@ -4,13 +4,12 @@
     <head>
         <title><spring:message code="groups" /></title>
         <style>
-            /*following 4 classes are for form dialog*/
+            /*following 3 classes are for form dialog*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
+            input.text, select.text, div.text { margin-bottom:12px; width:100%; padding: .4em; }
             /*this is for the checkboxes div*/
-            div.text { margin-bottom:12px; width:92%; padding: .4em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            div.text {width:97%;}
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
             /*this class is used by some columns of datatable*/
             td.right{text-align: right}
             /*the curreny team makes the pagination buttons color too dark, with this class we make these colors lighter*/

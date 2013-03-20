@@ -3,29 +3,31 @@
 <%@ page session="true" %>
 <html>
     <head>
-        <title><spring:message code="retrievePassword"/></title>
+        <title><spring:message code="createNewPassword"/></title>
         <style>
-            /*following 3 classes are for form dialog*/
+            /*following 2 classes are for form dialog*/
             /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:95%; padding: .4em; }
-            .ui-dialog .ui-state-error { padding: .3em; }
-            .validateTips { border: 1px solid transparent; padding: 0.3em; }
+            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
+            .validateTips { border: 1px solid transparent; padding: 0.1em; }
         </style>
     </head>
     <body>
-        <div style="width: 300px;padding: 20px" class="ui-state-highlight">
-            <label for="tempPasswordInput"><spring:message code="temporaryPassword"/></label>
-            <span class="validateTips"></span>
-            <input id="tempPasswordInput" name="tempPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
-            <label for="newPasswordInput"><spring:message code="newPassword"/></label>
-            <span class="validateTips"></span>
-            <input id="newPasswordInput" name="newPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
-            <label for="confirmNewPasswordInput"><spring:message code="confirmNewPassword"/></label>
-            <span class="validateTips"></span>
-            <input id="confirmNewPasswordInput" name="confirmNewPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
-            <input id="okButton" type="button" value="<spring:message code="accept"/>" />
-            <input id="userNameHidden" type="hidden" value="${userName}"/>
-            <input id="keyHidden" type="hidden" value="${key}"/>
+        <div id="genNewPassDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
+            <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="createNewPassword"/></h3>
+            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+                <label for="tempPasswordInput"><spring:message code="temporaryPassword"/></label>
+                <span class="validateTips"></span>
+                <input id="tempPasswordInput" name="tempPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
+                <label for="newPasswordInput"><spring:message code="newPassword"/></label>
+                <span class="validateTips"></span>
+                <input id="newPasswordInput" name="newPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
+                <label for="confirmNewPasswordInput"><spring:message code="confirmNewPassword"/></label>
+                <span class="validateTips"></span>
+                <input id="confirmNewPasswordInput" name="confirmNewPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
+                <input id="okButton" type="button" value="<spring:message code="accept"/>" />
+                <input id="userNameHidden" type="hidden" value="${userName}"/>
+                <input id="keyHidden" type="hidden" value="${key}"/>
+            </div>
         </div>
         <div id="returnDialog" title="<spring:message code="retrievePassword"/>">
             <span class="ui-icon ui-icon-alert"></span><p><spring:message code="newPasswordMsg" /></p>

@@ -127,12 +127,14 @@ public class UserController extends ValidationController{
     }
     
     @RequestMapping(value = "registerGuest", method = RequestMethod.POST)
+    @PreAuthorize("not isAuthenticated()")
     public void registerGuest(@Valid @RequestBody User user, HttpServletResponse response) {
         logger.debug("registerGuest init");
         userService.registerGuest(user);
     }
     
     @RequestMapping(value="getTempPassword", method= RequestMethod.POST)
+    @PreAuthorize("not isAuthenticated()")
     public void getTemPassword(@RequestBody Map<String,String> params, HttpServletResponse response){
         String userName = params.get("userName");
         String email = params.get("email");
@@ -151,6 +153,7 @@ public class UserController extends ValidationController{
     }
     
     @RequestMapping(value="getNewPassword", method= RequestMethod.POST)
+    @PreAuthorize("not isAuthenticated()")
     public void getNewPassword(@RequestBody Map<String,String> params, HttpServletResponse response){
         String userName = params.get("userName");
         String tempPassword = params.get("tempPassword");

@@ -22,6 +22,9 @@
         <custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER" />
         <!--<intercept-url pattern="/" access="hasAnyRole('ROLE_GUEST','ROLE_ADMIN')" />-->
         <intercept-url pattern="/" access="isAuthenticated()" />
+        <intercept-url pattern="/register" access="not isAuthenticated()" />
+        <intercept-url pattern="/retrievePassword" access="not isAuthenticated()" />
+        <intercept-url pattern="/generateNewPassword" access="not isAuthenticated()" />
         <intercept-url pattern="/users*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/roles*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/groups*" access="hasRole('ROLE_ADMIN')" />
