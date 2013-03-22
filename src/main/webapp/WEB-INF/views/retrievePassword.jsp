@@ -4,12 +4,6 @@
 <html>
     <head>
         <title><spring:message code="retrievePassword"/></title>
-        <style>
-            /*following 3 classes are for form dialog*/
-            /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-        </style>
     </head>
     <body>
         <div id="retrievePassDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
@@ -74,7 +68,7 @@
                 Handler.init = function(){
                     $('#retrievePassDiv').draggable();
                     $("#sendButton").button();
-                    sendButton.click(function(event){
+                    sendButton.click(function(){
                         Handler.requestPassword();
                     });
                     $('#returnDialog').dialog({

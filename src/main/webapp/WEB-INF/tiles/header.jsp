@@ -3,46 +3,71 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 <html>
+    <head>
+        <style>
+            .ui-flag-menu { width: 50px; }
+        </style>
+    </head>
     <body>
         <sec:authentication property="principal" var="userLogged" />
         <table style="width: 100%" cellspacing="0" cellpadding="0" border="0">
             <tr>
-                <td style="width: 60%" rowspan="3">
-                    <div align="center" style=" height: 105px;  background-size:800px 105px; background-image: url('<%=request.getContextPath()%>/resources/images/ocsystem-banner.jpg');background-repeat:no-repeat;"></div>
+                <td style="width: 60%">
+                    <div class="ui-header-content"></div>
                 </td>
-                <td >
+                <td style="text-align: right; vertical-align: top;float: right;padding-top: 8px;">
                     <sec:authorize var="loggedIn" access="isAuthenticated()" />
-                    <c:if test="${not loggedIn}">
-                        <div style="color: white;float: right;padding:4px" class="ui-corner-all ui-state-highlight">
-                            <a href="register"><spring:message code="register"/></a>                            
-                        </div>
+                    <c:if test="${loggedIn}">
+                        <label><strong><spring:message code="welcome" arguments="${userLogged.username}"/></strong></label>
                     </c:if>
-                    <div style="float: right;padding:4px" class="ui-corner-all ui-state-highlight">
-                        <a href="<%=request.getContextPath()%>/">
-                            <img src="<%=request.getContextPath()%>/resources/images/home.png"/>
-                        </a>
-                        <c:if test="${loggedIn}">
-                            <label><spring:message code="welcome" arguments="${userLogged.username}"/></label>
-                            <a href="<c:url value="/j_spring_security_logout" />">
-                                <img src="<%=request.getContextPath()%>/resources/images/log-out.png" />
-                            </a>
-                        </c:if>
-                        <img src="<%=request.getContextPath()%>/resources/images/<spring:message code="header.flag" />" </img>
-                        <span>
-                            <a href="?lang=en">en</a> 
-                            | 
-                            <a href="?lang=es">es</a>
-                        </span>
-                    </div>
+                    <c:if test="${not loggedIn}">
+                        <a id="regAnchor" href="register"><spring:message code="register"/></a>
+                    </c:if>
+                    <a id="homeAnchor" href="<%=request.getContextPath()%>/"><spring:message code="home"/></a>
+                    <c:if test="${loggedIn}">
+                        <a id="exitAnchor" href="<c:url value="/j_spring_security_logout" />"><spring:message code="exit"/></a>
+                    </c:if>
+                    <a id="langAnchor"><spring:message code="language"/></a> 
+                    <ul class="ui-flag-menu">
+                        <li><a href="?lang=en"><img src="<%=request.getContextPath()%>/resources/images/uk-flag.png" </img></a></li>
+                        <li><a href="?lang=es"><img src="<%=request.getContextPath()%>/resources/images/spain-flag.png" </img></a></li>
+                    </ul>
                 </td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
             </tr>
         </table>
-    </div>
-</body>
+        <script>
+            (function($) {
+                $('#regAnchor').button({
+                    icons: {
+                        primary: "ui-icon-pencil"
+                    }
+                });
+                $('#homeAnchor').button({
+                    icons: {
+                        primary: "ui-icon-home"
+                    }
+                });
+                $('#exitAnchor').button({
+                    icons: {
+                        primary: "ui-icon-circle-close"
+                    }
+                });
+                $('#langAnchor').button({
+                    icons: {
+                        secondary: "ui-icon-triangle-1-s"
+                    }
+                }).click(function(){
+                    var menu = $(this).next().show().position({
+                        my: "left top",
+                        at: "left bottom",
+                        of: this
+                    });
+                    $(document).one( "click", function() {
+                        menu.hide();
+                    });
+                    return false;
+                }).next().hide().menu();
+            })(jQuery);
+        </script>
+    </body>
 </html>

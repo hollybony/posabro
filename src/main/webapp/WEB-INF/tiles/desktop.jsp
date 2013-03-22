@@ -8,10 +8,10 @@
         <link href="<c:url value="/resources/jquery-ui-1.9.2/css/dark-hive/jquery-ui-1.9.2.custom.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/DataTables-1.9.4/media/css/demo_table_jui.css" />" rel="stylesheet" type="text/css"/>
         <link href="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/demos/demos.css" />" rel="stylesheet" type="text/css"/>
+        <link href="<c:url value="/resources/psb.css" />" rel="stylesheet" type="text/css"/>
 
         <!--for development sale-->
         <!--<link href="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/themes/dark-hive/jquery.ui.all.css" />" rel="stylesheet" type="text/css"/>-->
-
 
         <!--js-->
         <!--It must be before any ui js-->
@@ -19,8 +19,6 @@
 
         <!--This includes all the js ui files use it instead of resources/jquery-ui-1.9.2/development-bundle/ui/*-->
         <script src="<c:url value="/resources/jquery-ui-1.9.2/js/jquery-ui-1.9.2.custom.js"/>"></script>
-
-
 
 <!--        <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.core.js"/>"></script>
 <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.widget.js"/>"></script>
@@ -40,23 +38,21 @@
         <script src="<c:url value="/resources/json2.js"/>"></script>
     </head>
 </head>
-<body>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<body class="ui-widget-content ui-body-content">
     <div id="loadingImage" style="text-align:center;vertical-align:middle;position:absolute;display: none;width: 100%;height: 100%;background-color: #222222;opacity: 0.4%">
         <img src="resources/images/18_clock_five_24.gif" />
     </div>
-    <table width="1250px" align="center">
+    <table cellspacing="0" cellpadding="0" class="ui-frame-content ui-corner-all" align="center">
         <tr>
             <td colspan="2">
                 <tiles:insertAttribute name="header" />
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: top;width: 159px">
+            <td class="ui-side-menu-content">
                 <tiles:insertAttribute name="menu" />
             </td>
-            <td style="height:520px;vertical-align: top;">
+            <td class="ui-view-content">
                 <tiles:insertAttribute name="body" />
             </td>
         </tr>
@@ -96,12 +92,12 @@
             
             $(document).ajaxStart(function(){
                 $("body").css("cursor", "progress");
-//                $("#loadingImage").show();
+                //                $("#loadingImage").show();
                 
             });
             $(document).ajaxStop(function(){
                 $("body").css("cursor", "auto");
-//                $("#loadingImage").hide();
+                //                $("#loadingImage").hide();
                 //                $("button").prop("disabled", false);
             });
         })(jQuery);

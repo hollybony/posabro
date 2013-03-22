@@ -4,12 +4,6 @@
 <html>
     <head>
         <title><spring:message code="register" /></title>
-        <style>
-            /*following 2 classes are for form*/
-            /*round input text elements*/
-            input.text, select.text, div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-        </style>
     </head>
     <body>
         <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
@@ -85,7 +79,7 @@
                 };
                 CrudHandler.init = function(){
                     $("#registerButton").button();
-                    $('#registerButton').click(function(event){
+                    $('#registerButton').click(function(){
                         CrudHandler.registerUser();
                     });
                     $('#formDiv').draggable();

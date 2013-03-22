@@ -5,18 +5,7 @@
     <head>
         <title><spring:message code="users" /></title>
         <style>
-            /*following 3 classes are for form dialog*/
-            /*round input text elements*/
-            input.text, select.text, div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            /*this is for the radio buttons div*/
-            div.text {width:97%;}
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-            /*this class is used by some columns of datatable*/
             td.right{text-align: right}
-            /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/
-            .paging_full_numbers .ui-button {
-                color: #336699 !important;
-            }
         </style>
     </head>
     <body>
@@ -106,6 +95,10 @@
                             {'mData': 'auditData.modifiedDate', 'sClass':'right'},
                             {'mData': 'auditData.modifiedBy'}
                         ],
+                        'fnCreatedRow': function( nRow, aData, iDataIndex ) {
+                            $('td:eq(4)', nRow).html($.datepicker.formatDate('yy-mm-dd', new Date(aData.auditData.createdDate)));
+                            $('td:eq(6)', nRow).html($.datepicker.formatDate('yy-mm-dd', new Date(aData.auditData.modifiedDate)));
+                        },
                         'sPaginationType': 'full_numbers',
                         'oLanguage': {
                             'sProcessing': '<spring:message code="dataTable.processing"/>',
@@ -201,7 +194,7 @@
                         Validator.updateError(name,'<spring:message code="user.userLoggedConstraint"/>');
                         return;
                     }
-                    var successCallback = function(data){
+                    var successCallback = function(){
                         $('#formDialog').dialog('close');
                         CrudHandler.refreshTable();
                     };
@@ -265,17 +258,17 @@
                     /*to turn into jquery buttons al the button tags */            
                     $("button").button();
                     /*set refreshTable method in click event*/
-                    $("#refreshButton").click(function(event) {
+                    $("#refreshButton").click(function() {
                         CrudHandler.refreshTable();
                     });
-                    $('#newButton').click(function(event){
+                    $('#newButton').click(function(){
                         CrudHandler.newUser();
                     });
-                    $('#editButton').click(function(event){
+                    $('#editButton').click(function(){
                         CrudHandler.editUser();
                     });
                     /*set askForDelete method in click event*/
-                    $('#deleteButton').click(function(event){
+                    $('#deleteButton').click(function(){
                         CrudHandler.askForDelete();
                         return false;
                     });

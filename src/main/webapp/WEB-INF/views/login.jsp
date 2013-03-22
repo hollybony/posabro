@@ -4,17 +4,19 @@
 <html>
     <head>
         <title><spring:message code="login"/></title>
-        <style>
-            /*following 2 classes are for form*/
-            /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-        </style>
     </head>
     <body>
         <c:if test="${not empty param.error}">
             <c:if test="${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message=='Bad credentials'}">
-                <a href="retrievePassword">Forgot your password?</a>
+                <div class="ui-widget">
+                    <div class="ui-state-error ui-corner-all" style="padding: 0px 0.7em;">
+                        <p>
+                            <span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
+                            <strong><spring:message code="alert"/></strong>
+                            <spring:message code="login.badCredentials"/>
+                            <a href="retrievePassword"><spring:message code="login.forgotPassword"/></a></p>
+                    </div>
+                </div><br/>
             </c:if>
         </c:if>
         <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">

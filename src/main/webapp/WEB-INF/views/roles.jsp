@@ -4,16 +4,7 @@
     <head>
         <title><spring:message code="roles" /></title>
         <style>
-            /*following 2 classes are for form dialog*/
-            /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-            /*this class is used by some columns of datatable*/
             td.right{text-align: right}
-            /*the current theme makes the pagination buttons color too dark, with this class we make these colors lighter*/
-            .paging_full_numbers .ui-button {
-                color: #336699 !important;
-            }
         </style>
     </head>
     <body>
@@ -136,7 +127,7 @@
                     }
                     currentRole.name = name.val();
                     currentRole.description = description.val();
-                    var successCallback = function(data){
+                    var successCallback = function(){
                         $('#formDialog').dialog('close');
                         CrudHandler.refreshTable();
                     };
@@ -201,14 +192,14 @@
                     $("#refreshButton").click(function(event) {
                         CrudHandler.refreshTable();
                     });
-                    $('#newButton').click(function(event){
+                    $('#newButton').click(function(){
                         CrudHandler.newRole();
                     });
-                    $('#editButton').click(function(event){
+                    $('#editButton').click(function(){
                         CrudHandler.editRole();
                     });
                     /*set askForDelete method in click event*/
-                    $('#deleteButton').click(function(event){
+                    $('#deleteButton').click(function(){
                         CrudHandler.askForDelete();
                         return false;
                     });

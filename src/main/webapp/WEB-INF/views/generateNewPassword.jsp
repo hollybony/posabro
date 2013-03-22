@@ -4,12 +4,6 @@
 <html>
     <head>
         <title><spring:message code="createNewPassword"/></title>
-        <style>
-            /*following 2 classes are for form dialog*/
-            /*round input text elements*/
-            input.text,select.text,div.text { margin-bottom:12px; width:100%; padding: .4em; }
-            .validateTips { border: 1px solid transparent; padding: 0.1em; }
-        </style>
     </head>
     <body>
         <div id="genNewPassDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
@@ -88,7 +82,7 @@
                 };
                 Handler.init = function(){
                     okButton.button();
-                    okButton.click(function(event){
+                    okButton.click(function(){
                         Handler.generateNewPassword();
                     });
                     $('#returnDialog').dialog({
