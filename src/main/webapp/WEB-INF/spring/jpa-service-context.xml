@@ -15,6 +15,6 @@
     profile="jpa">
 
     <context:annotation-config/>
-    <context:component-scan base-package="com.posabro.ocsys.security.services.jpa"/>
+    <context:component-scan base-package="com.posabro.web.security.services.jpa"/>
 
 </beans>

@@ -62,7 +62,7 @@
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
             $(function() {
-                /*fields are declares here and they are required by different functions*/
+                /*fields are declares here as they are required by different functions*/
                 var name = $('#nameInput'),
                 email = $('#emailInput'),
                 statusSelect = $('#statusSelect'),
@@ -75,11 +75,9 @@
                 var currentUser = null;
                 var CrudHandler = {};
                 CrudHandler.refreshTable = function(){
+                    var dateFormat = '<spring:message code="jsShortFormatDate"/>';
                     oTable = $('#usersTable').dataTable({
                         'bJQueryUI': true,
-                        /*'sScrollX': 500,
-                    'sScrollXInner': '90%',
-                    'bScrollCollapse': true,*/
                         'bProcessing': true,
                         'bServerSide': true,
                         'bDestroy' : true,
@@ -96,8 +94,8 @@
                             {'mData': 'auditData.modifiedBy'}
                         ],
                         'fnCreatedRow': function( nRow, aData, iDataIndex ) {
-                            $('td:eq(4)', nRow).html($.datepicker.formatDate('yy-mm-dd', new Date(aData.auditData.createdDate)));
-                            $('td:eq(6)', nRow).html($.datepicker.formatDate('yy-mm-dd', new Date(aData.auditData.modifiedDate)));
+                            $('td:eq(4)', nRow).html(aData.auditData.createdDate!==null?$.datepicker.formatDate(dateFormat, new Date(aData.auditData.createdDate)):'-');
+                            $('td:eq(6)', nRow).html(aData.auditData.modifiedDate!==null?$.datepicker.formatDate(dateFormat, new Date(aData.auditData.modifiedDate)):'-');
                         },
                         'sPaginationType': 'full_numbers',
                         'oLanguage': {
@@ -105,19 +103,16 @@
                             'sSearch' : '<spring:message code="dataTable.search"/>',
                             'sLengthMenu' : '<spring:message code="dataTable.pageSizes"/>',
                             'sInfo' : '<spring:message code="dataTable.recordsInfo"/>'
-                        }/*,
-                        'fnServerParams': function ( aoData ) {
-                            aoData.push( { "name": "more_data", "value": "my_value" } );
-                        }*/
+                        }
                     });
                     oTable.prev().find('input[type=text]').datepicker(
-                        {
-                            constrainInput: false,
-                            dateFormat: '<spring:message code="jsShortFormatDate"/>',
-                            onSelect:function(dateText){
-                                oTable.fnFilter(dateText);
-                            }
-                        });
+                    {
+                        constrainInput: false,
+                        dateFormat: dateFormat,
+                        onSelect:function(dateText){
+                            oTable.fnFilter(dateText);
+                        }
+                    });
                     oTable.dblclick(function(){
                         CrudHandler.editUser();
                     });
@@ -162,7 +157,6 @@
                 CrudHandler.updateUser = function(){
                     /*if previously was any error*/
                     allFields.removeClass('ui-state-error');
-                    
                     if(password.val()!==confirmPass.val()){
                         Validator.updateError(password,'<spring:message code="user.passNotEqual"/>');
                         Validator.updateError(confirmPass,'<spring:message code="user.passNotEqual"/>');
@@ -199,26 +193,12 @@
                         CrudHandler.refreshTable();
                     };
                     var errorCallback = function(xhr){
-                        if(xhr.status===500){//bussiness exceptions
-                            var errors = $.parseJSON(xhr.responseText);
-                            $.each(errors,function(){
-                                alert('message : ' + this.defaultMessage);
-                            });
-                        }else if (xhr.status===400){//validation errors
-                            var errors = $.parseJSON(xhr.responseText);
-                            $.each(errors, function(){
-                                Validator.updateError(this);
-                            });
-                        }else{
-                            alert('unknown error contact, your webmaster');
-                        }
+                        ExceptionHandler.handleAjax(xhr);
                         if(isNew){
                             currentUser = null;
                         }
                     };
-                    //                        $.post('userController/store',JSON.stringify(currentUser),callback,'json');
-                    $.ajax(
-                    { type: "POST",
+                    $.ajax({type: "POST",
                         url:'userController/' + webMethod,
                         data:JSON.stringify(currentUser),
                         contentType: "application/json",
@@ -244,12 +224,7 @@
                         contentType: "application/json",
                         success:function(){CrudHandler.refreshTable();},
                         error:function(xhr){
-                            if(xhr.status===500){//bussiness exceptions
-                                var errors = $.parseJSON(xhr.responseText);
-                                $.each(errors,function(){
-                                    alert('message : ' + this.defaultMessage);
-                                });
-                            }
+                            ExceptionHandler.handleAjax(xhr);
                         }
                     });
                 };
@@ -258,7 +233,7 @@
                     /*to turn into jquery buttons al the button tags */            
                     $("button").button();
                     /*set refreshTable method in click event*/
-                    $("#refreshButton").click(function() {
+                    $("#refreshButton").click(function(){
                         CrudHandler.refreshTable();
                     });
                     $('#newButton').click(function(){

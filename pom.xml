@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.posabro</groupId>
     <artifactId>ocsys</artifactId>
-    <name>Control Operation System</name>
+    <name>Operation Control System</name>
     <packaging>war</packaging>
     <version>1.0.0</version>
     <properties>

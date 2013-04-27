@@ -18,11 +18,11 @@
     </bean>
 
     
-    <bean id="deliveryBoy" class="com.posabro.ocsys.security.services.mail.PolyglotDeliveryBoy">
+    <bean id="deliveryBoy" class="com.posabro.web.security.services.mail.PolyglotDeliveryBoy">
         <property name="mailService" ref="mailService"/>
     </bean>
     
-    <bean id="mailService" class="com.posabro.ocsys.mail.JavaMailService">
+    <bean id="mailService" class="com.posabro.mail.JavaMailService">
         <property name="mailSender" ref="mailSender"/>
         <property name="senderEmailAddress" value="posabro@gmail.com"/>
     </bean>

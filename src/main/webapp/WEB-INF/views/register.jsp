@@ -8,7 +8,7 @@
     <body>
         <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
             <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="register"/></h3>
-            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+            <div class="ui-state-highlight ui-corner-bottom ui-helper-reset form-frame">
                 <form id="userForm" method="POST" action="<c:url value="/j_spring_security_check" />">
                     <label for="nameInput"><spring:message code="user.name" /></label>
                     <span class="validateTips"></span>

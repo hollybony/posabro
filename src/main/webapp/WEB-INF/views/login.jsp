@@ -14,14 +14,14 @@
                             <span class="ui-icon ui-icon-alert" style="float: left; margin-right: 0.3em;"></span>
                             <strong><spring:message code="alert"/></strong>
                             <spring:message code="login.badCredentials"/>
-                            <a href="retrievePassword"><spring:message code="login.forgotPassword"/></a></p>
+                            <a href="generateTempPassword"><spring:message code="login.forgotPassword"/></a></p>
                     </div>
                 </div><br/>
             </c:if>
         </c:if>
         <div id="formDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
             <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="login"/></h3>
-            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+            <div class="ui-state-highlight ui-corner-bottom ui-helper-reset form-frame">
                 <form id="loginForm" method="POST" action="<c:url value="/j_spring_security_check" />">
                     <label for="j_username"><spring:message code="login.username"/></label>
                     <span class="validateTips"></span>

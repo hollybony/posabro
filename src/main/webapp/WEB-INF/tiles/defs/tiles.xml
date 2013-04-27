@@ -12,8 +12,8 @@
     <definition name="register" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/register.jsp" />
     </definition>
-    <definition name="retrievePassword" extends="main.layout">
-        <put-attribute name="body" value="/WEB-INF/views/retrievePassword.jsp" />
+    <definition name="generateTempPassword" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/generateTempPassword.jsp" />
     </definition>
     <definition name="generateNewPassword" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/generateNewPassword.jsp" />

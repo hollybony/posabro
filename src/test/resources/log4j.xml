@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.posabro.ocsys">
+	<logger name="com.posabro">
 		<level value="info" />
 	</logger>
 	

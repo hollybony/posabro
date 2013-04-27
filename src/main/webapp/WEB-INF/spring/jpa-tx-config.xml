@@ -22,7 +22,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>        
-        <property name="packagesToScan" value="com.posabro.ocsys.security.domain"/>
+        <property name="packagesToScan" value="com.posabro.web.security.domain"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
@@ -65,7 +65,7 @@
         </property>
     </bean>
     
-    <jpa:repositories base-package="com.posabro.ocsys.security.repository"
+    <jpa:repositories base-package="com.posabro.web.security.repository"
                       entity-manager-factory-ref="emf"
                       transaction-manager-ref="transactionManager"/>
         

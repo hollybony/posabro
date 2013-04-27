@@ -8,7 +8,7 @@
     <body>
         <div id="genNewPassDiv" style="width: 300px;" class="ui-accordion ui-widget ui-helper-reset">
             <h3 class="ui-state-active ui-corner-top ui-accordion-content ui-helper-reset"><spring:message code="createNewPassword"/></h3>
-            <div class="ui-state-highlight ui-corner-bottom ui-accordion-content ui-helper-reset">
+            <div class="ui-state-highlight ui-corner-bottom ui-helper-reset form-frame">
                 <label for="tempPasswordInput"><spring:message code="temporaryPassword"/></label>
                 <span class="validateTips"></span>
                 <input id="tempPasswordInput" name="tempPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
@@ -20,7 +20,7 @@
                 <input id="confirmNewPasswordInput" name="confirmNewPasswordInput" type="password" class="text ui-widget-content ui-corner-all"/>
                 <input id="okButton" type="button" value="<spring:message code="accept"/>" />
                 <input id="userNameHidden" type="hidden" value="${userName}"/>
-                <input id="keyHidden" type="hidden" value="${key}"/>
+                <input id="tokenHidden" type="hidden" value="${token}"/>
             </div>
         </div>
         <div id="returnDialog" title="<spring:message code="retrievePassword"/>">
@@ -37,19 +37,7 @@
                 var Handler = {};
                 Handler.generateNewPassword = function(){
                     var errorCallback = function(xhr){
-                        if(xhr.status===500){//bussiness exceptions
-                            var errors = $.parseJSON(xhr.responseText);
-                            $.each(errors,function(){
-                                alert('message : ' + this.defaultMessage);
-                            });
-                        }else if (xhr.status===400){//validation errors
-                            var errors = $.parseJSON(xhr.responseText);
-                            $.each(errors, function(){
-                                Validator.updateError(this);
-                            });
-                        }else{
-                            alert('unknown error contact, your webmaster');
-                        }
+                        ExceptionHandler.handleAjax(xhr);
                     };
                     var successCallback = function(){
                         $('#returnDialog').dialog('open');
@@ -69,11 +57,11 @@
                     bValid = bValid && Validator.checkLength(confirmNewPassword, '<spring:message code="user.password.length"/>', 3, 32);
                     if(bValid){
                         var userName = $('#userNameHidden').val();
-                        var key = $('#keyHidden').val();
+                        var token = $('#tokenHidden').val();
                         $.ajax(
                         { type: "POST",
                             url:'<%=request.getContextPath()%>/userController/getNewPassword',
-                            data:JSON.stringify({userName:userName, tempPassword:tempPassword.val(), newPassword:newPassword.val(), key:key}),
+                            data:JSON.stringify({userName:userName, tempPassword:tempPassword.val(), newPassword:newPassword.val(), token:token}),
                             contentType: "application/json",
                             success:successCallback,
                             error:errorCallback

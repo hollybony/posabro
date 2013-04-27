@@ -9,7 +9,7 @@
         <persistence-unit-defaults>
             <entity-listeners>
                 <entity-listener
-                    class="com.posabro.ocsys.auditor.AuditorListener" />
+                    class="com.posabro.auditor.AuditorListener" />
             </entity-listeners>
         </persistence-unit-defaults>
     </persistence-unit-metadata>    

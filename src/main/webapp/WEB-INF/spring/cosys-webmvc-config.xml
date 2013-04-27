@@ -12,7 +12,7 @@
 	
     <security:global-method-security pre-post-annotations="enabled"/>
     
-    <bean id="objectMapperFactory" class="com.posabro.ocsys.commons.ObjectMapperFactory"/>
+    <bean id="objectMapperFactory" class="com.posabro.web.commons.ObjectMapperFactory"/>
     
     <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper" factory-bean="objectMapperFactory" factory-method="instanceObjectMapper"/>
     
@@ -30,7 +30,7 @@
     </mvc:annotation-driven>
     
     <!-- The controllers are autodetected POJOs labeled with the @Controller annotation. -->
-    <context:component-scan base-package="com.posabro.ocsys.security.controller"/>
+    <context:component-scan base-package="com.posabro.web.security.controller"/>
 
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
     <mvc:resources location="/resources/" mapping="/resources/**"/>
@@ -48,7 +48,7 @@
     <mvc:view-controller path="/" view-name="index"/>
     <mvc:view-controller path="/login"/>
     <mvc:view-controller path="/register"/>
-    <mvc:view-controller path="/retrievePassword"/>
+    <mvc:view-controller path="/generateTempPassword"/>
     <mvc:view-controller path="/generateNewPassword"/>
     <mvc:view-controller path="/users"/>
     <mvc:view-controller path="/roles"/>
@@ -81,18 +81,6 @@
             </props>
         </property>
     </bean>
-    
-    <!--    <bean class="org.springframework.web.servlet.handler.HandlerExceptionResolverComposite">
-        <property name="exceptionResolvers">
-            <list>
-                <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver"/>
-            </list>
-        </property>
-    </bean>-->
-    
-    <!--    <bean class="com.posabro.ocsys.commons.ValidationExceptionResolver">
-        <property name="order" value="1"/>
-    </bean>-->
 	
     <!-- Enable file upload functionality -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
@@ -117,9 +105,9 @@
         </property>
     </bean>
     
-    <bean id="reportExcelView" class="com.posabro.ocsys.excel.ReportExcelView"/>
+    <bean id="reportExcelView" class="com.posabro.web.excel.ReportExcelView"/>
     
-    <bean id="reportPdfView" class="com.posabro.ocsys.pdf.ReportPdfView"/>
+    <bean id="reportPdfView" class="com.posabro.web.pdf.ReportPdfView"/>
     
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
