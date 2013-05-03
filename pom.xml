@@ -48,7 +48,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${org.springframework-version}</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
@@ -63,7 +63,7 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
-        </dependency>                         
+        </dependency>
         <!-- Roo dependencies -->
         <!--        <dependency>
             <groupId>org.springframework.roo</groupId>
@@ -181,7 +181,22 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-				
+        
+        <!--Java Mail must be before javaee-web-api otherwise test unit doesnt work as it takes the api implementation that by the way doesnt exist-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.5</version>
+        </dependency>
+        
+        <!--because javaee-web-api just contains the api and runnig test units some implementations are necessary-->
+<!--        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>test</scope>
+        </dependency>-->
+        
         <!-- Servlet -->
         <dependency>
             <groupId>javax</groupId>
@@ -201,6 +216,20 @@
             <version>1.2</version>
         </dependency>
         
+        <!-- H2 Database when running test units-->	
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--for mocking web context dependencies when running test units-->
+<!--        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>-->
         <!-- Commons IO -->
         <dependency>
             <groupId>commons-io</groupId>
@@ -290,12 +319,7 @@
             <version>4.2.0</version>
         </dependency>
         
-        <!--Java Mail-->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.5</version>
-        </dependency>
+
      
         <!-- Test -->
         <dependency>
@@ -304,6 +328,13 @@
             <version>4.10</version>
             <scope>test</scope>
         </dependency>
+        
+        <!--        <dependency>
+            <groupId>org.springframework</groupId> 
+            <artifactId>spring-instrument</artifactId> 
+            <version>${org.springframework-version}</version> 
+            <scope>provided</scope> 
+        </dependency>-->
         
     </dependencies>
     <repositories>
@@ -334,6 +365,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <source>${java-version}</source>
                     <target>${java-version}</target>
@@ -342,6 +374,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
                     <warName>cosys</warName>
                 </configuration>
@@ -396,7 +429,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.12</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skipTests>false</skipTests>
                     <junitArtifactName>junit:junit</junitArtifactName>
                     <excludes>
                         <exclude>**/*_Roo_*</exclude>

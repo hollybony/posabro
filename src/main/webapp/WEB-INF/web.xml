@@ -13,31 +13,29 @@
     <context-param>
         <param-name>spring.profiles.active</param-name>
         <!-- Spring profile parameters
-             First profile: jpa - JPA implementation
-             Second profile: mysql - MySQL DB
         -->
-        <param-value>jpa,mysql</param-value>
-    </context-param>  
+        <param-value>web</param-value>
+    </context-param> 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/spring/root-context.xml
-            /WEB-INF/spring/datasource.xml
-            /WEB-INF/spring/*-tx-config.xml
-            /WEB-INF/spring/*-service-context.xml
+            classpath:META-INF/spring/root-context.xml
+            classpath:META-INF/spring/security-context.xml
+            classpath:META-INF/spring/datasource.xml
+            classpath:META-INF/spring/jpa-tx-config.xml
+            classpath:META-INF/spring/jpa-service-context.xml
         </param-value>    
     </context-param> 
     
     <!-- Spring Security Configuration -->
-    <filter>
+<!--    <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
-    
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>    
+    </filter-mapping>-->
     
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>

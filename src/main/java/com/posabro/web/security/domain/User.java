@@ -64,6 +64,7 @@ public class User implements Auditable, Serializable {
      * The email address
      */
     @Size(min = 3, max = 64)
+    @Column(length=64, nullable=false)
     @Email
     private String email;
     
@@ -89,7 +90,17 @@ public class User implements Auditable, Serializable {
      * Creates an instance of <code>User</code> class
      */
     public User() {
-        this(null, null, new ArrayList<Role>());
+        this(null, null);
+    }
+    
+    /**
+     * Creates an instance of <code>User</code> class
+     * 
+     * @param name - the name to set
+     * @param password - the password to set
+     */
+    public User(String name, char[] password) {
+        this(name, password, new ArrayList<Role>());
     }
 
     /**

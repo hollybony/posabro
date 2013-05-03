@@ -4,6 +4,7 @@
  */
 package com.posabro.web.excel;
 
+import com.posabro.i18n.LocaleLocator;
 import com.posabro.web.commons.ReportSpec;
 import java.util.List;
 import java.util.Locale;
@@ -16,8 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 /**
@@ -36,6 +35,8 @@ public class ReportExcelView extends AbstractExcelView implements MessageSourceA
      * The messageSource for i18n purpose
      */
     private MessageSource messageSource;
+    
+    private LocaleLocator localeLocator;
 
     /**
      * Template methods that is implemented to update the workbook with the information about the report spec as well as the rows
@@ -56,8 +57,7 @@ public class ReportExcelView extends AbstractExcelView implements MessageSourceA
         
         ReportSpec<?> reportSpec = (ReportSpec<?>) model.get(REPORT_SPEC);
         if (reportSpec != null) {
-            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-            Locale locale = localeResolver.resolveLocale(request);
+            Locale locale = localeLocator.lookLocale();
             
             HSSFSheet sheet = workbook.createSheet(messageSource.getMessage(reportSpec.getI18nTitle(), null, locale));
             HSSFRow currentRow;
@@ -127,5 +127,9 @@ public class ReportExcelView extends AbstractExcelView implements MessageSourceA
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+    
+    public void setLocaleLocator(LocaleLocator localeLocator) {
+        this.localeLocator = localeLocator;
     }
 }

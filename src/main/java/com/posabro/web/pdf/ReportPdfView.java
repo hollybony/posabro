@@ -19,6 +19,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.posabro.i18n.LocaleLocator;
 import com.posabro.web.commons.ReportSpec;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -72,6 +73,8 @@ public class ReportPdfView extends AbstractPdfView implements MessageSourceAware
      * The messageSource for i18n purpose
      */
     private MessageSource messageSource;
+    
+    private LocaleLocator localeLocator;
 
     /**
      * Template methods that is implemented to update the workbook with the information about the report spec as well as the rows
@@ -87,8 +90,7 @@ public class ReportPdfView extends AbstractPdfView implements MessageSourceAware
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ReportSpec<?> reportSpec = (ReportSpec<?>) model.get(REPORT_SPEC);
         if (reportSpec != null) {
-            LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-            Locale locale = localeResolver.resolveLocale(request);
+            Locale locale = localeLocator.lookLocale();
             logger.debug("the messageSource is kind " + messageSource.getClass());
             String title = messageSource.getMessage(reportSpec.getI18nTitle(), null, locale);
             addMetaData(document, title);
@@ -216,12 +218,15 @@ public class ReportPdfView extends AbstractPdfView implements MessageSourceAware
         }
     }
 
-
     /**
      * @param messageSource - the messageSource to set
      */
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+    
+    public void setLocaleLocator(LocaleLocator localeLocator) {
+        this.localeLocator = localeLocator;
     }
 }

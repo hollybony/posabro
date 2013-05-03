@@ -121,9 +121,12 @@ public class DefaultUserService implements UserService {
      */
     @Override
     public void registerUser(User user) {
+        logger.debug("setting verified email to false");
         user.setVerifiedEmail(false);
+        logger.debug("saving user");
         saveUser(user);
         Token token = createAndSaveEmailToken(user.getName());
+        logger.debug("sending verification email");
         deliveryBoy.sendEmailVerification(user.getName(), user.getEmail(), token.getId());
     }
 

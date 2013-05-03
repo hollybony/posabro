@@ -105,9 +105,13 @@
         </property>
     </bean>
     
-    <bean id="reportExcelView" class="com.posabro.web.excel.ReportExcelView"/>
+    <bean id="reportExcelView" class="com.posabro.web.excel.ReportExcelView">
+        <property name="localeLocator" ref="localeLocator" />
+    </bean>
     
-    <bean id="reportPdfView" class="com.posabro.web.pdf.ReportPdfView"/>
+    <bean id="reportPdfView" class="com.posabro.web.pdf.ReportPdfView">
+        <property name="localeLocator" ref="localeLocator" />
+    </bean>
     
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
@@ -119,6 +123,5 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="validationMessageSource" ref="messageSource"/>
     </bean>
-
     
 </beans>

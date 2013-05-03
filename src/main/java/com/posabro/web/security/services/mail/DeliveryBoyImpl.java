@@ -77,8 +77,7 @@ public class DeliveryBoyImpl implements DeliveryBoy {
         }else if(key.equals("emailVerification.url")){
             return String.format("http://localhost:8080/cosys/userController/confirmEmailAddress/%s/%s",args);
         }else if(key.equals("emailVerification.content")){
-            return String.format("Hey, we want to verify that you are indeed %s.  If that's the case, please follow the link below:" +
-                    "\n%s\n If you're not %s or didn't request verification you can ignore this email",args);
+            return String.format("Hey, we want to verify that you are indeed %s.  If that's the case, please follow the link below:\n%s",args);
         }else if(key.equals("tempPassword.subject")){
             return String.format("[Posabro] Retrieve password %s",args);
         }else if(key.equals("tempPassword.url")){

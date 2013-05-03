@@ -4,6 +4,7 @@
  */
 package com.posabro.web.security.services.mail;
 
+import com.posabro.i18n.LocaleLocator;
 import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -23,6 +24,8 @@ public class PolyglotDeliveryBoy extends DeliveryBoyImpl implements MessageSourc
      * The messageSource
      */
     private MessageSource messageSource;
+    
+    private LocaleLocator localeLocator;
 
     /**
      * The strings are taken from the messageSource. The locale is the current locale provided by
@@ -34,9 +37,7 @@ public class PolyglotDeliveryBoy extends DeliveryBoyImpl implements MessageSourc
      */
     @Override
     protected String resolveString(final String key, Object...args) {
-        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(sra.getRequest());
-        Locale locale = localeResolver.resolveLocale(sra.getRequest());
+        Locale locale = localeLocator.lookLocale();
         logger.debug("looking for string " + key + " locale " + locale + " in " + messageSource.getClass());
         return messageSource.getMessage(key, args, locale);
     }
@@ -47,5 +48,9 @@ public class PolyglotDeliveryBoy extends DeliveryBoyImpl implements MessageSourc
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+    
+    public void setLocaleLocator(LocaleLocator localeLocator) {
+        this.localeLocator = localeLocator;
     }
 }
