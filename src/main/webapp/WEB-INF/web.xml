@@ -14,7 +14,7 @@
         <param-name>spring.profiles.active</param-name>
         <!-- Spring profile parameters
         -->
-        <param-value>web</param-value>
+        <param-value>web,mysql</param-value>
     </context-param> 
     <context-param>
         <param-name>contextConfigLocation</param-name>

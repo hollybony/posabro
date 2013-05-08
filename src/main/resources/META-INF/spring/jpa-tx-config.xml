@@ -23,23 +23,24 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>        
-        <property name="packagesToScan" value="com.posabro.web.security.domain"/>
+        <!--<property name="packagesToScan" value="com.posabro.web.security.domain"/>-->
+        <property name="packagesToScan" value="com.posabro.**.domain"/>
         <property name="jpaProperties" ref="jpaProperties">
         </property>
     </bean>
     
-    <jpa:repositories base-package="com.posabro.web.security.repository"
+    <jpa:repositories base-package="com.posabro.**.repository"
                       entity-manager-factory-ref="emf"
                       transaction-manager-ref="transactionManager"/>
     
-    <beans profile="web">
+    <beans profile="mysql">
         <util:properties id="jpaProperties">
             <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
             <prop key="hibernate.max_fetch_depth">3</prop>
             <prop key="hibernate.jdbc.fetch_size">50</prop>
             <prop key="hibernate.jdbc.batch_size">10</prop>
             <prop key="hibernate.show_sql">true</prop>
-            <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+            <prop key="hibernate.hbm2ddl.auto">create</prop>
             <!-- Listeners for Hibernate Envers useful when implementing audit-->
             <!--EJB3Post listeners allow to ejb3 entity lifecycle call back methods work-->
             <prop key="hibernate.ejb.event.post-insert">
@@ -70,7 +71,7 @@
             <prop key="org.hibernate.envers.audit_strategy_validity_revend_timestamp_field_name">AUDIT_REVISION_END_TS</prop>
         </util:properties>
     </beans>
-    <beans profile="test">
+    <beans profile="embedded">
         <util:properties id="jpaProperties">
             <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
             <prop key="hibernate.max_fetch_depth">3</prop>

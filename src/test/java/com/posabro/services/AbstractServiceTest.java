@@ -1,7 +1,7 @@
 /**
  * Created on Nov 1, 2011
  */
-package com.posabro.web.security.services.jpa;
+package com.posabro.services;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -20,11 +20,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
     "classpath:META-INF/spring/datasource.xml",
     "classpath:META-INF/spring/jpa-tx-config.xml",
     "classpath:META-INF/spring/jpa-service-context.xml"})
-@ActiveProfiles("test")
+@ActiveProfiles(profiles={"test","mysql"})
 public abstract class AbstractServiceTest {
 
     @Before
     public void setupLocale() {
+        System.out.println("before method running");
 //        ServletRequestAttributes mockedSra = mock(ServletRequestAttributes.class);
 //        HttpServletRequest mockedRequest = mock(HttpServletRequest.class);
 //        LocaleResolver mockedLocaleResolver = mock(LocaleResolver.class);

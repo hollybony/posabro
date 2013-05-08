@@ -3,6 +3,7 @@
  */
 package com.posabro.web.security.services.jpa;
 
+import com.posabro.services.AbstractServiceTest;
 import com.posabro.web.security.domain.User;
 import com.posabro.web.security.services.UserService;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author Carlos Juarez
  */
-public class DefaultUserServiceTest extends AbstractServiceTest{
+public class UserServiceTest extends AbstractServiceTest{
 
     @Autowired
     private UserService userService;
