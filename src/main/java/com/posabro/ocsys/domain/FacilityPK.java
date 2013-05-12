@@ -13,9 +13,9 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class FacilityId implements Serializable{
+public class FacilityPK implements Serializable{
     
-    @Column(name="ID", length=20)
+    @Column(name="FACILITY_ID", length=20)
     private String id;
     
     @Column(name="CUST_ID", length=20)
@@ -24,11 +24,11 @@ public class FacilityId implements Serializable{
     @Column(name="COMPANY_ID", length=20)
     private String companyId;
     
-    public FacilityId(){
+    public FacilityPK(){
         this(null,null,null);
     }
     
-    public FacilityId(String id, String customerId, String companyId){
+    public FacilityPK(String id, String customerId, String companyId){
         this.id = id;
         this.customerId = customerId;
         this.companyId = companyId;
@@ -73,7 +73,7 @@ public class FacilityId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final FacilityId other = (FacilityId) obj;
+        final FacilityPK other = (FacilityPK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
@@ -84,6 +84,11 @@ public class FacilityId implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "FacilityPK{" + "id=" + id + ", customerId=" + customerId + ", companyId=" + companyId + '}';
     }
 
 }

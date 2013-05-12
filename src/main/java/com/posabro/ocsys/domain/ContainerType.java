@@ -9,5 +9,5 @@ package com.posabro.ocsys.domain;
  * @author Carlos Juarez
  */
 public enum ContainerType {
-    ISO, RAIL_CAR
+    ISO, RAILCAR
 }

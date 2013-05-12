@@ -5,13 +5,13 @@
 package com.posabro.ocsys.repository;
 
 import com.posabro.ocsys.domain.State;
-import com.posabro.ocsys.domain.StateId;
+import com.posabro.ocsys.domain.StatePK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos Juarez
  */
-public interface StateRepository extends PagingAndSortingRepository<State, StateId> {
+public interface StateRepository extends PagingAndSortingRepository<State, StatePK> {
     
 }

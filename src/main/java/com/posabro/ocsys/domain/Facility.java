@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Facility implements Serializable{
     
     @EmbeddedId
-    private FacilityId facilityId;
+    private FacilityPK facilityPK;
     
     @Column(name="FACILITY_NAME", length=100, nullable=false)
     private String name;
@@ -33,17 +33,17 @@ public class Facility implements Serializable{
     }
 
     public Facility(String facilityId, String customerId, String companyId, String name, Address address){
-        this.facilityId = new FacilityId(facilityId, customerId, companyId);
+        this.facilityPK = new FacilityPK(facilityId, customerId, companyId);
         this.name = name;
         this.address = address;
     }
     
-    public FacilityId getFacilityId() {
-        return facilityId;
+    public FacilityPK getFacilityPK() {
+        return facilityPK;
     }
 
-    public void setFacilityId(FacilityId facilityId) {
-        this.facilityId = facilityId;
+    public void setFacilityPK(FacilityPK facilityPK) {
+        this.facilityPK = facilityPK;
     }
 
     public String getName() {
@@ -60,6 +60,11 @@ public class Facility implements Serializable{
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Facility{" + "facilityPK=" + facilityPK + ", name=" + name + '}';
     }
     
 }

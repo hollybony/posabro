@@ -21,7 +21,7 @@ import javax.persistence.Table;
 public class Container implements Serializable{
     
     @Id
-    @Column(name="ID", length=20)
+    @Column(name="CONTAINER_ID", length=20)
     private String id;
     
     @Column(name="LTS_FULL_CAPACITY", nullable=false)
@@ -34,7 +34,7 @@ public class Container implements Serializable{
     private double tareWeight;
     
     @Enumerated(EnumType.STRING)
-    @Column(name="CONTAINER_TYPE", nullable=false)
+    @Column(name="CONTAINER_TYPE", length=8, nullable=false)
     private ContainerType type;
     
     public Container(){

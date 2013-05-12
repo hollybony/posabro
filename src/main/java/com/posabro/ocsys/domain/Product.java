@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Product implements Serializable{
     
     @Id
-    @Column(name="ID", length=20)
+    @Column(name="PRODUCT_ID", length=20)
     private String id;
     
     @Column(name="PRODUCT_DESC", length=50, nullable=false)

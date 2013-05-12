@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Carrier implements Serializable{
  
     @Id
-    @Column(name="ID", length=20)
+    @Column(name="CARRIER_ID", length=20)
     private String id;
     
     @Column(name="CARRIER_NAME", length=100, nullable=false)

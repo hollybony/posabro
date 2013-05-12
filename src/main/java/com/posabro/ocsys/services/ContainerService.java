@@ -5,6 +5,7 @@
 package com.posabro.ocsys.services;
 
 import com.posabro.ocsys.domain.Container;
+import com.posabro.ocsys.domain.ContainerType;
 import java.util.List;
 
 /**
@@ -14,6 +15,8 @@ import java.util.List;
 public interface ContainerService {
 
     public Container findContainer(String id);
+    
+    public List<ContainerType> getContainerTypes();
 
     public List<Container> getAllContainers();
 

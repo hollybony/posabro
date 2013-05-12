@@ -23,25 +23,26 @@ public class AuditData implements Serializable{
      * The created date
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable=false)
+    @Column(name="CREATED_DATE", nullable=false)
     private Date createdDate;
     
     /**
      * User who created the entity
      */
-    @Column(length=32,nullable=false)
+    @Column(name="CREATED_BY", length=32,nullable=false)
     private String createdBy;
     
     /**
      * The last modification date
      */
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="MODIFIED_DATE")
     private Date modifiedDate;
     
     /**
      * User who made the last modification
      */
-    @Column(length=32)
+    @Column(name="MODIFY_BY", length=32)
     private String modifiedBy;
    
     /**

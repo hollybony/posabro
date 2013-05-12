@@ -5,7 +5,7 @@
 package com.posabro.ocsys.services.jpa;
 
 import com.posabro.ocsys.domain.ConversionFactor;
-import com.posabro.ocsys.domain.ConversionFactorId;
+import com.posabro.ocsys.domain.ConversionFactorPK;
 import com.posabro.ocsys.domain.UnitOfMeasurement;
 import com.posabro.ocsys.services.ConversionFactorService;
 import com.posabro.services.AbstractServiceTest;
@@ -36,13 +36,13 @@ public class ConversionFactorServiceTest extends AbstractServiceTest{
     public void testConversionFactorServiceUpdates(){
         //save
         conversionFactorService.saveConversionFactor(aConversionFactor);
-        ConversionFactorId conversionFactorId = new ConversionFactorId(UnitOfMeasurement.POUND, UnitOfMeasurement.LITER);
+        ConversionFactorPK conversionFactorId = new ConversionFactorPK(UnitOfMeasurement.POUND, UnitOfMeasurement.LITER);
         //find
         ConversionFactor foundConversionFactor = conversionFactorService.findConversionFactor(conversionFactorId);
         assertNotNull(foundConversionFactor);
         assertTrue(foundConversionFactor.getFactor()==2);
-        assertEquals(UnitOfMeasurement.POUND, foundConversionFactor.getConversionFactorId().getFromUnit());
-        assertEquals(UnitOfMeasurement.LITER, foundConversionFactor.getConversionFactorId().getToUnit());
+        assertEquals(UnitOfMeasurement.POUND, foundConversionFactor.getConversionFactorPK().getFromUnit());
+        assertEquals(UnitOfMeasurement.LITER, foundConversionFactor.getConversionFactorPK().getToUnit());
         //remove
         conversionFactorService.removeConversionFactor(conversionFactorId);
         assertNull(conversionFactorService.findConversionFactor(conversionFactorId));
@@ -57,7 +57,7 @@ public class ConversionFactorServiceTest extends AbstractServiceTest{
         assertTrue(someConversionFactors.size()==allConversionFactors.size());
         //cleanup
         for(ConversionFactor conversionFactor : allConversionFactors){
-            conversionFactorService.removeConversionFactor(conversionFactor.getConversionFactorId());
+            conversionFactorService.removeConversionFactor(conversionFactor.getConversionFactorPK());
         }
     }
 }

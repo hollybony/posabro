@@ -13,19 +13,19 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class StateId implements Serializable{
+public class StatePK implements Serializable{
     
-    @Column(name="ID", length=5)
+    @Column(name="STATE_ID", length=5)
     private String id;
     
     @Column(name="COUNTRY_ID", length=5)
     private String countryId;
 
-    public StateId(){
+    public StatePK(){
         this(null,null);
     }
     
-    public StateId(String id, String countryId){
+    public StatePK(String id, String countryId){
         this.id = id;
         this.countryId = countryId;
     }
@@ -61,7 +61,7 @@ public class StateId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final StateId other = (StateId) obj;
+        final StatePK other = (StatePK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }

@@ -49,7 +49,7 @@ public class CompanyServiceTest extends AbstractServiceTest{
             companyService.saveCompany(company);
         }
         List<Company> allCompanies = companyService.getAllCompanies();
-        assertTrue(allCompanies.size()==someCompanies.size());
+        assertTrue("allCompanies and someCompanies don't have the same size",allCompanies.size()==someCompanies.size());
         //cleanup
         for(Company company : someCompanies){
             companyService.removeCompany(company.getId());

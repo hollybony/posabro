@@ -6,7 +6,7 @@ package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.domain.ConversionFactor;
-import com.posabro.ocsys.domain.ConversionFactorId;
+import com.posabro.ocsys.domain.ConversionFactorPK;
 import com.posabro.ocsys.repository.ConversionFactorRepository;
 import com.posabro.ocsys.services.ConversionFactorService;
 import java.util.List;
@@ -34,7 +34,7 @@ public class DefaultConversionFactorService implements ConversionFactorService{
     
     @Override
     @Transactional(readOnly=true)
-    public ConversionFactor findConversionFactor(ConversionFactorId id) {
+    public ConversionFactor findConversionFactor(ConversionFactorPK id) {
         return conversionFactorRepository.findOne(id);
     }
 
@@ -46,10 +46,10 @@ public class DefaultConversionFactorService implements ConversionFactorService{
 
     @Override
     public void saveConversionFactor(ConversionFactor conversionFactor) {
-        if(!conversionFactorRepository.exists(conversionFactor.getConversionFactorId())){
+        if(!conversionFactorRepository.exists(conversionFactor.getConversionFactorPK())){
             conversionFactorRepository.save(conversionFactor);
         }else{
-            throw new JpaSystemException(new PersistenceException("conversionFactor " + conversionFactor.getConversionFactorId() + " already exists"));
+            throw new JpaSystemException(new PersistenceException("conversionFactor " + conversionFactor.getConversionFactorPK() + " already exists"));
         }
     }
 
@@ -59,7 +59,7 @@ public class DefaultConversionFactorService implements ConversionFactorService{
     }
 
     @Override
-    public void removeConversionFactor(ConversionFactorId id) {
+    public void removeConversionFactor(ConversionFactorPK id) {
         conversionFactorRepository.delete(id);
     }
     

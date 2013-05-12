@@ -9,11 +9,11 @@ import com.posabro.ocsys.services.CountryService;
 import com.posabro.services.AbstractServiceTest;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

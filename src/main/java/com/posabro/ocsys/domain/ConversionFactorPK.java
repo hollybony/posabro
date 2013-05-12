@@ -15,7 +15,7 @@ import javax.persistence.Enumerated;
  * @author Carlos Juarez
  */
 @Embeddable
-public class ConversionFactorId implements Serializable{
+public class ConversionFactorPK implements Serializable{
     
     @Enumerated(EnumType.STRING)
     @Column(name="MU_FROM", length=10)
@@ -25,11 +25,11 @@ public class ConversionFactorId implements Serializable{
     @Column(name="MU_TO", length=10)
     private UnitOfMeasurement toUnit;
     
-    public ConversionFactorId(){
+    public ConversionFactorPK(){
         this(null, null);
     }
     
-    public ConversionFactorId(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit){
+    public ConversionFactorPK(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit){
         this.fromUnit = fromUnit;
         this.toUnit = toUnit;
     }
@@ -65,7 +65,7 @@ public class ConversionFactorId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ConversionFactorId other = (ConversionFactorId) obj;
+        final ConversionFactorPK other = (ConversionFactorPK) obj;
         if (this.fromUnit != other.fromUnit) {
             return false;
         }

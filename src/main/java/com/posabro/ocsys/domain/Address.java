@@ -32,7 +32,7 @@ public class Address implements Serializable {
     
     @ManyToOne(optional=false)
     @JoinColumns({
-        @JoinColumn(name="STATE_ID", referencedColumnName="ID"),
+        @JoinColumn(name="STATE_ID", referencedColumnName="STATE_ID"),
         @JoinColumn(name="COUNTRY_ID", referencedColumnName="COUNTRY_ID")})
     private State state;
 

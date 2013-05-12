@@ -5,7 +5,7 @@
 package com.posabro.ocsys.services;
 
 import com.posabro.ocsys.domain.Customer;
-import com.posabro.ocsys.domain.CustomerId;
+import com.posabro.ocsys.domain.CustomerPK;
 import java.util.List;
 
 /**
@@ -14,7 +14,9 @@ import java.util.List;
  */
 public interface CustomerService {
     
-    public Customer findCustomer(CustomerId id);
+    public Customer findCustomer(CustomerPK id);
+    
+    public List<Customer> findCustomersByCompany(String companyId);
     
     public List<Customer> getAllCustomers();
     
@@ -22,6 +24,6 @@ public interface CustomerService {
     
     public void updateCustomer(Customer customer);
     
-    public void removeCustomer(CustomerId id);
+    public void removeCustomer(CustomerPK id);
     
 }

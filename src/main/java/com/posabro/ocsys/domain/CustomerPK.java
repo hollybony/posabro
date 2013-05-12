@@ -13,18 +13,18 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class CustomerId implements Serializable{
+public class CustomerPK implements Serializable{
     
-    @Column(name="ID", length=20)
+    @Column(name="CUST_ID", length=20)
     private String id;
     
     private String companyId;
     
-    public CustomerId(){
+    public CustomerPK(){
         this(null,null);
     }
     
-    public CustomerId(String id, String companyId){
+    public CustomerPK(String id, String companyId){
         this.id = id;
         this.companyId = companyId;
     }
@@ -60,7 +60,7 @@ public class CustomerId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CustomerId other = (CustomerId) obj;
+        final CustomerPK other = (CustomerPK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }

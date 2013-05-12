@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class ConversionFactor implements Serializable{
     
     @EmbeddedId
-    private ConversionFactorId conversionFactorId;
+    private ConversionFactorPK conversionFactorPK;
     
     @Column(name="CONVERSION_FACTOR", nullable=false)
     private int factor;
@@ -29,16 +29,16 @@ public class ConversionFactor implements Serializable{
     }
     
     public ConversionFactor(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit, int factor){
-        conversionFactorId = new ConversionFactorId(fromUnit, toUnit);
+        conversionFactorPK = new ConversionFactorPK(fromUnit, toUnit);
         this.factor = factor;
     }
 
-    public ConversionFactorId getConversionFactorId() {
-        return conversionFactorId;
+    public ConversionFactorPK getConversionFactorPK() {
+        return conversionFactorPK;
     }
 
-    public void setConversionFactorId(ConversionFactorId conversionFactorId) {
-        this.conversionFactorId = conversionFactorId;
+    public void setConversionFactorPK(ConversionFactorPK conversionFactorPK) {
+        this.conversionFactorPK = conversionFactorPK;
     }
 
     public int getFactor() {

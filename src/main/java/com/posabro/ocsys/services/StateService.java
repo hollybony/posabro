@@ -5,7 +5,7 @@
 package com.posabro.ocsys.services;
 
 import com.posabro.ocsys.domain.State;
-import com.posabro.ocsys.domain.StateId;
+import com.posabro.ocsys.domain.StatePK;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface StateService {
     
-    public State findState(StateId id);
+    public State findState(StatePK id);
     
     public List<State> getAllStates();
     
@@ -22,6 +22,6 @@ public interface StateService {
     
     public void updateState(State state);
     
-    public void removeState(StateId id);
+    public void removeState(StatePK id);
     
 }

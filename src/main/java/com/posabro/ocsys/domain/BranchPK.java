@@ -13,18 +13,19 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class BranchId implements Serializable{
+public class BranchPK implements Serializable{
     
-    @Column(name="ID", length=20)
+    @Column(name="BRANCH_ID", length=20)
     private String id;
     
+    @Column(name="COMPANY_ID", length=20)
     private String companyId;
 
-    public BranchId(){
+    public BranchPK(){
         this(null,null);
     }
     
-    public BranchId(String id, String companyId){
+    public BranchPK(String id, String companyId){
         this.id = id;
         this.companyId = companyId;
     }
@@ -60,7 +61,7 @@ public class BranchId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BranchId other = (BranchId) obj;
+        final BranchPK other = (BranchPK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
             return false;
         }
@@ -68,6 +69,11 @@ public class BranchId implements Serializable{
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "BranchPK{" + "id=" + id + ", companyId=" + companyId + '}';
     }
     
 }
