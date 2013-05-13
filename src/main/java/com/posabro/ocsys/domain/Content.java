@@ -16,18 +16,17 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Content implements Serializable {
 
-    @Column(name="CONTAINED_GALS")
+    @Column(name="CONTAINED_GALS", precision=8, scale=2)
     private double containedGallons;
     
-    @Column(name="CONTAINED_KGS", nullable=false)
+    @Column(name="CONTAINED_KGS", precision=8, scale=2, nullable=false)
     private double containedKgs;
     
-    @Column(name="CONTAINED_LBS", nullable=false)
+    @Column(name="CONTAINED_LBS", precision=8, scale=2, nullable=false)
     private double containedLbs;
     
-    @Column(name="CONTAINED_LTS")
+    @Column(name="CONTAINED_LTS", precision=8, scale=2)
     private double containedLts;
-    
     
     public double getContainedGallons() {
         return containedGallons;

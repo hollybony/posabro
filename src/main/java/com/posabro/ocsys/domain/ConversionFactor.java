@@ -21,16 +21,20 @@ public class ConversionFactor implements Serializable{
     @EmbeddedId
     private ConversionFactorPK conversionFactorPK;
     
-    @Column(name="CONVERSION_FACTOR", nullable=false)
-    private int factor;
+    @Column(name="CONVERSION_FACTOR", precision=8, scale=2, nullable=false)
+    private double factor;
     
     public ConversionFactor(){
         this(null,null,0);
     }
     
-    public ConversionFactor(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit, int factor){
+    public ConversionFactor(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit, double factor){
         conversionFactorPK = new ConversionFactorPK(fromUnit, toUnit);
         this.factor = factor;
+    }
+    
+    public double convert(double from){
+        return from * factor;
     }
 
     public ConversionFactorPK getConversionFactorPK() {
@@ -41,11 +45,11 @@ public class ConversionFactor implements Serializable{
         this.conversionFactorPK = conversionFactorPK;
     }
 
-    public int getFactor() {
+    public double getFactor() {
         return factor;
     }
 
-    public void setFactor(int factor) {
+    public void setFactor(double factor) {
         this.factor = factor;
     }
     

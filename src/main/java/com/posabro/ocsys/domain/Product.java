@@ -7,6 +7,8 @@ package com.posabro.ocsys.domain;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -19,8 +21,9 @@ import javax.persistence.Table;
 public class Product implements Serializable{
     
     @Id
+    @Enumerated(EnumType.STRING)
     @Column(name="PRODUCT_ID", length=20)
-    private String id;
+    private ProductType id;
     
     @Column(name="PRODUCT_DESC", length=50, nullable=false)
     private String description;
@@ -32,17 +35,17 @@ public class Product implements Serializable{
         this(null,null,null);
     }
     
-    public Product(String id, String description, String bolDescription){
+    public Product(ProductType id, String description, String bolDescription){
         this.id = id;
         this.description = description;
         this.bolDescription = bolDescription;
     }
     
-    public String getId() {
+    public ProductType getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ProductType id) {
         this.id = id;
     }
 

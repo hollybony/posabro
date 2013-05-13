@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConversionFactorServiceTest extends AbstractServiceTest{
     
-    private final ConversionFactor aConversionFactor = new ConversionFactor(UnitOfMeasurement.POUND, UnitOfMeasurement.LITER, 2);
+    private final ConversionFactor aConversionFactor = new ConversionFactor(UnitOfMeasurement.POUND, UnitOfMeasurement.LTS, 2);
     
     private final List<ConversionFactor> someConversionFactors = Arrays.asList(new ConversionFactor(UnitOfMeasurement.INCH, UnitOfMeasurement.CENTIMETER, 3),
-            new ConversionFactor(UnitOfMeasurement.CENTIMETER, UnitOfMeasurement.INCH, 5), new ConversionFactor(UnitOfMeasurement.LITER, UnitOfMeasurement.POUND, 9));
+            new ConversionFactor(UnitOfMeasurement.CENTIMETER, UnitOfMeasurement.INCH, 5), new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.POUND, 9));
     
     @Autowired
     private ConversionFactorService conversionFactorService;
@@ -36,13 +36,13 @@ public class ConversionFactorServiceTest extends AbstractServiceTest{
     public void testConversionFactorServiceUpdates(){
         //save
         conversionFactorService.saveConversionFactor(aConversionFactor);
-        ConversionFactorPK conversionFactorId = new ConversionFactorPK(UnitOfMeasurement.POUND, UnitOfMeasurement.LITER);
+        ConversionFactorPK conversionFactorId = new ConversionFactorPK(UnitOfMeasurement.POUND, UnitOfMeasurement.LTS);
         //find
         ConversionFactor foundConversionFactor = conversionFactorService.findConversionFactor(conversionFactorId);
         assertNotNull(foundConversionFactor);
         assertTrue(foundConversionFactor.getFactor()==2);
         assertEquals(UnitOfMeasurement.POUND, foundConversionFactor.getConversionFactorPK().getFromUnit());
-        assertEquals(UnitOfMeasurement.LITER, foundConversionFactor.getConversionFactorPK().getToUnit());
+        assertEquals(UnitOfMeasurement.LTS, foundConversionFactor.getConversionFactorPK().getToUnit());
         //remove
         conversionFactorService.removeConversionFactor(conversionFactorId);
         assertNull(conversionFactorService.findConversionFactor(conversionFactorId));

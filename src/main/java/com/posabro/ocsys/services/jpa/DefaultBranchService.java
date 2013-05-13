@@ -79,7 +79,7 @@ public class DefaultBranchService implements BranchService{
         if(foundBranch==null){
             throw new JpaSystemException(new PersistenceException("cannot generate new consecutive because branch : " + foundBranch.getBranchPK() + " does not exist"));
         }
-        int systemYear = Calendar.getInstance().get(Calendar.YEAR);
+        Integer systemYear = Calendar.getInstance().get(Calendar.YEAR);
         if(foundBranch.getLastBolConsecituve()<=0 || foundBranch.getCurrentYear()!=systemYear){
             foundBranch.setCurrentYear(systemYear);
             foundBranch.setLastBolConsecituve(1);

@@ -39,6 +39,7 @@ public class StateServiceTest extends AbstractServiceTest{
     
     @Autowired
     private CountryService countryService;
+    
     @Test
     public void testStateServiceUpdates(){
         countryService.saveCountry(country);

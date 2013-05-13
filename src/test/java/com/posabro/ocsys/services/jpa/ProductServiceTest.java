@@ -5,6 +5,7 @@
 package com.posabro.ocsys.services.jpa;
 
 import com.posabro.ocsys.domain.Product;
+import com.posabro.ocsys.domain.ProductType;
 import com.posabro.ocsys.services.ProductService;
 import com.posabro.services.AbstractServiceTest;
 import java.util.Arrays;
@@ -22,12 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ProductServiceTest extends AbstractServiceTest{
     
-    private final Product aProduct = new Product("PR1","Alcohol","good alcohol");
+    private final Product aProduct = new Product(ProductType.NACNB,"Alcohol","good alcohol");
     
-    private final List<Product> someProducts = Arrays.asList(new Product("NC1", "NC1 somethin", null),
-            new Product("AC3", "AC3 something", "Bla bla"),
-            new Product("BV1", "BV1 something", null),
-            new Product("AF2", "AF2 something", null));
+    private final List<Product> someProducts = Arrays.asList(
+            new Product(ProductType.NACNH, "NC1 somethin", null),
+            new Product(ProductType.NACNL, "AC3 something", "Bla bla"));
     
     @Autowired
     private ProductService productService;
@@ -37,13 +37,13 @@ public class ProductServiceTest extends AbstractServiceTest{
         //save
         productService.saveProduct(aProduct);
         //find
-        Product foundProduct = productService.findProduct("PR1");
+        Product foundProduct = productService.findProduct(ProductType.NACNB);
         assertNotNull(foundProduct);
-        assertEquals("PR1", foundProduct.getId());
+        assertEquals(ProductType.NACNB, foundProduct.getId());
         assertEquals("Alcohol", foundProduct.getDescription());
         //remove
-        productService.removeProduct("PR1");
-        assertNull(productService.findProduct("PR1"));
+        productService.removeProduct(ProductType.NACNB);
+        assertNull(productService.findProduct(ProductType.NACNB));
     }
     
     @Test

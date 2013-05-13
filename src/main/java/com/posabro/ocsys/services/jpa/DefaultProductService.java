@@ -6,6 +6,7 @@ package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.domain.Product;
+import com.posabro.ocsys.domain.ProductType;
 import com.posabro.ocsys.repository.ProductRepository;
 import com.posabro.ocsys.services.ProductService;
 import java.util.List;
@@ -33,7 +34,7 @@ public class DefaultProductService implements ProductService{
     
     @Override
     @Transactional(readOnly=true)
-    public Product findProduct(String id) {
+    public Product findProduct(ProductType id) {
         return productRepository.findOne(id);
     }
 
@@ -58,7 +59,7 @@ public class DefaultProductService implements ProductService{
     }
 
     @Override
-    public void removeProduct(String id) {
+    public void removeProduct(ProductType id) {
         productRepository.delete(id);
     }
     

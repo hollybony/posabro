@@ -9,7 +9,6 @@ import com.posabro.auditor.domain.Auditable;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -17,6 +16,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -54,7 +54,7 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="CONTAINER_ID", length=20, nullable=false)
     private String containerId;
     
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name="CONTAINER_TYPE", length=8, nullable=false)
     private ContainerType containerType;
@@ -63,7 +63,7 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="CUST_ID", length=20, nullable=false)
     private String customerId;
     
-    @NotEmpty
+//    @NotEmpty required if the container is ISO
     @Column(name="DRIVER", length=20)
     private String driver;
     
@@ -71,35 +71,37 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="FACILITY_ID", length=20, nullable=false)
     private String facilityId;
     
-    @Column(name="GROSS_WGT")
+    @Column(name="GROSS_WGT", precision=10, scale=2)
     private double grossWeight;
     
-    @Column(name="NACN_PCT", nullable=false)
-    private double nacnPct;
+    @Column(name="TARE_WGT", precision=10, scale=2)
+    private double tareWeight;
     
-    @Column(name="NET_WGT")
+    @Column(name="NET_WGT", precision=10, scale=2)
     private double netWeight;
     
+    @Column(name="NACN_PCT", precision=6, scale=4, nullable=false)
+    private double nacnPct;
+    
+    @Column(name="PH", precision=6, scale=4)
     private double ph;
     
     @Column(name="PRODUCT_BOL_DESC", length=200, nullable=false)
     private String productBolDescription;
     
     @Column(name="PRODUCT_ID", length=20, nullable=false)
-    private String productId;
+    private ProductType productId;
     
     @NotNull
     @Temporal(javax.persistence.TemporalType.DATE)
     @Column(name="SHIP_DATE")
     private Date shipmentDate;
     
-    @Column(name="SP_GR")
+    @Column(name="SP_GR", precision=6, scale=4)
     private double specificGravity;
-    
-    @Column(name="TARE_WGT")
-    private double tareWeight;
    
     public OutboundBol(){
+        outboundBolPK = new OutboundBolPK();
         auditData = new AuditData();
         content = new Content();
         inboundBolData = new InboundBolData();
@@ -234,11 +236,11 @@ public class OutboundBol implements Serializable, Auditable{
         this.productBolDescription = productBolDescription;
     }
 
-    public String getProductId() {
+    public ProductType getProductId() {
         return productId;
     }
 
-    public void setProductId(String productId) {
+    public void setProductId(ProductType productId) {
         this.productId = productId;
     }
 
@@ -265,7 +267,5 @@ public class OutboundBol implements Serializable, Auditable{
     public void setTareWeight(double tareWeight) {
         this.tareWeight = tareWeight;
     }
-    
-    
     
 }

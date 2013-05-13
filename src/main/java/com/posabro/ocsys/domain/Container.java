@@ -24,13 +24,13 @@ public class Container implements Serializable{
     @Column(name="CONTAINER_ID", length=20)
     private String id;
     
-    @Column(name="LTS_FULL_CAPACITY", nullable=false)
+    @Column(name="LTS_FULL_CAPACITY", precision=8, scale=2, nullable=false)
     private double ltsFillCapacity;
     
-    @Column(name="LTS_FILL_CAPACITY", nullable=false)
+    @Column(name="LTS_FILL_CAPACITY", precision=8, scale=2, nullable=false)
     private double ltsFullCapacity;
     
-    @Column(name="TARE_WGT", nullable=false)
+    @Column(name="TARE_WGT", precision=8, scale=2, nullable=false)
     private double tareWeight;
     
     @Enumerated(EnumType.STRING)

@@ -34,25 +34,22 @@ public class Branch implements Serializable{
     private Company company;
 
     @Column(name="CURRENT_YEAR", table="SYSTEM_CONTROL_INFO", nullable=false)
-    private int currentYear;
+    private Integer currentYear;
     
     @Column(name="LAST_BOL_SEQ", table="SYSTEM_CONTROL_INFO", nullable=false)
-    private int lastBolConsecituve;
+    private Integer lastBolConsecituve;
 
     public Branch(){
         this(null,null);
     }
     
     public Branch(String branchId, Company company){
-        this(null, null, 0, 0);
-    }
-    
-    public Branch(String branchId, Company company, int currentYear, int lastBolConsecituve){
         this.branchPK = new BranchPK(branchId, company==null?null:company.getId());
         this.company = company;
-        this.currentYear = currentYear;
-        this.lastBolConsecituve = lastBolConsecituve;
+        this.currentYear = 0;
+        this.lastBolConsecituve = 0;
     }
+
 
     public BranchPK getBranchPK() {
         return branchPK;
@@ -70,25 +67,25 @@ public class Branch implements Serializable{
         this.company = company;
     }
 
-    public int getCurrentYear() {
+    public Integer getCurrentYear() {
         return currentYear;
     }
 
-    public void setCurrentYear(int currentYear) {
+    public void setCurrentYear(Integer currentYear) {
         this.currentYear = currentYear;
     }
 
-    public int getLastBolConsecituve() {
+    public Integer getLastBolConsecituve() {
         return lastBolConsecituve;
     }
 
-    public void setLastBolConsecituve(int lastBolConsecituve) {
+    public void setLastBolConsecituve(Integer lastBolConsecituve) {
         this.lastBolConsecituve = lastBolConsecituve;
     }
-    
+
     @Override
     public String toString() {
-        return "Branch{" + "branchPK=" + branchPK + ", company=" + company + '}';
+        return "Branch{" + "branchPK=" + branchPK + ", company=" + company + ", currentYear=" + currentYear + ", lastBolConsecituve=" + lastBolConsecituve + '}';
     }
     
 }

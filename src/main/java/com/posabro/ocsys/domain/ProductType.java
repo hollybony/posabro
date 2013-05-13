@@ -8,6 +8,6 @@ package com.posabro.ocsys.domain;
  *
  * @author Carlos Juarez
  */
-public enum UnitOfMeasurement {
-    LTS, GALS, KGS, LBS, POUND, INCH, CENTIMETER
+public enum ProductType {
+    NACNL, NACNB, NACNH
 }
