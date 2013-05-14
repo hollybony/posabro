@@ -5,6 +5,7 @@
 package com.posabro.ocsys.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,23 +26,23 @@ public class Container implements Serializable{
     private String id;
     
     @Column(name="LTS_FULL_CAPACITY", precision=8, scale=2, nullable=false)
-    private double ltsFillCapacity;
+    private BigDecimal ltsFillCapacity;
     
     @Column(name="LTS_FILL_CAPACITY", precision=8, scale=2, nullable=false)
-    private double ltsFullCapacity;
+    private BigDecimal ltsFullCapacity;
     
     @Column(name="TARE_WGT", precision=8, scale=2, nullable=false)
-    private double tareWeight;
+    private BigDecimal tareWeight;
     
     @Enumerated(EnumType.STRING)
     @Column(name="CONTAINER_TYPE", length=8, nullable=false)
     private ContainerType type;
     
     public Container(){
-        this(null,0,0,0);
+        this(null, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
     }
 
-    public Container(String id, double ltsFillCapacity, double ltsFullCapacity, double tareWeight){
+    public Container(String id, BigDecimal ltsFillCapacity, BigDecimal ltsFullCapacity, BigDecimal tareWeight){
         this.id = id;
         this.ltsFillCapacity = ltsFillCapacity;
         this.ltsFullCapacity = ltsFullCapacity;
@@ -57,27 +58,27 @@ public class Container implements Serializable{
         this.id = id;
     }
 
-    public double getLtsFillCapacity() {
+    public BigDecimal getLtsFillCapacity() {
         return ltsFillCapacity;
     }
 
-    public void setLtsFillCapacity(double ltsFillCapacity) {
+    public void setLtsFillCapacity(BigDecimal ltsFillCapacity) {
         this.ltsFillCapacity = ltsFillCapacity;
     }
 
-    public double getLtsFullCapacity() {
+    public BigDecimal getLtsFullCapacity() {
         return ltsFullCapacity;
     }
 
-    public void setLtsFullCapacity(double ltsFullCapacity) {
+    public void setLtsFullCapacity(BigDecimal ltsFullCapacity) {
         this.ltsFullCapacity = ltsFullCapacity;
     }
 
-    public double getTareWeight() {
+    public BigDecimal getTareWeight() {
         return tareWeight;
     }
 
-    public void setTareWeight(double tareWeight) {
+    public void setTareWeight(BigDecimal tareWeight) {
         this.tareWeight = tareWeight;
     }
 

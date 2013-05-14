@@ -5,6 +5,7 @@
 package com.posabro.ocsys.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -22,19 +23,19 @@ public class ConversionFactor implements Serializable{
     private ConversionFactorPK conversionFactorPK;
     
     @Column(name="CONVERSION_FACTOR", precision=8, scale=2, nullable=false)
-    private double factor;
+    private BigDecimal factor;
     
     public ConversionFactor(){
-        this(null,null,0);
+        this(null,null,BigDecimal.ZERO);
     }
     
-    public ConversionFactor(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit, double factor){
+    public ConversionFactor(UnitOfMeasurement fromUnit, UnitOfMeasurement toUnit, BigDecimal factor){
         conversionFactorPK = new ConversionFactorPK(fromUnit, toUnit);
         this.factor = factor;
     }
     
-    public double convert(double from){
-        return from * factor;
+    public BigDecimal convert(BigDecimal from){
+        return from.multiply(factor);
     }
 
     public ConversionFactorPK getConversionFactorPK() {
@@ -45,11 +46,11 @@ public class ConversionFactor implements Serializable{
         this.conversionFactorPK = conversionFactorPK;
     }
 
-    public double getFactor() {
+    public BigDecimal getFactor() {
         return factor;
     }
 
-    public void setFactor(double factor) {
+    public void setFactor(BigDecimal factor) {
         this.factor = factor;
     }
     

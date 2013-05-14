@@ -5,8 +5,10 @@
 package com.posabro.ocsys.domain;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.DecimalMin;
 
 
 /**
@@ -17,46 +19,53 @@ import javax.persistence.Embeddable;
 public class Content implements Serializable {
 
     @Column(name="CONTAINED_GALS", precision=8, scale=2)
-    private double containedGallons;
+    private BigDecimal containedGallons;
     
     @Column(name="CONTAINED_KGS", precision=8, scale=2, nullable=false)
-    private double containedKgs;
+    private BigDecimal containedKgs;
     
     @Column(name="CONTAINED_LBS", precision=8, scale=2, nullable=false)
-    private double containedLbs;
+    private BigDecimal containedLbs;
     
     @Column(name="CONTAINED_LTS", precision=8, scale=2)
-    private double containedLts;
+    private BigDecimal containedLts;
     
-    public double getContainedGallons() {
+    public Content(){
+        containedGallons = BigDecimal.ZERO;
+        containedKgs = BigDecimal.ZERO;
+        containedLbs = BigDecimal.ZERO;
+        containedLts = BigDecimal.ZERO;
+    }
+    
+    public BigDecimal getContainedGallons() {
         return containedGallons;
     }
 
-    public void setContainedGallons(double containedGallons) {
+    public void setContainedGallons(BigDecimal containedGallons) {
         this.containedGallons = containedGallons;
     }
 
-    public double getContainedKgs() {
+    public BigDecimal getContainedKgs() {
         return containedKgs;
     }
 
-    public void setContainedKgs(double containedKgs) {
+    public void setContainedKgs(BigDecimal containedKgs) {
         this.containedKgs = containedKgs;
     }
 
-    public double getContainedLbs() {
+    public BigDecimal getContainedLbs() {
         return containedLbs;
     }
 
-    public void setContainedLbs(double containedLbs) {
+    public void setContainedLbs(BigDecimal containedLbs) {
         this.containedLbs = containedLbs;
     }
 
-    public double getContainedLts() {
+    public BigDecimal getContainedLts() {
         return containedLts;
     }
 
-    public void setContainedLts(double containedLts) {
+    public void setContainedLts(BigDecimal containedLts) {
         this.containedLts = containedLts;
     }
 }

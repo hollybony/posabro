@@ -37,6 +37,7 @@ import com.posabro.ocsys.services.OutboundBolService;
 import com.posabro.ocsys.services.ProductService;
 import com.posabro.ocsys.services.StateService;
 import com.posabro.services.AbstractServiceTest;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.After;
@@ -91,7 +92,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         companyService.saveCompany(company);
         Branch branch = new Branch("B1", company);
         branchService.saveBranch(branch);
-        containerService.saveContainer(new Container("CON1", 20.21, 22.1, 200.20));
+        containerService.saveContainer(new Container("CON1", new BigDecimal("20.21") , new BigDecimal("22.1"), new BigDecimal("200.20")));
         productService.saveProduct(new Product(ProductType.NACNL, "NaCN liquido", "NaCN liquido bol"));
         Country uruguay = new Country("UR", "Uruguay");
         countryService.saveCountry(uruguay);
@@ -101,8 +102,8 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         customerService.saveCustomer(new Customer("CUST1", "Juan Glz S.A", "TX1", company, address));
         facilityService.saveFacility(new Facility("FAC1","CUST1","BALA","Warehouse",address));
         carrierService.saveCarrier(new Carrier("CAR1", "Transporter estrella blanca", "TAX3", address));
-        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.GALS, 0.26418));
-        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS, 2.2046));
+        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.GALS, new BigDecimal("0.26418")));
+        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS,  new BigDecimal("2.2046")));
     }
     
     @After
@@ -139,7 +140,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
         OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
         assertNotNull(foundOutboundBol);
-        assertEquals(5.3390778, foundOutboundBol.getContent().getContainedGallons(),0.001);
+        assertEquals(new BigDecimal("5.25"), foundOutboundBol.getContent().getContainedGallons());
         //cleanup
         outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
     }

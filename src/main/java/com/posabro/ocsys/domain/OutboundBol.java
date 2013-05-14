@@ -7,6 +7,7 @@ package com.posabro.ocsys.domain;
 import com.posabro.auditor.domain.AuditData;
 import com.posabro.auditor.domain.Auditable;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -72,19 +73,22 @@ public class OutboundBol implements Serializable, Auditable{
     private String facilityId;
     
     @Column(name="GROSS_WGT", precision=10, scale=2)
-    private double grossWeight;
+    private BigDecimal grossWeight;
     
     @Column(name="TARE_WGT", precision=10, scale=2)
-    private double tareWeight;
+    private BigDecimal tareWeight;
     
     @Column(name="NET_WGT", precision=10, scale=2)
-    private double netWeight;
+    private BigDecimal netWeight;
     
     @Column(name="NACN_PCT", precision=6, scale=4, nullable=false)
-    private double nacnPct;
+    private BigDecimal nacnPct;
     
     @Column(name="PH", precision=6, scale=4)
-    private double ph;
+    private BigDecimal ph;
+    
+    @Column(name="SP_GR", precision=6, scale=4)
+    private BigDecimal specificGravity;
     
     @Column(name="PRODUCT_BOL_DESC", length=200, nullable=false)
     private String productBolDescription;
@@ -97,14 +101,17 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="SHIP_DATE")
     private Date shipmentDate;
     
-    @Column(name="SP_GR", precision=6, scale=4)
-    private double specificGravity;
-   
     public OutboundBol(){
         outboundBolPK = new OutboundBolPK();
         auditData = new AuditData();
         content = new Content();
         inboundBolData = new InboundBolData();
+        grossWeight = BigDecimal.ZERO;
+        tareWeight = BigDecimal.ZERO;
+        netWeight = BigDecimal.ZERO;
+        nacnPct = BigDecimal.ZERO;
+        ph = BigDecimal.ZERO;
+        specificGravity = BigDecimal.ZERO;
     }
     
     public OutboundBolPK getOutboundBolPK() {
@@ -196,35 +203,35 @@ public class OutboundBol implements Serializable, Auditable{
         this.facilityId = facilityId;
     }
 
-    public double getGrossWeight() {
+    public BigDecimal getGrossWeight() {
         return grossWeight;
     }
 
-    public void setGrossWeight(double grossWeight) {
+    public void setGrossWeight(BigDecimal grossWeight) {
         this.grossWeight = grossWeight;
     }
 
-    public double getNacnPct() {
+    public BigDecimal getNacnPct() {
         return nacnPct;
     }
 
-    public void setNacnPct(double nacnPct) {
+    public void setNacnPct(BigDecimal nacnPct) {
         this.nacnPct = nacnPct;
     }
 
-    public double getNetWeight() {
+    public BigDecimal getNetWeight() {
         return netWeight;
     }
 
-    public void setNetWeight(double netWeight) {
+    public void setNetWeight(BigDecimal netWeight) {
         this.netWeight = netWeight;
     }
 
-    public double getPh() {
+    public BigDecimal getPh() {
         return ph;
     }
 
-    public void setPh(double ph) {
+    public void setPh(BigDecimal ph) {
         this.ph = ph;
     }
 
@@ -252,19 +259,19 @@ public class OutboundBol implements Serializable, Auditable{
         this.shipmentDate = shipmentDate;
     }
 
-    public double getSpecificGravity() {
+    public BigDecimal getSpecificGravity() {
         return specificGravity;
     }
 
-    public void setSpecificGravity(double specificGravity) {
+    public void setSpecificGravity(BigDecimal specificGravity) {
         this.specificGravity = specificGravity;
     }
 
-    public double getTareWeight() {
+    public BigDecimal getTareWeight() {
         return tareWeight;
     }
 
-    public void setTareWeight(double tareWeight) {
+    public void setTareWeight(BigDecimal tareWeight) {
         this.tareWeight = tareWeight;
     }
     

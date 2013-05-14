@@ -7,6 +7,8 @@ package com.posabro.ocsys.services.jpa;
 import com.posabro.ocsys.domain.Container;
 import com.posabro.ocsys.services.ContainerService;
 import com.posabro.services.AbstractServiceTest;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -22,10 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ContainerServiceTest extends AbstractServiceTest{
     
-    private final Container aContainer = new Container("BLA", 12.2, 32.2, 2.1);
+    private final Container aContainer = new Container("BLA", new BigDecimal("12.2"), new BigDecimal("32.2"), new BigDecimal("2.1"));
     
-    private final List<Container> someContainers = Arrays.asList(new Container("C1", 0, 0, 0), new Container("C2", 0, 0, 0),
-            new Container("C3", 0, 0, 0),new Container("C4", 0, 0, 0));
+    private final List<Container> someContainers = Arrays.asList(
+            new Container("C1", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO),
+            new Container("C2", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO),
+            new Container("C3", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO),
+            new Container("C4", BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
     
     @Autowired
     private ContainerService containerService;
@@ -38,9 +43,9 @@ public class ContainerServiceTest extends AbstractServiceTest{
         Container foundContainer = containerService.findContainer("BLA");
         assertNotNull(foundContainer);
         assertEquals("BLA", foundContainer.getId());
-        assertTrue(12.2==foundContainer.getLtsFillCapacity());
-        assertTrue(32.2==foundContainer.getLtsFullCapacity());
-        assertTrue(2.1==foundContainer.getTareWeight());
+        assertEquals(new BigDecimal("12.20"), foundContainer.getLtsFillCapacity());
+        assertEquals(new BigDecimal("32.20"), foundContainer.getLtsFullCapacity());
+        assertEquals(new BigDecimal("2.10"), foundContainer.getTareWeight());
         //remove
         containerService.removeContainer("BLA");
         assertNull(containerService.findContainer("BLA"));

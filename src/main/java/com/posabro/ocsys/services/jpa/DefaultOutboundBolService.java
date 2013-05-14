@@ -26,6 +26,7 @@ import com.posabro.ocsys.services.CustomerService;
 import com.posabro.ocsys.services.FacilityService;
 import com.posabro.ocsys.services.OutboundBolService;
 import com.posabro.ocsys.services.ProductService;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,9 +102,9 @@ public class DefaultOutboundBolService implements OutboundBolService{
                 outboundBol.getContent().setContainedGallons(ltsToGalls.convert(foundContainer.getLtsFillCapacity()));
             }
         }else{
-            outboundBol.setTareWeight(0);
-            outboundBol.setNetWeight(0);
-            outboundBol.setGrossWeight(0);
+            outboundBol.setTareWeight(BigDecimal.ZERO);
+            outboundBol.setNetWeight(BigDecimal.ZERO);
+            outboundBol.setGrossWeight(BigDecimal.ZERO);
         }
         ConversionFactor kgsToLbs = conversionFactorRepository.findOne(new ConversionFactorPK(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS));
         if(kgsToLbs==null){

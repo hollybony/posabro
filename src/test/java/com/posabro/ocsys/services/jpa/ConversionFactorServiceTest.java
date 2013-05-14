@@ -9,6 +9,7 @@ import com.posabro.ocsys.domain.ConversionFactorPK;
 import com.posabro.ocsys.domain.UnitOfMeasurement;
 import com.posabro.ocsys.services.ConversionFactorService;
 import com.posabro.services.AbstractServiceTest;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
@@ -24,10 +25,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConversionFactorServiceTest extends AbstractServiceTest{
     
-    private final ConversionFactor aConversionFactor = new ConversionFactor(UnitOfMeasurement.POUND, UnitOfMeasurement.LTS, 2);
+    private final ConversionFactor aConversionFactor = new ConversionFactor(UnitOfMeasurement.POUND, UnitOfMeasurement.LTS, new BigDecimal("2"));
     
-    private final List<ConversionFactor> someConversionFactors = Arrays.asList(new ConversionFactor(UnitOfMeasurement.INCH, UnitOfMeasurement.CENTIMETER, 3),
-            new ConversionFactor(UnitOfMeasurement.CENTIMETER, UnitOfMeasurement.INCH, 5), new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.POUND, 9));
+    private final List<ConversionFactor> someConversionFactors = Arrays.asList(
+            new ConversionFactor(UnitOfMeasurement.INCH, UnitOfMeasurement.CENTIMETER, new BigDecimal("3")),
+            new ConversionFactor(UnitOfMeasurement.CENTIMETER, UnitOfMeasurement.INCH, new BigDecimal("5")),
+            new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.POUND, new BigDecimal("9")));
     
     @Autowired
     private ConversionFactorService conversionFactorService;
@@ -40,7 +43,7 @@ public class ConversionFactorServiceTest extends AbstractServiceTest{
         //find
         ConversionFactor foundConversionFactor = conversionFactorService.findConversionFactor(conversionFactorId);
         assertNotNull(foundConversionFactor);
-        assertTrue(foundConversionFactor.getFactor()==2);
+        assertEquals(new BigDecimal("2.00"), foundConversionFactor.getFactor());
         assertEquals(UnitOfMeasurement.POUND, foundConversionFactor.getConversionFactorPK().getFromUnit());
         assertEquals(UnitOfMeasurement.LTS, foundConversionFactor.getConversionFactorPK().getToUnit());
         //remove
@@ -54,7 +57,7 @@ public class ConversionFactorServiceTest extends AbstractServiceTest{
             conversionFactorService.saveConversionFactor(conversionFactor);
         }
         List<ConversionFactor> allConversionFactors = conversionFactorService.getAllConversionFactors();
-        assertTrue(someConversionFactors.size()==allConversionFactors.size());
+        assertEquals(someConversionFactors.size(), allConversionFactors.size());
         //cleanup
         for(ConversionFactor conversionFactor : allConversionFactors){
             conversionFactorService.removeConversionFactor(conversionFactor.getConversionFactorPK());
