@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ProductServiceTest extends AbstractServiceTest{
     
-    private final Product aProduct = new Product(ProductType.NACNB,"Alcohol","good alcohol");
+    private final Product aProduct = new Product(ProductType.NACNB, "Alcohol", "good alcohol");
     
     private final List<Product> someProducts = Arrays.asList(
             new Product(ProductType.NACNH, "NC1 somethin", null),

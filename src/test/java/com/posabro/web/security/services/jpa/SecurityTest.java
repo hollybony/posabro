@@ -6,8 +6,8 @@ package com.posabro.web.security.services.jpa;
 
 import static org.junit.Assert.assertNotNull;
 import com.posabro.services.AbstractServiceTest;
-import com.posabro.web.security.domain.User;
-import com.posabro.web.security.services.UserService;
+import com.posabro.security.domain.User;
+import com.posabro.security.services.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

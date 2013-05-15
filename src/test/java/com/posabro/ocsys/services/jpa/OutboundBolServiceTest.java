@@ -37,14 +37,25 @@ import com.posabro.ocsys.services.OutboundBolService;
 import com.posabro.ocsys.services.ProductService;
 import com.posabro.ocsys.services.StateService;
 import com.posabro.services.AbstractServiceTest;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.validation.constraints.AssertTrue;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -52,6 +63,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Carlos Juarez
  */
 public class OutboundBolServiceTest extends AbstractServiceTest{
+    
+    final org.slf4j.Logger logger = LoggerFactory.getLogger(OutboundBolServiceTest.class);
     
     @Autowired
     private OutboundBolService outboundBolService;
@@ -86,6 +99,9 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
     @Autowired
     private FacilityService facilityService;
     
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     @Before
     public void loadData(){
         Company company = new Company("BALA", "By the way");
@@ -102,8 +118,8 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         customerService.saveCustomer(new Customer("CUST1", "Juan Glz S.A", "TX1", company, address));
         facilityService.saveFacility(new Facility("FAC1","CUST1","BALA","Warehouse",address));
         carrierService.saveCarrier(new Carrier("CAR1", "Transporter estrella blanca", "TAX3", address));
-        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.GALS, new BigDecimal("0.26418")));
-        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS,  new BigDecimal("2.2046")));
+        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.LTS, UnitOfMeasurement.GALS, new BigDecimal("0.26")));
+        conversionFactorService.saveConversionFactor(new ConversionFactor(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS,  new BigDecimal("2.20")));
     }
     
     @After
@@ -126,24 +142,64 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         int year = Calendar.getInstance().get(Calendar.YEAR);
         //add unit of measurement
         OutboundBol outboundBol = new OutboundBol();
-        outboundBol.setCarrierId("CAR1");
-        outboundBol.setContainerId("CON1");
-        outboundBol.setCustomerId("CUST1");
-        outboundBol.setShipmentDate(new Date());
         outboundBol.setBolDate(new Date());
-        outboundBol.setContainerType(ContainerType.ISO);
+        outboundBol.setShipmentDate(new Date());
+        outboundBol.setCustomerId("CUST1");
         outboundBol.setFacilityId("FAC1");
+        outboundBol.setCarrierId("CAR1");
         outboundBol.setDriver("the driver");
-        //
         outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.setContainerType(ContainerType.ISO);
+        //
         outboundBol.setProductId(ProductType.NACNL);
+        outboundBol.setContainerId("CON1");
         outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
         OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
         assertNotNull(foundOutboundBol);
+        assertTrue( (new Date().getTime()-foundOutboundBol.getAuditData().getCreatedDate().getTime())<1000*1);
+        try {
+            System.out.println("printing outbounbol");
+            objectMapper.writeValue(System.out, foundOutboundBol);
+            System.out.println();
+        } catch (IOException ex) {
+            logger.error("Exception while serialization",ex);
+        } catch (Exception ex) {
+            logger.error("Exception while serialization",ex);
+        } 
+        
+        
         assertEquals(new BigDecimal("5.25"), foundOutboundBol.getContent().getContainedGallons());
         //cleanup
         outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
     }
     
-   
+
+    @Test
+    @Ignore
+    public void testSaveRAILCAR_NACNL_OutboundBol(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        //add unit of measurement
+        OutboundBol outboundBol = new OutboundBol();
+        outboundBol.setBolDate(new Date());
+        outboundBol.setShipmentDate(new Date());
+        outboundBol.setCustomerId("CUST1");
+        outboundBol.setFacilityId("FAC1");
+        outboundBol.setCarrierId("CAR1");
+        outboundBol.setDriver(null);
+        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.setContainerType(ContainerType.RAILCAR);
+        //
+        outboundBol.setProductId(ProductType.NACNL);
+        outboundBol.setContainerId("CON1");
+        outboundBol.getContent().setContainedKgs(new BigDecimal("10.00"));
+        outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
+        OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
+        assertNotNull(foundOutboundBol);
+        assertEquals(new BigDecimal("10.00"), foundOutboundBol.getContent().getContainedKgs());
+        assertEquals(new BigDecimal("22.00"), foundOutboundBol.getContent().getContainedLbs());
+        assertNull(foundOutboundBol.getContent().getContainedLts());
+        assertNull(foundOutboundBol.getContent().getContainedGallons());
+        //cleanup
+        outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
+    }
 }

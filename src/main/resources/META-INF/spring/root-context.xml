@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
     
-    <bean id="deliveryBoy" class="com.posabro.web.security.services.mail.PolyglotDeliveryBoy">
+    <bean id="deliveryBoy" class="com.posabro.security.services.mail.PolyglotDeliveryBoy">
         <property name="mailService" ref="mailService"/>
         <property name="localeLocator" ref="localeLocator" />
     </bean>
@@ -47,9 +47,10 @@
     </beans>
     
     <beans profile="test">
-        <bean id="localeLocator" class="com.posabro.i18n.DefaultLocaleLocator">
-        </bean>
+        <bean id="localeLocator" class="com.posabro.i18n.DefaultLocaleLocator"/>
         <bean id="messageSource" class="com.posabro.i18n.CodeMessageSource"/>
+        <bean id="objectMapperFactory" class="com.posabro.web.commons.ObjectMapperFactory"/>
+        <bean id="objectMapper" class="org.codehaus.jackson.map.ObjectMapper" factory-bean="objectMapperFactory" factory-method="instanceObjectMapper"/>
     </beans>
     
 </beans>

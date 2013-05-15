@@ -23,7 +23,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>        
-        <!--<property name="packagesToScan" value="com.posabro.web.security.domain"/>-->
+        <!--<property name="packagesToScan" value="com.posabro.security.domain"/>-->
         <property name="packagesToScan" value="com.posabro.**.domain"/>
         <property name="jpaProperties" ref="jpaProperties">
         </property>
