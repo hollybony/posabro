@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class State implements Serializable {
     
     @EmbeddedId
-    private StateId stateId;
+    private StatePK statePK;
     
     @Column(name="STATE_NAME", length=100, nullable=false)
     private String name;
@@ -37,17 +37,17 @@ public class State implements Serializable {
     }
     
     public State(String stateId, String name, Country country){
-        this.stateId = new StateId(stateId, country==null?null:country.getId());
+        this.statePK = new StatePK(stateId, country==null?null:country.getId());
         this.name = name;
         this.country = country;
     }
     
-    public StateId getStateId() {
-        return stateId;
+    public StatePK getStatePK() {
+        return statePK;
     }
 
-    public void setStateId(StateId stateId) {
-        this.stateId = stateId;
+    public void setStatePK(StatePK statePK) {
+        this.statePK = statePK;
     }
 
     public String getName() {

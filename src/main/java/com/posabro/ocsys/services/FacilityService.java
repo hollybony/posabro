@@ -4,8 +4,9 @@
  */
 package com.posabro.ocsys.services;
 
+import com.posabro.ocsys.domain.CustomerPK;
 import com.posabro.ocsys.domain.Facility;
-import com.posabro.ocsys.domain.FacilityId;
+import com.posabro.ocsys.domain.FacilityPK;
 import java.util.List;
 
 /**
@@ -14,7 +15,9 @@ import java.util.List;
  */
 public interface FacilityService {
     
-    public Facility findFacility(FacilityId id);
+    public Facility findFacility(FacilityPK id);
+    
+    public List<Facility> findFacilitiesByCustomer(CustomerPK customerPK);
     
     public List<Facility> getAllFacilities();
     
@@ -22,6 +25,6 @@ public interface FacilityService {
     
     public void updateFacility(Facility facility);
     
-    public void removeFacility(FacilityId id);
+    public void removeFacility(FacilityPK id);
     
 }

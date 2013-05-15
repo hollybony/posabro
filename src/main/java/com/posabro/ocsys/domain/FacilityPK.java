@@ -13,19 +13,24 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class CustomerId implements Serializable{
+public class FacilityPK implements Serializable{
     
-    @Column(name="ID", length=20)
+    @Column(name="FACILITY_ID", length=20)
     private String id;
     
+    @Column(name="CUST_ID", length=20)
+    private String customerId;
+    
+    @Column(name="COMPANY_ID", length=20)
     private String companyId;
     
-    public CustomerId(){
-        this(null,null);
+    public FacilityPK(){
+        this(null,null,null);
     }
     
-    public CustomerId(String id, String companyId){
+    public FacilityPK(String id, String customerId, String companyId){
         this.id = id;
+        this.customerId = customerId;
         this.companyId = companyId;
     }
 
@@ -35,6 +40,14 @@ public class CustomerId implements Serializable{
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public String getCompanyId() {
@@ -48,7 +61,7 @@ public class CustomerId implements Serializable{
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 17 * hash + (this.companyId != null ? this.companyId.hashCode() : 0);
+        hash = 47 * hash + (this.customerId != null ? this.customerId.hashCode() : 0);
         return hash;
     }
 
@@ -60,8 +73,11 @@ public class CustomerId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CustomerId other = (CustomerId) obj;
+        final FacilityPK other = (FacilityPK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
+            return false;
+        }
+        if ((this.customerId == null) ? (other.customerId != null) : !this.customerId.equals(other.customerId)) {
             return false;
         }
         if ((this.companyId == null) ? (other.companyId != null) : !this.companyId.equals(other.companyId)) {
@@ -70,6 +86,9 @@ public class CustomerId implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "FacilityPK{" + "id=" + id + ", customerId=" + customerId + ", companyId=" + companyId + '}';
+    }
 
-    
 }

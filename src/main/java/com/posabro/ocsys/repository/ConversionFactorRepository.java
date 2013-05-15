@@ -5,13 +5,13 @@
 package com.posabro.ocsys.repository;
 
 import com.posabro.ocsys.domain.ConversionFactor;
-import com.posabro.ocsys.domain.ConversionFactorId;
+import com.posabro.ocsys.domain.ConversionFactorPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos Juarez
  */
-public interface ConversionFactorRepository extends PagingAndSortingRepository<ConversionFactor, ConversionFactorId> {
+public interface ConversionFactorRepository extends PagingAndSortingRepository<ConversionFactor, ConversionFactorPK> {
     
 }

@@ -7,7 +7,7 @@ package com.posabro.ocsys.services.jpa;
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.domain.Country;
 import com.posabro.ocsys.domain.State;
-import com.posabro.ocsys.domain.StateId;
+import com.posabro.ocsys.domain.StatePK;
 import com.posabro.ocsys.repository.StateRepository;
 import com.posabro.ocsys.services.StateService;
 import java.util.List;
@@ -40,7 +40,7 @@ public class DefaultSateService implements StateService{
     
     @Override
     @Transactional(readOnly=true)
-    public State findState(StateId id) {
+    public State findState(StatePK id) {
         return stateRepository.findOne(id);
     }
 
@@ -52,11 +52,11 @@ public class DefaultSateService implements StateService{
 
     @Override
     public void saveState(State state) {
-        if(!stateRepository.exists(state.getStateId())){
+        if(!stateRepository.exists(state.getStatePK())){
             stateRepository.save(state);
         }
         else{
-            throw new JpaSystemException(new PersistenceException("state " + state.getStateId() + " already exists"));
+            throw new JpaSystemException(new PersistenceException("state " + state.getStatePK() + " already exists"));
         }
     }
 
@@ -66,7 +66,7 @@ public class DefaultSateService implements StateService{
     }
 
     @Override
-    public void removeState(StateId id) {
+    public void removeState(StatePK id) {
         stateRepository.delete(id);
     }
     

@@ -33,9 +33,6 @@ public class DefaultCarrierService implements CarrierService{
     @Autowired
     private CarrierRepository carrierRepository;
     
-    @PersistenceContext
-    private EntityManager em;
-    
     @Override
     @Transactional(readOnly=true)
     public Carrier findCarrier(String id) {

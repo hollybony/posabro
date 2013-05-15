@@ -20,10 +20,10 @@ import javax.persistence.Table;
 public class Company implements Serializable{
     
     @Id
-    @Column(name="ID", length=20)
+    @Column(name="COMPANY_ID", length=20)
     private String id;
     
-    @Column(name="COMPANY_NAME")
+    @Column(name="COMPANY_NAME", length=100)
     private String name;
     
     public Company(){
@@ -49,30 +49,6 @@ public class Company implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + (this.name != null ? this.name.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Company other = (Company) obj;
-        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
-            return false;
-        }
-        return true;
-    }
-    
-    
+    } 
     
 }

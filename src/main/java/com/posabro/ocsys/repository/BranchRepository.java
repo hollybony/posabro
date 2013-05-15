@@ -5,13 +5,13 @@
 package com.posabro.ocsys.repository;
 
 import com.posabro.ocsys.domain.Branch;
-import com.posabro.ocsys.domain.BranchId;
+import com.posabro.ocsys.domain.BranchPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos Juarez
  */
-public interface BranchRepository extends PagingAndSortingRepository<Branch, BranchId> {
+public interface BranchRepository extends PagingAndSortingRepository<Branch, BranchPK> {
     
 }

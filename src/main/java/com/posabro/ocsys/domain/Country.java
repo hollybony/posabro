@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class Country implements Serializable{
     
     @Id
-    @Column(name="ID", length=5)
+    @Column(name="COUNTRY_ID", length=5)
     private String id;
     
     @Column(name="COUNTRY_NAME", length=100, nullable=false)

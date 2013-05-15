@@ -5,8 +5,9 @@
 package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
+import com.posabro.ocsys.domain.CustomerPK;
 import com.posabro.ocsys.domain.Facility;
-import com.posabro.ocsys.domain.FacilityId;
+import com.posabro.ocsys.domain.FacilityPK;
 import com.posabro.ocsys.repository.FacilityRepository;
 import com.posabro.ocsys.services.FacilityService;
 import java.util.List;
@@ -34,10 +35,16 @@ public class DefaultFacilityService implements FacilityService{
     
     @Override
     @Transactional(readOnly=true)
-    public Facility findFacility(FacilityId id) {
+    public Facility findFacility(FacilityPK id) {
         return facilityRepository.findOne(id);
     }
 
+    @Override
+    @Transactional(readOnly=true)
+    public List<Facility> findFacilitiesByCustomer(CustomerPK customerPK) {
+        return facilityRepository.findByFacilityPK_CustomerIdAndFacilityPK_CompanyId(customerPK.getId(), customerPK.getCompanyId());
+    }
+    
     @Override
     @Transactional(readOnly=true)
     public List<Facility> getAllFacilities() {
@@ -46,10 +53,10 @@ public class DefaultFacilityService implements FacilityService{
 
     @Override
     public void saveFacility(Facility facility) {
-        if(!facilityRepository.exists(facility.getFacilityId())){
+        if(!facilityRepository.exists(facility.getFacilityPK())){
             facilityRepository.save(facility);
         }else{
-            throw new JpaSystemException(new PersistenceException("facility " + facility.getFacilityId() + " already exists"));
+            throw new JpaSystemException(new PersistenceException("facility " + facility.getFacilityPK() + " already exists"));
         }
     }
 
@@ -59,7 +66,7 @@ public class DefaultFacilityService implements FacilityService{
     }
 
     @Override
-    public void removeFacility(FacilityId id) {
+    public void removeFacility(FacilityPK id) {
         facilityRepository.delete(id);
     }
     

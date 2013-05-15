@@ -5,12 +5,13 @@
 package com.posabro.ocsys.repository;
 
 import com.posabro.ocsys.domain.Product;
+import com.posabro.ocsys.domain.ProductType;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos Juarez
  */
-public interface ProductRepository extends PagingAndSortingRepository<Product,String>{
+public interface ProductRepository extends PagingAndSortingRepository<Product,ProductType>{
     
 }

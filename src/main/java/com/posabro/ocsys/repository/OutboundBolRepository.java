@@ -4,14 +4,14 @@
  */
 package com.posabro.ocsys.repository;
 
-import com.posabro.ocsys.domain.SystemParameter;
-import com.posabro.ocsys.domain.SystemParameterId;
+import com.posabro.ocsys.domain.OutboundBol;
+import com.posabro.ocsys.domain.OutboundBolPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Carlos Juarez
  */
-public interface SystemParameterRepository extends PagingAndSortingRepository<SystemParameter, SystemParameterId> {
+public interface OutboundBolRepository extends PagingAndSortingRepository<OutboundBol,OutboundBolPK>{
     
 }

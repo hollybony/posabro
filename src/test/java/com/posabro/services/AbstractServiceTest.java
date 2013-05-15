@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ActiveProfiles(profiles={"test","mysql"})
 public abstract class AbstractServiceTest {
 
-    @Before
+//    @Before
     public void setupLocale() {
         System.out.println("before method running");
 //        ServletRequestAttributes mockedSra = mock(ServletRequestAttributes.class);

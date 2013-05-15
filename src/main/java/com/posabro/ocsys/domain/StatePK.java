@@ -13,20 +13,21 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class BranchId implements Serializable{
+public class StatePK implements Serializable{
     
-    @Column(name="ID", length=20)
+    @Column(name="STATE_ID", length=5)
     private String id;
     
-    private String companyId;
+    @Column(name="COUNTRY_ID", length=5)
+    private String countryId;
 
-    public BranchId(){
+    public StatePK(){
         this(null,null);
     }
     
-    public BranchId(String id, String companyId){
+    public StatePK(String id, String countryId){
         this.id = id;
-        this.companyId = companyId;
+        this.countryId = countryId;
     }
     
     public String getId() {
@@ -37,18 +38,18 @@ public class BranchId implements Serializable{
         this.id = id;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public String getCountryId() {
+        return countryId;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 29 * hash + (this.companyId != null ? this.companyId.hashCode() : 0);
+        hash = 67 * hash + (this.countryId != null ? this.countryId.hashCode() : 0);
         return hash;
     }
 
@@ -60,14 +61,11 @@ public class BranchId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BranchId other = (BranchId) obj;
+        final StatePK other = (StatePK) obj;
         if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
-            return false;
-        }
-        if ((this.companyId == null) ? (other.companyId != null) : !this.companyId.equals(other.companyId)) {
             return false;
         }
         return true;
     }
-    
+
 }

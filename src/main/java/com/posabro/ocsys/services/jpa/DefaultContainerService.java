@@ -6,6 +6,7 @@ package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
 import com.posabro.ocsys.domain.Container;
+import com.posabro.ocsys.domain.ContainerType;
 import com.posabro.ocsys.repository.ContainerRepository;
 import com.posabro.ocsys.services.ContainerService;
 import java.util.List;
@@ -60,6 +61,11 @@ public class DefaultContainerService implements ContainerService{
     @Override
     public void removeContainer(String id) {
         containerRepository.delete(id);
+    }
+
+    @Override
+    public List<ContainerType> getContainerTypes() {
+        return Lists.newArrayList(ContainerType.values());
     }
     
 }

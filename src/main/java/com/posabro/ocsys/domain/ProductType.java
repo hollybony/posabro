@@ -8,6 +8,6 @@ package com.posabro.ocsys.domain;
  *
  * @author Carlos Juarez
  */
-public enum ContainerType {
-    ISO, RAILCAR
+public enum ProductType {
+    NACNL, NACNB, NACNH
 }

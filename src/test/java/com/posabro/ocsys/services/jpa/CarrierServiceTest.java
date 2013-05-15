@@ -76,7 +76,7 @@ public class CarrierServiceTest extends AbstractServiceTest{
         carrierService.removeCarrier("TR");
         assertNull(carrierService.findCarrier("TR"));
         //cleanup
-        stateService.removeState(lima.getStateId());
+        stateService.removeState(lima.getStatePK());
         countryService.removeCountry(peru.getId());
     }
     
@@ -94,7 +94,7 @@ public class CarrierServiceTest extends AbstractServiceTest{
         for(Carrier carrier : allCarriers){
             carrierService.removeCarrier(carrier.getId());
         }
-        stateService.removeState(lima.getStateId());
+        stateService.removeState(lima.getStatePK());
         countryService.removeCountry(peru.getId());
     }
     

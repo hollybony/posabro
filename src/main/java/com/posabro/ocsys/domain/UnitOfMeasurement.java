@@ -9,7 +9,5 @@ package com.posabro.ocsys.domain;
  * @author Carlos Juarez
  */
 public enum UnitOfMeasurement {
- 
-    LITER, POUND, INCH, CENTIMETER
-    
+    LTS, GALS, KGS, LBS, POUND, INCH, CENTIMETER
 }

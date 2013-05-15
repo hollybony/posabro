@@ -1,0 +1,10 @@
+insert into WEB_ROLE(name,description,CREATED_DATE,CREATED_BY) values('ROLE_GUEST','You are welcome to play',CURDATE(), 'system');
+insert into WEB_ROLE(name,description,CREATED_DATE,CREATED_BY) values('ROLE_ADMIN','You can do whatever you want',CURDATE(), 'system');
+insert into WEB_USER(name,password,email,verifiedEmail,status,CREATED_DATE,CREATED_BY) values('guest','084e0343a0486ff05530df6c705c8bb4','carloantonioj@gmail.com',true,'ENABLED',CURDATE(), 'system');
+insert into WEB_USER(name,password,email,verifiedEmail,status,CREATED_DATE,CREATED_BY) values('admin','21232f297a57a5a743894a0e4a801fc3','carloantonioj@gmail.com',true,'ENABLED',CURDATE(), 'system');
+insert into WEB_USER_WEB_ROLE(WEB_USER_name,roles_name) values('guest','ROLE_GUEST');
+insert into WEB_USER_WEB_ROLE(WEB_USER_name,roles_name) values('admin','ROLE_ADMIN');
+insert into WEB_GROUP(name,CREATED_DATE,CREATED_BY) values('WEB MASTERS',CURDATE(), 'system');
+insert into WEB_GROUP_WEB_ROLE(WEB_GROUP_id, roles_name) select id, 'ROLE_GUEST' from WEB_GROUP where name = 'WEB MASTERS';
+insert into WEB_GROUP_WEB_ROLE(WEB_GROUP_id, roles_name) select id, 'ROLE_ADMIN' from WEB_GROUP where name = 'WEB MASTERS';
+insert into WEB_GROUP_WEB_USER(WEB_GROUP_id, members_name) select id, 'admin' from WEB_GROUP where name = 'WEB MASTERS';

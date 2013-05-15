@@ -28,7 +28,7 @@ import javax.persistence.Table;
 public class Customer implements Serializable{
     
     @EmbeddedId
-    private CustomerId customerId;
+    private CustomerPK customerPK;
     
     @Column(name="CUST_NAME", length=100, nullable=false)
     private String name;
@@ -46,7 +46,7 @@ public class Customer implements Serializable{
     
     @OneToMany(cascade= CascadeType.ALL)
     @JoinColumns({
-        @JoinColumn(name="CUST_ID", referencedColumnName="ID"),
+        @JoinColumn(name="CUST_ID", referencedColumnName="CUST_ID"),
         @JoinColumn(name="COMPANY_ID", referencedColumnName="COMPANY_ID")})
     private List<Facility> facilities;
     
@@ -55,12 +55,16 @@ public class Customer implements Serializable{
     }
     
     public Customer(String customerId, String name, String taxId, Company company){
-        this.customerId = new CustomerId(customerId, company==null?null:company.getId());
+        this(customerId, name, taxId, company, new Address());
+    }
+    
+    public Customer(String customerId, String name, String taxId, Company company, Address address){
+        this.customerPK = new CustomerPK(customerId, company==null?null:company.getId());
         this.name = name;
         this.taxId = taxId;
         this.company = company;
+        this. address = address;
         facilities = new ArrayList<Facility>();
-        address = new Address();
     }
 
     public Customer addFacility(Facility facility){
@@ -68,12 +72,12 @@ public class Customer implements Serializable{
         return this;
     }
     
-    public CustomerId getCustomerId() {
-        return customerId;
+    public CustomerPK getCustomerPK() {
+        return customerPK;
     }
 
-    public void setCustomerId(CustomerId customerId) {
-        this.customerId = customerId;
+    public void setCustomerPK(CustomerPK customerPK) {
+        this.customerPK = customerPK;
     }
 
     public String getName() {

@@ -5,13 +5,15 @@
 package com.posabro.ocsys.domain;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
-
 
 /**
  *
@@ -19,31 +21,42 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="BRANCHES")
+@SecondaryTable(name="SYSTEM_CONTROL_INFO",
+pkJoinColumns={@PrimaryKeyJoinColumn(name="BRANCH_ID"),@PrimaryKeyJoinColumn(name="COMPANY_ID")})
 public class Branch implements Serializable{
     
     @EmbeddedId
-    private BranchId branchId;
+    private BranchPK branchPK;
     
     @MapsId("companyId")
     @ManyToOne
-    @JoinColumn(name="COMPANY_ID", updatable=false, insertable=false)
+    @JoinColumn(name="COMPANY_ID", columnDefinition="VARCHAR(20)", updatable=false, insertable=false)
     private Company company;
+
+    @Column(name="CURRENT_YEAR", table="SYSTEM_CONTROL_INFO", nullable=false)
+    private Integer currentYear;
+    
+    @Column(name="LAST_BOL_SEQ", table="SYSTEM_CONTROL_INFO", nullable=false)
+    private Integer lastBolConsecituve;
 
     public Branch(){
         this(null,null);
     }
     
     public Branch(String branchId, Company company){
-        this.branchId = new BranchId(branchId, company==null?null:company.getName());
+        this.branchPK = new BranchPK(branchId, company==null?null:company.getId());
         this.company = company;
+        this.currentYear = 0;
+        this.lastBolConsecituve = 0;
     }
 
-    public BranchId getBranchId() {
-        return branchId;
+
+    public BranchPK getBranchPK() {
+        return branchPK;
     }
 
-    public void setBranchId(BranchId branchId) {
-        this.branchId = branchId;
+    public void setBranchPK(BranchPK branchPK) {
+        this.branchPK = branchPK;
     }
 
     public Company getCompany() {
@@ -52,6 +65,27 @@ public class Branch implements Serializable{
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public Integer getCurrentYear() {
+        return currentYear;
+    }
+
+    public void setCurrentYear(Integer currentYear) {
+        this.currentYear = currentYear;
+    }
+
+    public Integer getLastBolConsecituve() {
+        return lastBolConsecituve;
+    }
+
+    public void setLastBolConsecituve(Integer lastBolConsecituve) {
+        this.lastBolConsecituve = lastBolConsecituve;
+    }
+
+    @Override
+    public String toString() {
+        return "Branch{" + "branchPK=" + branchPK + ", company=" + company + ", currentYear=" + currentYear + ", lastBolConsecituve=" + lastBolConsecituve + '}';
     }
     
 }

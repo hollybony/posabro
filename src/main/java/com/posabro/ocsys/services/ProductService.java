@@ -5,6 +5,7 @@
 package com.posabro.ocsys.services;
 
 import com.posabro.ocsys.domain.Product;
+import com.posabro.ocsys.domain.ProductType;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ProductService {
     
-    public Product findProduct(String id);
+    public Product findProduct(ProductType id);
     
     public List<Product> getAllProducts();
     
@@ -21,6 +22,6 @@ public interface ProductService {
     
     public void updateProduct(Product product);
     
-    public void removeProduct(String id);
+    public void removeProduct(ProductType id);
     
 }

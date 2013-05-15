@@ -5,7 +5,7 @@
 package com.posabro.ocsys.services;
 
 import com.posabro.ocsys.domain.ConversionFactor;
-import com.posabro.ocsys.domain.ConversionFactorId;
+import com.posabro.ocsys.domain.ConversionFactorPK;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface ConversionFactorService {
     
-    public ConversionFactor findConversionFactor(ConversionFactorId id);
+    public ConversionFactor findConversionFactor(ConversionFactorPK id);
 
     public List<ConversionFactor> getAllConversionFactors();
 
@@ -22,6 +22,6 @@ public interface ConversionFactorService {
 
     public void updateConversionFactor(ConversionFactor conversionFactor);
 
-    public void removeConversionFactor(ConversionFactorId id);
+    public void removeConversionFactor(ConversionFactorPK id);
     
 }

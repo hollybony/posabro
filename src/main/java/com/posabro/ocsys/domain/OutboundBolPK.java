@@ -13,22 +13,25 @@ import javax.persistence.Embeddable;
  * @author Carlos Juarez
  */
 @Embeddable
-public class SystemParameterId implements Serializable{
+public class OutboundBolPK implements Serializable{
     
-    @Column(name="COMPANY_ID", length=20, insertable=false, updatable=false)
+    @Column(name="COMPANY_ID", length=20)
     private String companyId;
     
-    @Column(name="BRANCH_ID", length=20, insertable=false, updatable=false)
+    @Column(name="BRANCH_ID", length=20)
     private String branchId;
     
+    @Column(name="BOL_ID", length=20)
+    private String id;
     
-    public SystemParameterId(){
-        this(null,null);
+    public OutboundBolPK(){
+        this(null, null, null);
     }
     
-    public SystemParameterId(String companyId, String branchId){
+    public OutboundBolPK(String companyId, String branchId, String id){
         this.companyId = companyId;
         this.branchId = branchId;
+        this.id = id;
     }
 
     public String getCompanyId() {
@@ -47,10 +50,18 @@ public class SystemParameterId implements Serializable{
         this.branchId = branchId;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + (this.companyId != null ? this.companyId.hashCode() : 0);
+        int hash = 3;
+        hash = 37 * hash + (this.branchId != null ? this.branchId.hashCode() : 0);
         return hash;
     }
 
@@ -62,14 +73,17 @@ public class SystemParameterId implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SystemParameterId other = (SystemParameterId) obj;
+        final OutboundBolPK other = (OutboundBolPK) obj;
         if ((this.companyId == null) ? (other.companyId != null) : !this.companyId.equals(other.companyId)) {
             return false;
         }
         if ((this.branchId == null) ? (other.branchId != null) : !this.branchId.equals(other.branchId)) {
             return false;
         }
+        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
+            return false;
+        }
         return true;
     }
-
+    
 }
