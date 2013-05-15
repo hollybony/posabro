@@ -2,17 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.services.jpa;
+package com.posabro.security.services.jpa;
 
 import com.google.common.collect.Lists;
-import com.posabro.web.security.domain.Role;
-import com.posabro.web.security.domain.User;
-import com.posabro.web.security.domain.Token;
-import com.posabro.web.security.repository.UserRepository;
-import com.posabro.web.security.services.DeliveryBoy;
-import com.posabro.web.security.services.GroupService;
-import com.posabro.web.security.services.RoleService;
-import com.posabro.web.security.services.UserService;
+import com.posabro.security.domain.Role;
+import com.posabro.security.domain.User;
+import com.posabro.security.domain.Token;
+import com.posabro.security.repository.UserRepository;
+import com.posabro.security.services.DeliveryBoy;
+import com.posabro.security.services.GroupService;
+import com.posabro.security.services.RoleService;
+import com.posabro.security.services.UserService;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;

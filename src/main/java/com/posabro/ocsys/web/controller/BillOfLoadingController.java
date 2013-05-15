@@ -9,6 +9,7 @@ import com.posabro.ocsys.domain.OutboundBol;
 import com.posabro.ocsys.domain.OutboundBolPK;
 import com.posabro.ocsys.services.OutboundBolService;
 import com.posabro.ocsys.web.UserInfoProvider;
+import com.posabro.web.controller.ValidationController;
 import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/billOfLoadingController/*")
-public class BillOfLoadingController {
+public class BillOfLoadingController extends ValidationController{
     
     final org.slf4j.Logger logger = LoggerFactory.getLogger(BillOfLoadingController.class);
     

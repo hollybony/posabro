@@ -1,9 +1,9 @@
 /**
  * Created on Dec 13, 2011
  */
-package com.posabro.web.security.repository;
+package com.posabro.security.repository;
 
-import com.posabro.web.security.domain.Role;
+import com.posabro.security.domain.Role;
 import java.util.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

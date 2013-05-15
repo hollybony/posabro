@@ -4,7 +4,7 @@
  */
 package com.posabro.web.commons;
 
-import com.posabro.web.security.controller.UserController;
+import com.posabro.security.web.controller.UserController;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

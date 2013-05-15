@@ -25,6 +25,8 @@ public class AuditorListener {
      */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(AuditorListener.class);
 
+    private Date date = new Date();
+    
     /**
      * Gets the current authenticated user or a default user name
      * 
@@ -51,7 +53,8 @@ public class AuditorListener {
         if (target instanceof Auditable) {
             Auditable auditable = (Auditable) target;
             auditable.getAuditData().setCreatedBy(getCurrentUser());
-            auditable.getAuditData().setCreatedDate(new Date());
+            date.setTime(System.currentTimeMillis());
+            auditable.getAuditData().setCreatedDate(date);
         }
     }
 
@@ -67,7 +70,8 @@ public class AuditorListener {
         if (target instanceof Auditable) {
             Auditable auditable = (Auditable) target;
             auditable.getAuditData().setModifiedBy(getCurrentUser());
-            auditable.getAuditData().setModifiedDate(new Date());
+            date.setTime(System.currentTimeMillis());
+            auditable.getAuditData().setModifiedDate(date);
         }
     }
 }

@@ -17,6 +17,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -64,7 +66,6 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="CUST_ID", length=20, nullable=false)
     private String customerId;
     
-//    @NotEmpty required if the container is ISO
     @Column(name="DRIVER", length=20)
     private String driver;
     
@@ -72,21 +73,34 @@ public class OutboundBol implements Serializable, Auditable{
     @Column(name="FACILITY_ID", length=20, nullable=false)
     private String facilityId;
     
+    @DecimalMin("0.00")
+    @DecimalMax("9999999999.99")
     @Column(name="GROSS_WGT", precision=10, scale=2)
     private BigDecimal grossWeight;
     
+    @DecimalMin("0.00")
+    @DecimalMax("9999999999.99")
     @Column(name="TARE_WGT", precision=10, scale=2)
     private BigDecimal tareWeight;
     
+    @DecimalMin("0.00")
+    @DecimalMax("9999999999.99")
     @Column(name="NET_WGT", precision=10, scale=2)
     private BigDecimal netWeight;
     
+    @NotNull
+    @DecimalMin("0.0000")
+    @DecimalMax("999999.9999")
     @Column(name="NACN_PCT", precision=6, scale=4, nullable=false)
     private BigDecimal nacnPct;
     
+    @DecimalMin("0.0000")
+    @DecimalMax("999999.9999")
     @Column(name="PH", precision=6, scale=4)
     private BigDecimal ph;
     
+    @DecimalMin("0.0000")
+    @DecimalMax("999999.9999")
     @Column(name="SP_GR", precision=6, scale=4)
     private BigDecimal specificGravity;
     

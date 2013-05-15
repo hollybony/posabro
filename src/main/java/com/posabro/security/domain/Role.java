@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.domain;
+package com.posabro.security.domain;
 
 import com.posabro.auditor.domain.AuditData;
 import com.posabro.auditor.domain.Auditable;

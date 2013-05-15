@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.services.mail;
+package com.posabro.security.services.mail;
 
 import com.posabro.i18n.LocaleLocator;
 import java.util.Locale;

@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.services;
+package com.posabro.security.services;
 
-import com.posabro.web.security.domain.Group;
+import com.posabro.security.domain.Group;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;

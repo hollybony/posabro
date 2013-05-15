@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.services;
+package com.posabro.security.services;
 
 /**
  * Helper class that sends notifications related to users registration

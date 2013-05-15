@@ -9,6 +9,7 @@ import com.posabro.ocsys.domain.Product;
 import com.posabro.ocsys.domain.ProductType;
 import com.posabro.ocsys.repository.ProductRepository;
 import com.posabro.ocsys.services.ProductService;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.PersistenceException;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,22 @@ public class DefaultProductService implements ProductService{
     @Override
     @Transactional(readOnly=true)
     public Product findProduct(ProductType id) {
+        Product product = productRepository.findOne(id);
+        if(product!=null){
+            if(product.getId().equals(ProductType.NACNL)){
+                product.setNacnPct(new BigDecimal("30.5"));
+                product.setSpecificGravity(new BigDecimal("1.176"));
+                product.setPh(new BigDecimal("12.50"));
+            }else if(product.getId().equals(ProductType.NACNB)){
+                product.setNacnPct(new BigDecimal("98.0"));
+                product.setSpecificGravity(null);
+                product.setPh(null);
+            }else if(product.getId().equals(ProductType.NACNH)){
+                product.setNacnPct(new BigDecimal("98.0"));
+                product.setSpecificGravity(null);
+                product.setPh(null);
+            }
+        }
         return productRepository.findOne(id);
     }
 

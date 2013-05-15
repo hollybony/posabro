@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 
 /**
@@ -18,23 +20,29 @@ import javax.validation.constraints.DecimalMin;
 @Embeddable
 public class Content implements Serializable {
 
+    @DecimalMin("0.00")
+    @DecimalMax("99999999.99")
     @Column(name="CONTAINED_GALS", precision=8, scale=2)
     private BigDecimal containedGallons;
     
+    @NotNull
+    @DecimalMin("0.00")
+    @DecimalMax("99999999.99")
     @Column(name="CONTAINED_KGS", precision=8, scale=2, nullable=false)
     private BigDecimal containedKgs;
     
+    @DecimalMin("0.00")
+    @DecimalMax("99999999.99")
     @Column(name="CONTAINED_LBS", precision=8, scale=2, nullable=false)
     private BigDecimal containedLbs;
     
+    @DecimalMin("0.00")
+    @DecimalMax("99999999.99")
     @Column(name="CONTAINED_LTS", precision=8, scale=2)
     private BigDecimal containedLts;
     
     public Content(){
-        containedGallons = BigDecimal.ZERO;
-        containedKgs = BigDecimal.ZERO;
-        containedLbs = BigDecimal.ZERO;
-        containedLts = BigDecimal.ZERO;
+
     }
     
     public BigDecimal getContainedGallons() {

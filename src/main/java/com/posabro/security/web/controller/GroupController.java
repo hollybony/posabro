@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.posabro.web.security.controller;
+package com.posabro.security.web.controller;
 
+import com.posabro.security.domain.Group;
+import com.posabro.security.services.GroupService;
 import com.posabro.web.commons.JQueryPage;
 import com.posabro.web.commons.Misc;
 import com.posabro.web.commons.PageRequestBuilder;
 import com.posabro.web.commons.ReportSpec;
 import com.posabro.web.controller.ValidationController;
 import com.posabro.web.excel.ReportExcelView;
-import com.posabro.web.security.domain.Group;
-import com.posabro.web.security.services.GroupService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

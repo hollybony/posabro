@@ -6,6 +6,7 @@ package com.posabro.ocsys.web.controller;
 
 import com.posabro.ocsys.domain.Carrier;
 import com.posabro.ocsys.services.CarrierService;
+import com.posabro.web.controller.ValidationController;
 import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/carrierController/*")
-public class CarrierController {
+public class CarrierController extends ValidationController{
     
     final org.slf4j.Logger logger = LoggerFactory.getLogger(CarrierController.class);
     
