@@ -30,6 +30,9 @@
     <definition name="groups" extends="main.layout">
         <put-attribute name="body" value="/WEB-INF/views/groups.jsp" />
     </definition>
+    <definition name="outBoundBoL" extends="main.layout">
+        <put-attribute name="body" value="/WEB-INF/views/outBoundBoL.jsp" />
+    </definition>
     
     <!--For handling exceptions-->
     <definition name="dataAccessFailure" extends="main.layout">

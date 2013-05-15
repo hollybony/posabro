@@ -24,12 +24,23 @@
                             <li><a href="<%=request.getContextPath()%>/groups"><spring:message code="menu.security.groups"/></a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#"><spring:message code="menu.boL.outBoundBoL"/></a>
+                        <ul class="ui-side-menu">
+                            <li><a href="<%=request.getContextPath()%>/outBoundBoL"><spring:message code="outBoundBoL"/></a></li>
+                        </ul>
+                    </li>
                 </sec:authorize>
             </ul>
         </c:if>
         <c:if test="${!fn:contains(initParam['spring.profiles.active'],'secured')}">
             <ul id="menu" class="ui-side-menu">
-                <li><a href="<%=request.getContextPath()%>/users"><spring:message code="menu.admin"/></a></li>
+                <li>
+                    <a href="#"><spring:message code="menu.boL.outBoundBoL"/></a>
+                    <ul class="ui-side-menu">
+                        <li><a href="<%=request.getContextPath()%>/outBoundBoL"><spring:message code="outBoundBoL"/></a></li>
+                    </ul>
+                </li>
             </ul>
         </c:if>
         <script>
