@@ -41,8 +41,8 @@
             <prop key="hibernate.jdbc.batch_size">10</prop>
             <prop key="hibernate.show_sql">true</prop>
             <prop key="hibernate.hbm2ddl.auto">create</prop>
-            <prop key="hibernate.hbm2ddl.import_files">security-import.sql</prop>
-            <!--<prop key="hibernate.hbm2ddl.import_files">cosys-import.sql,security-import.sql</prop>-->
+            <!--<prop key="hibernate.hbm2ddl.import_files">security-import.sql</prop>-->
+            <prop key="hibernate.hbm2ddl.import_files">cosys-import.sql,security-import.sql</prop>
             <!-- Listeners for Hibernate Envers useful when implementing audit-->
             <!--EJB3Post listeners allow to ejb3 entity lifecycle call back methods work-->
             <!--but not necessary for hibernate version 4.x.x the are registered when envers jar is found in the classpath-->
@@ -82,8 +82,8 @@
             <prop key="hibernate.jdbc.batch_size">10</prop>
             <prop key="hibernate.show_sql">true</prop>
             <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-            <prop key="hibernate.hbm2ddl.import_files">security-import.sql</prop>
-            <!--<prop key="hibernate.hbm2ddl.import_files">cosys-import.sql,security-import.sql</prop>-->
+            <!--<prop key="hibernate.hbm2ddl.import_files">security-import.sql</prop>-->
+            <prop key="hibernate.hbm2ddl.import_files">cosys-import.sql,security-import.sql</prop>
             <!-- Listeners for Hibernate Envers useful when implementing audit-->
             <!--EJB3Post listeners allow to ejb3 entity lifecycle call back methods work-->
 <!--            <prop key="hibernate.ejb.event.post-insert">
