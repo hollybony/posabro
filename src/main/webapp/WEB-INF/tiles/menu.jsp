@@ -35,7 +35,12 @@
         </c:if>
         <c:if test="${!fn:contains(initParam['spring.profiles.active'],'secured')}">
             <ul id="menu" class="ui-side-menu">
-                <li><a href="<%=request.getContextPath()%>/outBoundBoL"><spring:message code="menu.outBoundBoL"/></a></li>
+                <li>
+                    <a href="#"><spring:message code="menu.boL.outBoundBoL"/></a>
+                    <ul class="ui-side-menu">
+                        <li><a href="<%=request.getContextPath()%>/outBoundBoL"><spring:message code="outBoundBoL"/></a></li>
+                    </ul>
+                </li>
             </ul>
         </c:if>
         <script>
