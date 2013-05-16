@@ -31,8 +31,13 @@ public class ProductController extends ValidationController{
     private ProductService productService;
     
     @RequestMapping(value="findProductById", method = RequestMethod.POST)
-    public @ResponseBody Product findProductById(@RequestBody ProductType id){
-        return productService.findProduct(id);
+    public @ResponseBody Product findProductById(@RequestBody String id){
+        try{
+            ProductType productType = ProductType.valueOf(id);
+            return productService.findProduct(productType);
+        }catch(IllegalArgumentException ex){
+            return null;
+        }
     }
     
 }

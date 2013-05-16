@@ -13,13 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
  * @author Carlos Juarez
  */
 @Controller
-@RequestMapping("/facilityController/*")
+@RequestMapping("/containerController/*")
 public class ContainerController extends ValidationController{
     
     final org.slf4j.Logger logger = LoggerFactory.getLogger(ContainerController.class);
@@ -28,7 +29,8 @@ public class ContainerController extends ValidationController{
     private ContainerService containerService;
     
     @RequestMapping(value="findContainer", method = RequestMethod.POST)
-    public Container findContainer(@RequestBody String containerId){
+    public @ResponseBody Container findContainer(@RequestBody String containerId){
+        logger.debug("finding container : " + containerId);
         Container foundContainer = containerService.findContainer(containerId);
         return foundContainer;
     }
