@@ -123,6 +123,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
             //setting tara weight
             outboundBol.setTareWeight(containerSelected.getTareWeight());
             //setting net weight can cause null pointer exception
+            //TO DO causes null pointer exception when the product is no liquid due to getSpecificGravity is null
             outboundBol.setNetWeight(containerSelected.getLtsFillCapacity().multiply(outboundBol.getSpecificGravity()).add(containerSelected.getTareWeight()));
             //if Product type NACNL
             if(outboundBol.getProductId().equals(ProductType.NACNL)){
@@ -130,7 +131,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
                 outboundBol.getContent().setContainedKgs(outboundBol.getContent().getContainedLts().multiply(outboundBol.getSpecificGravity()).multiply(outboundBol.getPh()));
             }
             //TO DO setting gross weight
-            //outboundBol.setGrossWeight(containerSelected.getTareWeight().add(outboundBol.getContent().getContainedKgs()).add(containerSelected.ge));
+//            outboundBol.setGrossWeight(containerSelected.getTareWeight().add(outboundBol.getContent().getContainedKgs()));
         }else{//RAILCAR container
             outboundBol.setDriver("");
             outboundBol.setTareWeight(null);
@@ -139,6 +140,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
         }
         //calculating contained gallons from lts, only NaCN liquid contains it
         if(outboundBol.getProductId().equals(ProductType.NACNL)){
+            //TO DO when NACNL and RAILCAR getContainedLts comes null
             if(outboundBol.getContent().getContainedLts()==null){
                 throw new JpaSystemException(new PersistenceException("Contained Lts is required as it is NACNL"));
             }
@@ -151,10 +153,11 @@ public class DefaultOutboundBolService implements OutboundBolService{
             outboundBol.getContent().setContainedLts(null);
             outboundBol.getContent().setContainedGallons(null);
         }
-        //calculating contained lbs
+        //checking contained kgs not null
         if(outboundBol.getContent().getContainedKgs()==null){
             throw new JpaSystemException(new PersistenceException("Contained Kgs is required"));
         }
+        //calculating contained lbs
         ConversionFactor kgsToLbs = conversionFactorRepository.findOne(new ConversionFactorPK(UnitOfMeasurement.KGS, UnitOfMeasurement.LBS));
         if(kgsToLbs==null){
             throw new JpaSystemException(new PersistenceException("There is no conversion factor from  " + UnitOfMeasurement.KGS + " to " + UnitOfMeasurement.LBS));
