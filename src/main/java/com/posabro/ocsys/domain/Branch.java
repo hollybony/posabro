@@ -37,7 +37,7 @@ public class Branch implements Serializable{
     private Integer currentYear;
     
     @Column(name="LAST_BOL_SEQ", table="SYSTEM_CONTROL_INFO", nullable=false)
-    private Integer lastBolConsecituve;
+    private Integer lastBolConsecutive;
 
     public Branch(){
         this(null,null);
@@ -47,7 +47,7 @@ public class Branch implements Serializable{
         this.branchPK = new BranchPK(branchId, company==null?null:company.getId());
         this.company = company;
         this.currentYear = 0;
-        this.lastBolConsecituve = 0;
+        this.lastBolConsecutive = 0;
     }
 
 
@@ -75,17 +75,17 @@ public class Branch implements Serializable{
         this.currentYear = currentYear;
     }
 
-    public Integer getLastBolConsecituve() {
-        return lastBolConsecituve;
+    public Integer getLastBolConsecutive() {
+        return lastBolConsecutive;
     }
 
-    public void setLastBolConsecituve(Integer lastBolConsecituve) {
-        this.lastBolConsecituve = lastBolConsecituve;
+    public void setLastBolConsecutive(Integer lastBolConsecutive) {
+        this.lastBolConsecutive = lastBolConsecutive;
     }
 
     @Override
     public String toString() {
-        return "Branch{" + "branchPK=" + branchPK + ", company=" + company + ", currentYear=" + currentYear + ", lastBolConsecituve=" + lastBolConsecituve + '}';
+        return "Branch{" + "branchPK=" + branchPK + ", company=" + company + ", currentYear=" + currentYear + ", lastBolConsecutive=" + lastBolConsecutive + '}';
     }
     
 }
