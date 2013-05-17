@@ -114,7 +114,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
             //checking container constraint
             Container containerSelected = containerService.findContainer(outboundBol.getContainerId());
             if(containerSelected==null){
-                throw new JpaSystemException(new PersistenceException("container id  " + outboundBol.getContainerId() + " doesn't exist"));
+                throw new JpaSystemException(new PersistenceException("Since the container type is ISO, container id  " + outboundBol.getContainerId() + " must exist"));
             }
             //checking driver constraint
             if(outboundBol.getDriver()==null||outboundBol.getDriver().equals("")){
@@ -129,7 +129,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
                 outboundBol.getContent().setContainedLts(containerSelected.getLtsFillCapacity());
                 outboundBol.getContent().setContainedKgs(outboundBol.getContent().getContainedLts().multiply(outboundBol.getSpecificGravity()).multiply(outboundBol.getPh()));
             }
-            //setting gross weight
+            //TO DO setting gross weight
             //outboundBol.setGrossWeight(containerSelected.getTareWeight().add(outboundBol.getContent().getContainedKgs()).add(containerSelected.ge));
         }else{//RAILCAR container
             outboundBol.setDriver("");
