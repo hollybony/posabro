@@ -83,7 +83,7 @@ public class BranchServiceTest extends AbstractServiceTest {
         assertEquals("BR0", foundBranch.getBranchPK().getId());
         assertEquals(aCompany.getId(), foundBranch.getBranchPK().getCompanyId());
         assertEquals(new Integer(0), foundBranch.getCurrentYear());
-        assertEquals(new Integer(0), foundBranch.getLastBolConsecituve());
+        assertEquals(new Integer(0), foundBranch.getLastBolConsecutive());
         //remove
         branchService.removeBranch(new BranchPK("BR0", aCompany.getId()));
         Branch removedBranch = branchService.findBranch(new BranchPK("BR0", aCompany.getId()));
@@ -113,12 +113,14 @@ public class BranchServiceTest extends AbstractServiceTest {
         logger.debug("testing generate new consecutive, current year : " + year);
         Branch branch = new Branch("BR9", aCompany);
         branchService.saveBranch(branch);
-        String bolId = branchService.generateNewConsecutive(branch.getBranchPK());
-        assertEquals(year + "0001", bolId);
+        String bolId1 = branchService.generateNewConsecutive(branch.getBranchPK());
+        assertEquals(year + "0001", bolId1);
+        String bolId2 = branchService.generateNewConsecutive(branch.getBranchPK());
+        assertEquals(year + "0002", bolId2);
         Branch foundBranch = branchService.findBranch(branch.getBranchPK());
         logger.debug("found branch : " + foundBranch);
         assertEquals(year, foundBranch.getCurrentYear());
-        assertEquals(new Integer(1), foundBranch.getLastBolConsecituve());
+        assertEquals(new Integer(2), foundBranch.getLastBolConsecutive());
         //cleanup
         branchService.removeBranch(foundBranch.getBranchPK());
     }
