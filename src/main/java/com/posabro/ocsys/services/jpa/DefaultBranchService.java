@@ -55,7 +55,7 @@ public class DefaultBranchService implements BranchService{
     @Override
     public void saveBranch(Branch branch) {
         branch.setCurrentYear(0);
-        branch.setLastBolConsecituve(0);
+        branch.setLastBolConsecutive(0);
         if(!branchRepository.exists(branch.getBranchPK())){
             branchRepository.save(branch);
         }else{
@@ -79,15 +79,24 @@ public class DefaultBranchService implements BranchService{
         if(foundBranch==null){
             throw new JpaSystemException(new PersistenceException("cannot generate new consecutive because branch : " + foundBranch.getBranchPK() + " does not exist"));
         }
-        Integer systemYear = Calendar.getInstance().get(Calendar.YEAR);
-        if(foundBranch.getLastBolConsecituve()<=0 || foundBranch.getCurrentYear()!=systemYear){
-            foundBranch.setCurrentYear(systemYear);
-            foundBranch.setLastBolConsecituve(1);
-        }else if(foundBranch.getCurrentYear()==systemYear){
-            foundBranch.setLastBolConsecituve(foundBranch.getLastBolConsecituve() + 1);
+        logger.debug("generating a new consecutive for brach : " + foundBranch);
+        if(foundBranch.getLastBolConsecutive()==null){
+            foundBranch.setLastBolConsecutive(0);
         }
-        String strConsecutive = "000" + foundBranch.getLastBolConsecituve();
-        return "" + foundBranch.getCurrentYear() +  strConsecutive.substring(strConsecutive.length()-4);
+        if(foundBranch.getCurrentYear()==null){
+            foundBranch.setCurrentYear(0);
+        }
+        Integer systemYear = Calendar.getInstance().get(Calendar.YEAR);
+        if(foundBranch.getLastBolConsecutive()<=0 || !foundBranch.getCurrentYear().equals(systemYear)){
+            foundBranch.setCurrentYear(systemYear);
+            foundBranch.setLastBolConsecutive(1);
+        }else if(foundBranch.getCurrentYear().equals(systemYear)){
+            foundBranch.setLastBolConsecutive(foundBranch.getLastBolConsecutive() + 1);
+        }
+        String strConsecutive = "000" + foundBranch.getLastBolConsecutive();
+        String generatedConsecutive = "" + foundBranch.getCurrentYear() + strConsecutive.substring(strConsecutive.length()-4);
+        logger.debug("the generated consecutive is : " + generatedConsecutive);
+        return generatedConsecutive;
     }
     
 }
