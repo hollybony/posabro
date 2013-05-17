@@ -110,6 +110,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         branchService.saveBranch(branch);
         containerService.saveContainer(new Container("CON1", new BigDecimal("20.21") , new BigDecimal("22.1"), new BigDecimal("200.20")));
         productService.saveProduct(new Product(ProductType.NACNL, "NaCN liquido", "NaCN liquido bol"));
+        productService.saveProduct(new Product(ProductType.NACNB, "NaCNB liquido", "NaCNB liquido bol"));
         Country uruguay = new Country("UR", "Uruguay");
         countryService.saveCountry(uruguay);
         State monteVideo = new State("MO","Monte video", uruguay);
@@ -127,6 +128,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         branchService.removeBranch(new BranchPK("B1", "BALA"));
         containerService.removeContainer("CON1");
         productService.removeProduct(ProductType.NACNL);
+        productService.removeProduct(ProductType.NACNB);
         facilityService.removeFacility(new FacilityPK("FAC1", "CUST1", "BALA"));
         customerService.removeCustomer(new CustomerPK("CUST1", "BALA"));
         companyService.removeCompany("BALA");
@@ -138,7 +140,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
     }
     
     @Test
-    public void testSaveISO_NACNL_OutboundBol(){
+    public void testSaveIsoLiquidOutboundBol(){
         int year = Calendar.getInstance().get(Calendar.YEAR);
         //add unit of measurement
         OutboundBol outboundBol = new OutboundBol();
@@ -165,9 +167,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
             logger.error("Exception while serialization",ex);
         } catch (Exception ex) {
             logger.error("Exception while serialization",ex);
-        } 
-        
-        
+        }
         assertEquals(new BigDecimal("5.25"), foundOutboundBol.getContent().getContainedGallons());
         //cleanup
         outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
@@ -176,7 +176,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
 
     @Test
     @Ignore
-    public void testSaveRAILCAR_NACNL_OutboundBol(){
+    public void testSaveRailcarLiquidOutboundBol(){
         int year = Calendar.getInstance().get(Calendar.YEAR);
         //add unit of measurement
         OutboundBol outboundBol = new OutboundBol();
@@ -190,7 +190,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBol.setContainerType(ContainerType.RAILCAR);
         //
         outboundBol.setProductId(ProductType.NACNL);
-        outboundBol.setContainerId("CON1");
+        outboundBol.setContainerId("no registered cont");
         outboundBol.getContent().setContainedKgs(new BigDecimal("10.00"));
         outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
         OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
@@ -199,6 +199,53 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         assertEquals(new BigDecimal("22.00"), foundOutboundBol.getContent().getContainedLbs());
         assertNull(foundOutboundBol.getContent().getContainedLts());
         assertNull(foundOutboundBol.getContent().getContainedGallons());
+        //cleanup
+        outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
+    }
+    
+    @Test
+    public void testSaveRailcarNoLiquidOutboundBol(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        //add unit of measurement
+        OutboundBol outboundBol = new OutboundBol();
+        outboundBol.setBolDate(new Date());
+        outboundBol.setShipmentDate(new Date());
+        outboundBol.setCustomerId("CUST1");
+        outboundBol.setFacilityId("FAC1");
+        outboundBol.setCarrierId("CAR1");
+        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.setContainerType(ContainerType.RAILCAR);
+        outboundBol.getContent().setContainedKgs(new BigDecimal("2000.20"));
+        outboundBol.setProductId(ProductType.NACNB);
+        outboundBol.setContainerId("no registered cont");
+        outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
+        OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
+        assertNotNull(foundOutboundBol);
+        assertEquals(null, foundOutboundBol.getContent().getContainedGallons());
+        //cleanup
+        outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
+    }
+    
+    @Test
+    public void testSaveIsoNoLiquidOutboundBol(){
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        //add unit of measurement
+        OutboundBol outboundBol = new OutboundBol();
+        outboundBol.setBolDate(new Date());
+        outboundBol.setShipmentDate(new Date());
+        outboundBol.setCustomerId("CUST1");
+        outboundBol.setFacilityId("FAC1");
+        outboundBol.setCarrierId("CAR1");
+        outboundBol.setDriver("the driver");
+        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.setContainerType(ContainerType.ISO);
+        outboundBol.getContent().setContainedKgs(new BigDecimal("2000.20"));
+        outboundBol.setProductId(ProductType.NACNB);
+        outboundBol.setContainerId("CON1");
+        outboundBolService.saveOutboundBol(new BranchPK("B1", "BALA"), outboundBol);
+        OutboundBol foundOutboundBol = outboundBolService.findOutboundBol(new OutboundBolPK("BALA", "B1", year + "0001"));
+        assertNotNull(foundOutboundBol);
+        assertEquals(null, foundOutboundBol.getContent().getContainedGallons());
         //cleanup
         outboundBolService.removeOutboundBol(outboundBol.getOutboundBolPK());
     }
