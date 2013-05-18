@@ -428,10 +428,10 @@
                 CrudHandler.getOutBoundBoL = function(){
                     var data = {
                         "inboundBolData":{
-                            "inbouundBolId1":inboundBolId01.val(),
-                            "inbouundBolId2":inboundBolId02.val(),
-                            "inbouundContId1":inboundContId01.val(),
-                            "inbouundContId2":inboundContId02.val()
+                            "inbouundBolId1":(inboundBolId01.val()==""?null:inboundBolId01.val()),
+                            "inbouundBolId2":(inboundBolId02.val() == ""?null:inboundBolId02.val()),
+                            "inbouundContId1":(inboundContId01.val()==""?null:inboundContId01.val()),
+                            "inbouundContId2":(inboundContId02.val()==""?null:inboundContId02.val())
                         },
                         "content":{
                             "containedKgs":containedKgs.val()
