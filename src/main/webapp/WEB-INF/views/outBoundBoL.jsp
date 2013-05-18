@@ -20,16 +20,20 @@
         <table>
             <tr>
                 <td><spring:message code="outBoundBoL.bolDate" /></td>
-                <td style="width: 220px"><input type="text" id="datepickerBoLDate" disabled="true" maxlength="10" /></td>
+                <td style="width: 220px">
+                    <input type="text" id="datepickerBoLDate" style="width: 150px" disabled="true" maxlength="10" class="text ui-widget-content ui-corner-all"/>
+                </td>
                 <td><spring:message code="outBoundBoL.shipDate" /></td>
-                <td><input type="text" id="datepickerShipDate" disabled="true" maxlength="10"/></td>
+                <td>
+                    <input type="text" id="datepickerShipDate" disabled="true" maxlength="10" style="width: 260px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
+                </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.customer" /></td>
                 <td>
-                    <select id="customersSelect" style="width: 160px">
+                    <select id="customersSelect" style="width: 160px" >
                         <option value="select"><spring:message code="defaultSelected" /></option>
-                        <option value="select2"><spring:message code="defaultSelected" /></option>
                     </select>
                 </td>
                 <td><spring:message code="outBoundBoL.facility" /></td>
@@ -37,6 +41,7 @@
                     <select id="facilitiesSelect" style="width: 160px">
                         <option value="select"><spring:message code="defaultSelected" /></option>
                     </select>
+                    
                 </td>
             </tr>
             <tr>
@@ -45,30 +50,36 @@
                     <select id="carriersSelect" style="width: 160px">
                         <option value="select"><spring:message code="defaultSelected" /></option>
                     </select>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.driver" /></td>
                 <td>
-                    <input type="text" id="txtDriver" style="width: 260px" maxlength="20"/>
+                    <input type="text" id="txtDriver" style="width: 260px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.inboundContId01" /></td>
                 <td>
-                    <input type="text" id="txtInboundContId01" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtInboundContId01" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.inboundBolId01" /></td>
                 <td>
-                    <input type="text" id="txtInboundBolId01" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtInboundBolId01" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.inboundContId02" /></td>
                 <td>
-                    <input type="text" id="txtInboundContId02" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtInboundContId02" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.inboundBolId02" /></td>
                 <td>
-                    <input type="text" id="txtInboundBolId02" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtInboundBolId02" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
@@ -107,41 +118,49 @@
             <tr>
                 <td><br/><spring:message code="outBoundBoL.container" /></td>
                 <td>
-                    <br/><input type="text" id="txtContainer" style="width: 160px" maxlength="20"/>
+                    <br/><input type="text" id="txtContainer" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><br/><spring:message code="outBoundBoL.nACNPCT" /></td>
                 <td>
-                    <br/><input type="text" id="txtNaCNPCT" disabled="true" style="width: 160px"/>
+                    <br/><input type="text" id="txtNaCNPCT" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.tareWGT" /></td>
                 <td>
-                    <input type="text" id="txtTareWGT" disabled="true" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtTareWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.specificGR" /></td>
                 <td>
-                    <input type="text" id="txtSpecificGR" disabled="true" style="width: 160px"/>
+                    <input type="text" id="txtSpecificGR" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.netWGT" /></td>
                 <td>
-                    <input type="text" id="txtNetWGT" disabled="true" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtNetWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.pH" /></td>
                 <td>
-                    <input type="text" id="txtPH" disabled="true" style="width: 160px"/>
+                    <input type="text" id="txtPH" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
                 <td><spring:message code="outBoundBoL.grossWGT" /></td>
                 <td>
-                    <input type="text" id="txtGrossWGT" disabled="true" style="width: 160px" maxlength="20"/>
+                    <input type="text" id="txtGrossWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
                 <td><spring:message code="outBoundBoL.containedLts" /></td>
                 <td>
-                    <input type="text" id="txtContainedLts" disabled="true" style="width: 160px"/>
+                    <input type="text" id="txtContainedLts" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
@@ -151,7 +170,8 @@
                 </td>
                 <td><spring:message code="outBoundBoL.containedKgs" /></td>
                 <td>
-                    <input type="text" id="txtContainedKgs" style="width: 160px"/>
+                    <input type="text" id="txtContainedKgs" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                    <span class="validateTips"></span>
                 </td>
             </tr>
             <tr>
@@ -208,73 +228,158 @@
                 var customers = null;
                 var facilities = null;
                 var carriers = null;
-                
+                var containers = null;
                 var currentUser = null;
                 var CrudHandler = {};
                 
                 CrudHandler.getCustomers = function(){
-                    /*$.get('roleController/getAll',function(data){
+                    $.post('customerController/findCustomers', function(data){
                         customers = data;
-                        $.each(customers, function(index, value){
-                            customersSelect.append($('<option></option>').attr('id',value.custId).text(value.custName));
+                        $.each(customers, function(index, value){                             
+                            customersSelect.append(new Option(value.name, value.customerPK.id));
                         });
-                    });*/
-                };
+                    });
+                };                
                 
-                CrudHandler.getFacilities = function(id){
-                    facilitiesSelect.append($('<option></option>').attr('id',"exampleValue").text("example"));
-                    
-                    /*$.get('roleController/getAll',function(data){
+                CrudHandler.getFacilities = function(id){                    
+                    var successCallback = function(data){
                         facilities = data;
-                        $.each(facilities, function(index, value){
-                            facilitiesSelect.append($('<option></option>').attr('id',value.facilityId).text(value.facilityName));
+                        facilitiesSelect.empty();
+                        facilitiesSelect.append(new Option('<spring:message code="defaultSelected" />', 'select'));
+                        $.each(facilities, function(index, value){                             
+                            facilitiesSelect.append(new Option(value.name, value.facilityPK.id));
                         });
-                    });*/
+                    };
+                    var errorCallback = function(xhr){
+                        ExceptionHandler.handleAjax(xhr);
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: "application/json",
+                        url: 'facilityController/findFacilitiesByCustomer',
+                        data: id,
+                        success: successCallback,
+                        error:errorCallback
+                    });                    
                 };
                 CrudHandler.getCarriers = function(){
-                    /*$.get('roleController/getAll',function(data){
+                    $.post('carrierController/getAllCarriers', function(data){
                         carriers = data;
-                        $.each(carriers, function(index, value){
-                            carriersSelect.append($('<option></option>').attr('id',value.carrierId).text(value.carrierName));
+                        $.each(carriers, function(index, value){                             
+                            carriersSelect.append(new Option(value.name, value.id));
                         });
-                    });*/
+                    });
                 };
                 
-                CrudHandler.findContainerById = function(id){
-                    alert(id);
-                    //facilitiesSelect.append($('<option></option>').attr('id',"exampleValue").text("example"));
-                    
-                }
-                
-                CrudHandler.populateContainerTypeFields = function(){
-                    //alert($("input[name='rContainerType']:checked").val());
-                    if($("input[name='rContainerType']:checked").val() == 'ISO'){
-                        container.focusout(function() {
-                                
-                            CrudHandler.findContainerById(container.val());
-                        });
-                        //calular los valores de la caja de texto
-                        tareWGT.val('0');
-                        netWGT.val('0');
-                        grossWGT.val('0');
-                    }else{
-                        container.unbind('focusout');
+                CrudHandler.findContainerById = function(id){ 
+                    if(id != ""){
+                        //alert(containers);
+                        var successCallback = function(data){
+                            if(data != ""){
+                                containers = data;
+                                //calular los valores de la caja de texto
+                                tareWGT.val('0');
+                                netWGT.val('0');
+                                grossWGT.val('0');
+                                containedLts.val(containers.ltsFillCapacity);
+                                if($("input[name='rProductType']:checked").val() == 'NACNL'){
+                                    containedKgs.attr("disabled",true);
+                                    if(data.ltsFillCapacity != ''){
+                                        var result = containers.ltsFillCapacity * specificGR.val() * ph.val();
+                                        containedKgs.val(result);
+                                    }								
+                                }else{
+                                    containedKgs.attr("disabled",false);
+                                    containedKgs.val('No Calcular');
+                                }
+                            }else{
+                                containers = null;
+                                alert('<spring:message code="outBoundBoL.containerNotExist"/>');
+                                containedLts.focus();
+                            }                        
+                        };
+                        var errorCallback = function(xhr){
+                            ExceptionHandler.handleAjax(xhr);
+                        };
                         tareWGT.val('');
                         netWGT.val('');
                         grossWGT.val('');
+						
+                        $.ajax({
+                            type: 'POST',
+                            contentType: "application/json",
+                            url: 'containerController/findContainer',
+                            data: id,
+                            success: successCallback,
+                            error:errorCallback
+                        });
+                    }
+                }
+                
+                CrudHandler.populateContainerTypeFields = function(){                    
+                    if($("input[name='rContainerType']:checked").val() == 'ISO'){
+                        if(container.val() != ""){
+                            CrudHandler.findContainerById(container.val());
+                        }                        
+                        container.focusout(function() {                                
+                            CrudHandler.findContainerById(container.val());
+                        });
+                    }else{
+                        container.unbind('focusout');  
+                        containedLts.val('');
                     }
                 }
                 
                 CrudHandler.populateProductTypeFields = function(){
+                    var successCallback = function(data){
+                        //alert(JSON.stringify(data));
+                        naCNPCT.val(data.nacnPct + ' %');
+                        specificGR.val(data.specificGravity);
+                        ph.val(data.ph);
+                        
+                        //containedLts.val($("input[name='rProductType']:checked").val());
+                        
+                        if($("input[name='rProductType']:checked").val() == 'NACNL'){
+                            containedKgs.attr("disabled",true);
+                            
+                            if(containers != null){
+                                //alert(containers.ltsFillCapacity);
+                                if(containers.ltsFillCapacity!= ''){
+                                    containedLts.val(containers.ltsFillCapacity);
+                                    var result = containers.ltsFillCapacity * data.specificGravity *data.ph;
+                                    containedKgs.val(result);
+                                }
+                            }
+							
+                        }else{
+                            containedKgs.attr("disabled",false);
+                            containedKgs.val('No Calcular');
+                            containedLts.val('');
+                        }
+                    };
+                    var errorCallback = function(xhr){
+                        ExceptionHandler.handleAjax(xhr);
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: "application/json",
+                        url: 'productController/findProductById',
+                        data: $("input[name='rProductType']:checked").val(),
+                        success: successCallback,
+                        error:errorCallback
+                    });
+					 
                     //alert($("input[name='rContainerType']:checked").val());
-                    if($("input[name='rProductType']:checked").val() == 'NACNL'){
-                        naCNPCT.val('30.5');
+                    
+                    /*
+                                        if($("input[name='rProductType']:checked").val() == 'NACNL'){
+                        naCNPCT.val('30.5%');
                         specificGR.val('1.176');
                         ph.val('12.50');
                         containedLts.val('Calcular');
                         containedKgs.val('Liquido');
                     }else  if($("input[name='rProductType']:checked").val() == 'NACNB'){
-                        naCNPCT.val('98.0');
+                        naCNPCT.val('98.0%');
                         specificGR.val('');
                         ph.val('');
                         containedLts.val('');
@@ -291,7 +396,7 @@
                         ph.val('');
                         containedLts.val('');
                         containedKgs.val('');
-                    }
+                    }*/
                 }
                 
                 CrudHandler.saveOutBoundBoL = function(){
@@ -322,7 +427,12 @@
                     });
                     bolDate.datepicker('setDate', '+0');
                     shipDate.datepicker('setDate', '+0');
-                    
+                    //inboundContId01.mask('99.99');
+                    naCNPCT.mask('99.99 %');
+                    specificGR.mask('9.9999');
+                    ph.mask('99.99');
+                    containedLts.mask('999,999.99');
+                        
                     CrudHandler.getCustomers();
                     CrudHandler.getCarriers();
                     CrudHandler.populateContainerTypeFields();
@@ -335,7 +445,7 @@
                     $("input[name='rProductType']:radio").bind( "change", function(event, ui) {
                         CrudHandler.populateProductTypeFields();
                     });
-                    customersSelect.bind( "change", function(event, ui) {
+                    customersSelect.bind( "change", function(event, ui) {						
                         CrudHandler.getFacilities(customersSelect.val());
                     });
 

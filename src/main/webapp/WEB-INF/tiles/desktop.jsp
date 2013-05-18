@@ -30,6 +30,8 @@
 <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/ui/jquery.ui.dialog.js"/>"></script>
         -->
 
+        <script src="<c:url value="/resources/jquery.maskedinput.js"/>"></script>
+        
         <!--A dependency of dialog component-->
         <script src="<c:url value="/resources/jquery-ui-1.9.2/development-bundle/external/jquery.bgiframe-2.1.2.js"/>"></script>
 
