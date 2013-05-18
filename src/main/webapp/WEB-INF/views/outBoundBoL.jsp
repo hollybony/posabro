@@ -25,7 +25,7 @@
                 </td>
                 <td><spring:message code="outBoundBoL.shipDate" /></td>
                 <td>
-                    <input type="text" id="datepickerShipDate" disabled="true" maxlength="10" style="width: 260px" class="text ui-widget-content ui-corner-all"/>
+                    <input type="text" id="datepickerShipDate" disabled="true" maxlength="10" style="width: 150px" class="text ui-widget-content ui-corner-all"/>
                     <span class="validateTips"></span>
                 </td>
             </tr>
