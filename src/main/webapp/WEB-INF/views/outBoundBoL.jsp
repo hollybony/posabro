@@ -402,7 +402,7 @@
                 }
                 
                 CrudHandler.saveOutBoundBoL = function(){
-                    alert(shipDate.datepicker({ dateFormat: "yy-mm-dd" }).val());
+                    //alert(shipDate.datepicker({ dateFormat: "yy-mm-dd" }).val());
                     var dataOutBoundBoL = CrudHandler.getOutBoundBoL();
                     var successCallback = function(){
                         alert("Saved");
