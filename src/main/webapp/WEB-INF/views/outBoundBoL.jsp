@@ -41,7 +41,7 @@
                     <select id="facilitiesSelect" style="width: 160px">
                         <option value="select"><spring:message code="defaultSelected" /></option>
                     </select>
-                    
+
                 </td>
             </tr>
             <tr>
@@ -54,6 +54,7 @@
                 </td>
                 <td><spring:message code="outBoundBoL.driver" /></td>
                 <td>
+                    <br/>
                     <input type="text" id="txtDriver" style="width: 260px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
                     <span class="validateTips"></span>
                 </td>
@@ -276,6 +277,7 @@
                         //alert(containers);
                         var successCallback = function(data){
                             if(data != ""){
+                                container.removeClass('ui-state-error');
                                 containers = data;
                                 //calular los valores de la caja de texto
                                 tareWGT.val('0');
@@ -294,8 +296,8 @@
                                 }
                             }else{
                                 containers = null;
-                                alert('<spring:message code="outBoundBoL.containerNotExist"/>');
-                                containedLts.focus();
+                                Validator.updateError(container,'<spring:message code="outBoundBoL.containerNotExist"/>');
+                                
                             }                        
                         };
                         var errorCallback = function(xhr){
@@ -400,10 +402,51 @@
                 }
                 
                 CrudHandler.saveOutBoundBoL = function(){
-                    alert("Save");
+                    alert(shipDate.datepicker({ dateFormat: "yy-mm-dd" }).val());
+                    var dataOutBoundBoL = CrudHandler.getOutBoundBoL();
+                    var successCallback = function(){
+                        alert("Saved");
+                        CrudHandler.init();
+                        //CrudHandler.clear();
+                    };
+                    var errorCallback = function(xhr){
+                        ExceptionHandler.handleAjax(xhr);
+                    };
+                    alert(JSON.stringify(dataOutBoundBoL));
+                    $.ajax({type: "POST",
+                        url:'billOfLoadingController/storeOutboundBol',
+                        data:JSON.stringify(dataOutBoundBoL),
+                        contentType: "application/json",
+                        success:successCallback,
+                        error:errorCallback
+                    });
                 };
                 CrudHandler.printOutBoundBoL = function(){
                     alert("Print");
+                };
+                
+                CrudHandler.getOutBoundBoL = function(){
+                    var data = {
+                        "inboundBolData":{
+                            "inbouundBolId1":inboundBolId01.val(),
+                            "inbouundBolId2":inboundBolId02.val(),
+                            "inbouundContId1":inboundContId01.val(),
+                            "inbouundContId2":inboundContId02.val()
+                        },
+                        "content":{
+                            "containedKgs":containedKgs.val()
+                        },
+                        "bolDate":'2013-05-16',//bolDate.val(),
+                        "carrierId":carriersSelect.val(),
+                        "containerId":container.val(),
+                        "containerType":$("input[name='rContainerType']:checked").val(),
+                        "customerId":customersSelect.val(),
+                        "driver":driver.val(),
+                        "facilityId":facilitiesSelect.val(),
+                        "productId":$("input[name='rProductType']:checked").val(),
+                        "shipmentDate":'2013-05-16'//shipDate.val()
+                    };
+                    return data;
                 };
 
 
