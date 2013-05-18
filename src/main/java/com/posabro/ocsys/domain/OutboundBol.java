@@ -17,6 +17,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -37,9 +38,11 @@ public class OutboundBol implements Serializable, Auditable{
     @Embedded
     private AuditData auditData;
     
+    @Valid
     @Embedded
-    private InboundBolData inboundBolData;    
+    private InboundBolData inboundBolData;
     
+    @Valid
     @Embedded
     private Content content;
     

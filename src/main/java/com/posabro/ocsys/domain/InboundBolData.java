@@ -17,12 +17,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Embeddable
 public class InboundBolData implements Serializable {
     
-    @NotEmpty
     @Size(min = 3, max = 20)
     @Column(name="INBOUND_BOL_ID_01", length=20)
     private String inbouundBolId1;
     
-    @NotEmpty
     @Size(min = 3, max = 20)
     @Column(name="INBOUND_BOL_ID_02", length=20)
     private String inbouundBolId2;
@@ -32,7 +30,6 @@ public class InboundBolData implements Serializable {
     @Column(name="INBOUND_CONT_ID_01", length=20, nullable=false)
     private String inbouundContId1;
     
-    @NotEmpty
     @Size(min = 3, max = 20)
     @Column(name="INBOUND_CONT_ID_02", length=20)
     private String inbouundContId2;

@@ -25,7 +25,6 @@ public class Content implements Serializable {
     @Column(name="CONTAINED_GALS", precision=8, scale=2)
     private BigDecimal containedGallons;
     
-    @NotNull
     @DecimalMin("0.00")
     @DecimalMax("99999999.99")
     @Column(name="CONTAINED_KGS", precision=8, scale=2, nullable=false)
