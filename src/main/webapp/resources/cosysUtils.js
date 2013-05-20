@@ -21,7 +21,7 @@ $(function() {
     Validator.checkLength = function(o, message, min, max){
         if (o.val().length > max || o.val().length < min ) {
             o.addClass('ui-state-error');
-            Validator.updateTip(o.prev(),message.replace('{0}',min).replace('{1}',max));
+            Validator.updateTip(Validator.resolveErrorMsgElement(o),message.replace('{0}',min).replace('{1}',max));
             return false;
         } else {
             return true;
@@ -30,7 +30,7 @@ $(function() {
     Validator.checkRegexp = function(o, regexp, msg) {
         if (!(regexp.test(o.val()))){
             o.addClass( "ui-state-error" );
-            Validator.updateTip(o.prev(),msg);
+            Validator.updateTip(Validator.resolveErrorMsgElement(o),msg);
             return false;
         } else {
             return true;
@@ -52,8 +52,25 @@ $(function() {
             element.addClass('ui-state-error');
             msgError = msg;
         }
-        Validator.updateTip(element.prev(), msgError);
+        Validator.updateTip(Validator.resolveErrorMsgElement(element), msgError);
     };
+    Validator.cleanErrors = function(el){
+        var errorElement = null;
+        el.removeClass('ui-state-error');
+        if($.isArray(el)){
+            $.each(el, function(){
+                errorElement = Validator.resolveErrorMsgElement(this);
+                errorElement.text('');
+            });
+        }else{
+            errorElement = Validator.resolveErrorMsgElement(el);
+            errorElement.text('');
+        }
+    }
+    
+    Validator.resolveErrorMsgElement = function(el){
+        return el.prev();
+    }
     
     ExceptionHandler.handleAjax = function(xhr){
         if(xhr.status===500){//bussiness exceptions
