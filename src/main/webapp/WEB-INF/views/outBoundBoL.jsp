@@ -94,7 +94,7 @@
                                     <input type="radio" id="rdBtnISOContainer" value="ISO" name="containerTypeRB" checked="checked"/>
                                     <label for="rdBtnISO"><spring:message code="outBoundBoL.iSOContainer" /></label>
                                     <br/>
-                                    <input type="radio" id="rdBtnRailcar" value="Railcar" name="containerTypeRB"/>
+                                    <input type="radio" id="rdBtnRailcar" value="RAILCAR" name="containerTypeRB"/>
                                     <label for="rdBtnRailcar"><spring:message code="outBoundBoL.railcar" /></label>
                                 </div>                        
                             </fieldset> 
@@ -296,10 +296,7 @@
                         var successCallback = function(data){                            
                             //alert(jQuery.isEmptyObject({}));                            
                             if(data.id){
-                                
-                                //alert(JSON.stringify(data));
-                                container.removeClass('ui-state-error');
-                                Validator.updateTip(container.prev(), '');
+                                Validator.cleanErrors(container);
                                 containers = data;
                                 //calular los valores de la caja de texto
                                 tareWGT.val('0');
@@ -427,23 +424,21 @@
                 };
                 
                 CrudHandler.cleanScreen = function(){
-                    Validator.updateTip(driver.prev(), '');
-                    Validator.updateTip(inboundContId01.prev(), '');
-                    Validator.updateTip(inboundBolId01.prev(), '');
-                    Validator.updateTip(inboundContId02.prev(), '');
-                    Validator.updateTip(inboundBolId02.prev(), '');
-                    Validator.updateTip(container.prev(), '');
-                    Validator.updateTip(naCNPCT.prev(), '');
-                    Validator.updateTip(tareWGT.prev(), '');
-                    Validator.updateTip(specificGR.prev(), '');
-                    Validator.updateTip(netWGT.prev(), '');
-                    Validator.updateTip(ph.prev(), '');
-                    Validator.updateTip(grossWGT.prev(), '');
-                    Validator.updateTip(containedLts.prev(), '');
-                    Validator.updateTip(containedKgs.prev(), '');
                     allFields.removeClass('ui-state-error');
-                    inputFields.val('');
-                    
+                    Validator.cleanErrors(driver);
+                    Validator.cleanErrors(inboundContId01);
+                    Validator.cleanErrors(inboundBolId01);
+                    Validator.cleanErrors(inboundContId02);
+                    Validator.cleanErrors(inboundBolId02);
+                    Validator.cleanErrors(container);
+                    Validator.cleanErrors(naCNPCT);
+                    Validator.cleanErrors(tareWGT);
+                    Validator.cleanErrors(specificGR);
+                    Validator.cleanErrors(netWGT);
+                    Validator.cleanErrors(ph);
+                    Validator.cleanErrors(grossWGT);
+                    Validator.cleanErrors(containedLts);
+                    Validator.cleanErrors(containedKgs);
                     customerIdSelect[0].selectedIndex = 0;
                     facilityIdSelect.empty();
                     facilityIdSelect.append(new Option('<spring:message code="defaultSelected" />', 'select'));
@@ -465,22 +460,19 @@
                         isValid = false;
                         Validator.updateError(customerIdSelect,'<spring:message code="outBoundBoL.customerIdSelect"/>');
                     }else{
-                        Validator.updateTip(customerIdSelect.prev(), '');
-                        customerIdSelect.removeClass('ui-state-error');
+                        Validator.cleanErrors(customerIdSelect);
                     }
                     if(facilityIdSelect.val() == 'select'){
                         isValid = false;
                         Validator.updateError(facilityIdSelect,'<spring:message code="outBoundBoL.facilityIdSelect"/>');
                     }else{
-                        Validator.updateTip(facilityIdSelect.prev(), '');
-                        facilityIdSelect.removeClass('ui-state-error');
+                        Validator.cleanErrors(facilityIdSelect);
                     }
                     if(carrierIdSelect.val() == 'select'){
                         isValid = false;
                         Validator.updateError(carrierIdSelect,'<spring:message code="outBoundBoL.carrierIdSelect"/>');
                     }else{
-                        Validator.updateTip(carrierIdSelect.prev(), '');
-                        carrierIdSelect.removeClass('ui-state-error');
+                        Validator.cleanErrors(carrierIdSelect);
                     }
 					
                     if($("input[name='containerTypeRB']:checked").val() == 'ISO'){
@@ -488,8 +480,7 @@
                             isValid = false;
                             Validator.updateError(driver,'<spring:message code="outBoundBoL.driveEmpty"/>');
                         }else{
-                            Validator.updateTip(driver.prev(), '');
-                            driver.removeClass('ui-state-error');
+                            Validator.cleanErrors(driver);
                         }                       
                         
                     }
@@ -545,7 +536,6 @@
                     });
                     bolDate.datepicker('setDate', '+0');
                     shipDate.datepicker('setDate', '+0');
-                    //inboundContId01.mask('99.99');
                     naCNPCT.mask('99.99 %');
                     specificGR.mask('9.9999');
                     ph.mask('99.99');
