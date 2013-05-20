@@ -69,7 +69,11 @@ $(function() {
     }
     
     Validator.resolveErrorMsgElement = function(el){
-        return el.prev();
+        if(el.prev().hasClass('validateTips')){
+            return el.prev();
+        }else{
+            return el.next();
+        }
     }
     
     ExceptionHandler.handleAjax = function(xhr){
