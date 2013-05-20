@@ -114,6 +114,10 @@
         <property name="localeLocator" ref="localeLocator" />
     </bean>
     
+    <bean id="outboundBolPdf" class="com.posabro.ocsys.web.OutboundBolPdfView">
+        <property name="localeLocator" ref="localeLocator" />
+    </bean>
+    
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
     </bean>
