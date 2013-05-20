@@ -19,7 +19,7 @@ public interface OutboundBolService {
     
     public List<OutboundBol> getAllOutboundBols();
     
-    public void saveOutboundBol(BranchPK branchPK, OutboundBol outboundBol);
+    public String saveOutboundBol(BranchPK branchPK, OutboundBol outboundBol);
         
     public void removeOutboundBol(OutboundBolPK id);
     

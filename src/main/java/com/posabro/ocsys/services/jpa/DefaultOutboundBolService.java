@@ -81,7 +81,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
     }
 
     @Override
-    public void saveOutboundBol(BranchPK branchPK, OutboundBol outboundBol) {
+    public String saveOutboundBol(BranchPK branchPK, OutboundBol outboundBol) {
         //generating PK
         String bolId = branchService.generateNewConsecutive(branchPK);
         outboundBol.setOutboundBolPK(new OutboundBolPK(branchPK.getCompanyId(), branchPK.getId(), bolId));
@@ -164,6 +164,7 @@ public class DefaultOutboundBolService implements OutboundBolService{
         }
         outboundBol.getContent().setContainedLbs(kgsToLbs.convert(outboundBol.getContent().getContainedKgs()));
         outboundBolRepository.save(outboundBol);
+        return bolId;
     }
 
     @Override

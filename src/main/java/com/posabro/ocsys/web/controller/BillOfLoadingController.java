@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,10 +36,11 @@ public class BillOfLoadingController extends ValidationController{
     private OutboundBolService outboundBolService;
     
     @RequestMapping(value="storeOutboundBol", method = RequestMethod.POST)
-    public void store(@Valid @RequestBody OutboundBol outboundBol, HttpServletResponse response){
+    public @ResponseBody String store(@Valid @RequestBody OutboundBol outboundBol){
         BranchPK branchPK = UserInfoProvider.getLoggedUser().getBranch().getBranchPK();
         logger.debug("store a new outboundBol for branch : " + branchPK);
-        outboundBolService.saveOutboundBol(branchPK, outboundBol);
+        String bolId = outboundBolService.saveOutboundBol(branchPK, outboundBol);
+        return bolId;
     }
     
     @RequestMapping(value="findOutboundBol", method = RequestMethod.POST)
@@ -47,12 +49,18 @@ public class BillOfLoadingController extends ValidationController{
         return foundOutboundBol;
     }
     
-    @RequestMapping(value="outboundBolToPdf", method = RequestMethod.GET)
-    public ModelAndView exportOutboundBol(@Valid @RequestBody OutboundBolPK outboundBolPK){
+    @RequestMapping(value="outboundBolToPdf/{bolId}", method = RequestMethod.GET)
+    public ModelAndView exportOutboundBol(@PathVariable String bolId){
+        BranchPK branchPK = UserInfoProvider.getLoggedUser().getBranch().getBranchPK();
+        OutboundBolPK outboundBolPK = new OutboundBolPK(branchPK.getCompanyId(), branchPK.getId(), bolId);
         OutboundBol foundOtboundBol = outboundBolService.findOutboundBol(outboundBolPK);
-        ModelAndView mav = new ModelAndView("outboundBolPdf");
-        mav.addObject("outboundBol", foundOtboundBol);
-        return mav;
+        if(foundOtboundBol!=null){
+            ModelAndView mav = new ModelAndView("outboundBolPdf");
+            mav.addObject("outboundBol", foundOtboundBol);
+            return mav;
+        }else{
+            return null;
+        }
     }
     
 }
