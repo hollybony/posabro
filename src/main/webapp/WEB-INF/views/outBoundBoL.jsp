@@ -32,56 +32,56 @@
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.customer" /></td>
-                        <td>
-                            <span class="validateTips"></span>
+                        <td>                            
                             <select id="customerIdSelect" style="width: 160px" >
                                 <option value="select"><spring:message code="defaultSelected" /></option>
                             </select>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.facility" /></td>
-                        <td>
-                            <span class="validateTips"></span>
+                        <td>                            
                             <select id="facilityIdSelect" style="width: 160px">
                                 <option value="select"><spring:message code="defaultSelected" /></option>
                             </select>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.carrier" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <select id="carrierIdSelect" style="width: 160px">
                                 <option value="select"><spring:message code="defaultSelected" /></option>
                             </select>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.driver" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="driverInput" style="width: 260px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId01" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="inboundBolData_inbouundContId1Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId01" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="inboundBolData_inbouundBolId1Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId02" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="inboundBolData_inbouundContId2Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId02" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="inboundBolData_inbouundBolId2Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
@@ -89,7 +89,6 @@
                             <br/>   
                             <fieldset style="height: 80px; width: 230px">
                                 <legend><spring:message code="outBoundBoL.containerType" /></legend>
-
                                 <div id="containerTypeRB">
                                     <input type="radio" id="rdBtnISOContainer" value="ISO" name="containerTypeRB" checked="checked"/>
                                     <label for="rdBtnISO"><spring:message code="outBoundBoL.iSOContainer" /></label>
@@ -120,51 +119,50 @@
                         <td><br/><spring:message code="outBoundBoL.container" /></td>
                         <td>
                             <br/>
-                            <span class="validateTips"></span>
                             <input type="text" id="containerIdInput" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
-
+                            <span class="validateTips"></span>
                         </td>
                         <td><br/><spring:message code="outBoundBoL.nACNPCT" /></td>
                         <td>
                             <br/>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtNaCNPCT" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.tareWGT" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtTareWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.specificGR" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtSpecificGR" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.netWGT" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtNetWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.pH" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtPH" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.grossWGT" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtGrossWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.containedLts" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="txtContainedLts" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
@@ -174,8 +172,8 @@
                         </td>
                         <td><spring:message code="outBoundBoL.containedKgs" /></td>
                         <td>
-                            <span class="validateTips"></span>
                             <input type="text" id="content_containedKgsInput" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
@@ -192,6 +190,9 @@
                     </tr>
                 </table>
             </div>
+        </div>
+        <div id="printConfirmDialog" title="<spring:message code="outBoundBoL.printDialog"/>">
+            <span class="ui-icon ui-icon-alert"></span><p></p>
         </div>
         <script src="<c:url value="/resources/cosysUtils.js"/>"></script>
         <script>
@@ -237,9 +238,7 @@
                 .add(netWGT).add(ph).add(grossWGT).add(containedLts).add(containedKgs);
                 
                 var selectFields = $([]).add(customerIdSelect).add(facilityIdSelect).add(carrierIdSelect);
-                /*
-                 */
-		
+               
                 var customers = null;
                 var facilities = null;
                 var carriers = null;
@@ -292,9 +291,8 @@
                 
                 CrudHandler.findContainerById = function(id){ 
                     if(id != ""){
-                        //alert(containers);
-                        var successCallback = function(data){                            
-                            //alert(jQuery.isEmptyObject({}));                            
+                        
+                        var successCallback = function(data){
                             if(data.id){
                                 Validator.cleanErrors(container);
                                 containers = data;
@@ -327,7 +325,6 @@
                         tareWGT.val('');
                         netWGT.val('');
                         grossWGT.val('');
-						
                         $.ajax({
                             type: 'POST',
                             contentType: "application/json",
@@ -355,19 +352,14 @@
                 }
                 
                 CrudHandler.populateProductTypeFields = function(){
-                    var successCallback = function(data){
-                        //alert(JSON.stringify(data));
+                    var successCallback = function(data){                        
                         naCNPCT.val(data.nacnPct + ' %');
                         specificGR.val(data.specificGravity);
                         ph.val(data.ph);
-                        
-                        //containedLts.val($("input[name='productIdRB']:checked").val());
-                        
                         if($("input[name='productIdRB']:checked").val() == 'NACNL'){
                             containedKgs.attr("disabled",true);
                             
                             if(containers != null){
-                                //alert(containers.ltsFillCapacity);
                                 if(containers.ltsFillCapacity!= ''){
                                     containedLts.val(containers.ltsFillCapacity);
                                     var result = containers.ltsFillCapacity * data.specificGravity *data.ph;
@@ -395,21 +387,16 @@
                 }
                 
                 CrudHandler.saveOutBoundBoL = function(){
-                    //alert(shipDate.datepicker({ dateFormat: "yy-mm-dd" }).val());
                     if(CrudHandler.validate()){
                         var dataOutBoundBoL = CrudHandler.getOutBoundBoL();
-                        var successCallback = function(){
-                            alert("Saved");
+                        var successCallback = function(data){                            
                             CrudHandler.cleanScreen();
-                            //CrudHandler.init();
-                            //CrudHandler.clear();
+                            var newMessage = '<spring:message code="outBoundBoL.print.confirm" />'.replace('{0}', data);
+                            $('#printConfirmDialog').text(newMessage).data('id',data).dialog('open');
                         };
-                        var errorCallback = function(xhr){
-                            //alert("aqui");
-                            //alert(JSON.stringify(xhr));
+                        var errorCallback = function(xhr){                            
                             ExceptionHandler.handleAjax(xhr);
                         };
-                        //alert(JSON.stringify(dataOutBoundBoL));
                         $.ajax({type: "POST",
                             url:'billOfLoadingController/storeOutboundBol',
                             data:JSON.stringify(dataOutBoundBoL),
@@ -419,26 +406,16 @@
                         });
                     }
                 };
-                CrudHandler.printOutBoundBoL = function(){
-                    alert("Print");
+                CrudHandler.printOutBoundBoL = function(id){
+                    window.open('billOfLoadingController/outboundBolToPdf/' + id, '<spring:message code="outBoundBoL.printDialog"/>');
                 };
                 
                 CrudHandler.cleanScreen = function(){
-                    allFields.removeClass('ui-state-error');
-                    Validator.cleanErrors(driver);
-                    Validator.cleanErrors(inboundContId01);
-                    Validator.cleanErrors(inboundBolId01);
-                    Validator.cleanErrors(inboundContId02);
-                    Validator.cleanErrors(inboundBolId02);
-                    Validator.cleanErrors(container);
-                    Validator.cleanErrors(naCNPCT);
-                    Validator.cleanErrors(tareWGT);
-                    Validator.cleanErrors(specificGR);
-                    Validator.cleanErrors(netWGT);
-                    Validator.cleanErrors(ph);
-                    Validator.cleanErrors(grossWGT);
-                    Validator.cleanErrors(containedLts);
-                    Validator.cleanErrors(containedKgs);
+				
+                    Validator.cleanErrors(inputFields);
+                    inputFields.val('');
+                    containers = null;					
+					
                     customerIdSelect[0].selectedIndex = 0;
                     facilityIdSelect.empty();
                     facilityIdSelect.append(new Option('<spring:message code="defaultSelected" />', 'select'));
@@ -449,10 +426,10 @@
                     $("input[name='containerTypeRB']:checked").val('ISO');
                     $("input[name='productIdRB']:checked").val('NACNL');
                     
-                    containers = null;
+                    
                     CrudHandler.populateContainerTypeFields();
                     CrudHandler.populateProductTypeFields();
-                    
+                    allFields.removeClass('ui-state-error');
                 };
                 CrudHandler.validate = function(){
                     var isValid = true;
@@ -533,6 +510,21 @@
                         dateFormat:'<spring:message code="jsDefaultFormatDate" />',
                         defaultDate: new Date(),
                         minDate:new Date()
+                    });
+                    $('#printConfirmDialog').dialog({
+                        autoOpen: false,
+                        position: 'center',
+                        resizable: false,
+                        modal: false,
+                        buttons: {
+                            '<spring:message code="ok" />': function() {
+                                $(this).dialog('close');
+                                CrudHandler.printOutBoundBoL($(this).data('id'));
+                            },
+                            '<spring:message code="cancel" />': function() {
+                                $(this).dialog('close');
+                            }
+                        }
                     });
                     bolDate.datepicker('setDate', '+0');
                     shipDate.datepicker('setDate', '+0');

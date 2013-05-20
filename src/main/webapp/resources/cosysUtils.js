@@ -62,7 +62,7 @@ $(function() {
                 errorElement = Validator.resolveErrorMsgElement(this);
                 errorElement.text('');
             });
-        }else{
+        }else{			
             errorElement = Validator.resolveErrorMsgElement(el);
             errorElement.text('');
         }
