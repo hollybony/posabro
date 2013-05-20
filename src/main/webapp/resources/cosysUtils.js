@@ -41,7 +41,11 @@ $(function() {
         var msgError;
         if(!(error instanceof jQuery)){
             //                    alert('error in field : ' + error.field + ' from object : ' + error.objectName + ' message : ' + error.defaultMessage);
-            element = $('#' + error.objectName + 'Form [id^=' + error.field + ']').addClass('ui-state-error');
+            var errorTemp = error.field.replace('.', '_');
+            //alert(errorTemp);
+            //element = $('#' + error.objectName + 'Form [id^=' + errorTemp + ']').addClass('ui-state-error');
+            //[id^=errorTemp]
+            element = $('[id^=' + errorTemp + ']').addClass('ui-state-error');
             msgError = error.defaultMessage;
         }else{
             element = error;
