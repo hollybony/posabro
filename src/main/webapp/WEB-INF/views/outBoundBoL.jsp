@@ -297,10 +297,15 @@
                                 Validator.cleanErrors(container);
                                 containers = data;
                                 //calular los valores de la caja de texto
-                                tareWGT.val('0');
-                                netWGT.val('0');
-                                grossWGT.val('0');
-                                containedLts.val(containers.ltsFillCapacity);
+                                
+                                
+                                if(data.ltsFillCapacity != ''){
+                                    containedLts.val(containers.ltsFillCapacity);
+                                    tareWGT.val(containers.tareWeight);
+                                    var result = (containers.ltsFillCapacity * specificGR.val()) + containers.tareWeight;
+                                    netWGT.val(result);
+                                    grossWGT.val('0');
+                                }
                                 if($("input[name='productIdRB']:checked").val() == 'NACNL'){
                                     containedKgs.attr("disabled",true);
                                     if(data.ltsFillCapacity != ''){
@@ -314,6 +319,9 @@
                             }else{
                                 containers = null;
                                 containedLts.val('');
+                                tareWGT.val('');
+                                netWGT.val('');
+                                grossWGT.val('');
                                 Validator.updateError(container,'<spring:message code="outBoundBoL.containerNotExist"/>');
                                 
                                 
@@ -435,19 +443,19 @@
                     var isValid = true;
                     if(customerIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(customerIdSelect,'<spring:message code="outBoundBoL.customerIdSelect"/>');
+                        Validator.updateError(customerIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(customerIdSelect);
                     }
                     if(facilityIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(facilityIdSelect,'<spring:message code="outBoundBoL.facilityIdSelect"/>');
+                        Validator.updateError(facilityIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(facilityIdSelect);
                     }
                     if(carrierIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(carrierIdSelect,'<spring:message code="outBoundBoL.carrierIdSelect"/>');
+                        Validator.updateError(carrierIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(carrierIdSelect);
                     }
@@ -455,7 +463,7 @@
                     if($("input[name='containerTypeRB']:checked").val() == 'ISO'){
                         if(driver.val() == ""){
                             isValid = false;
-                            Validator.updateError(driver,'<spring:message code="outBoundBoL.driveEmpty"/>');
+                            Validator.updateError(driver,'<spring:message code="org.hibernate.validator.constraints.NotBlank.message"/>');
                         }else{
                             Validator.cleanErrors(driver);
                         }                       
