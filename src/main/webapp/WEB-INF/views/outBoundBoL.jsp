@@ -22,12 +22,12 @@
                         <td><spring:message code="outBoundBoL.bolDate" /></td>
                         <td style="width: 350px">
                             <span class="validateTips"></span>
-                            <input type="text" id="bolDateInput" style="width: 150px" disabled="true" maxlength="10" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="bolDateInput" style="width: 150px" disabled="true" maxlength="10" class=""/>
                         </td>
                         <td ><spring:message code="outBoundBoL.shipDate" /></td>
                         <td style="width: 350px">
                             <span class="validateTips"></span>
-                            <input type="text" id="shipmentDateInput" disabled="true" maxlength="10" style="width: 150px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="shipmentDateInput" disabled="true" maxlength="10" style="width: 150px" class=""/>
                         </td>
                     </tr>
                     <tr>
@@ -56,31 +56,31 @@
                         </td>
                         <td><spring:message code="outBoundBoL.driver" /></td>
                         <td>
-                            <input type="text" id="driverInput" style="width: 260px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="driverInput" style="width: 260px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId01" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundContId1Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="inboundBolData_inbouundContId1Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId01" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundBolId1Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="inboundBolData_inbouundBolId1Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId02" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundContId2Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="inboundBolData_inbouundContId2Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId02" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundBolId2Input" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="inboundBolData_inbouundBolId2Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
@@ -119,49 +119,49 @@
                         <td><br/><spring:message code="outBoundBoL.container" /></td>
                         <td>
                             <br/>
-                            <input type="text" id="containerIdInput" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="containerIdInput" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><br/><spring:message code="outBoundBoL.nACNPCT" /></td>
                         <td>
                             <br/>
-                            <input type="text" id="txtNaCNPCT" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtNaCNPCT" disabled="true" style="width: 160px" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.tareWGT" /></td>
                         <td>
-                            <input type="text" id="txtTareWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtTareWGT" disabled="true" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.specificGR" /></td>
                         <td>
-                            <input type="text" id="txtSpecificGR" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtSpecificGR" disabled="true" style="width: 160px" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.netWGT" /></td>
                         <td>
-                            <input type="text" id="txtNetWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtNetWGT" disabled="true" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.pH" /></td>
                         <td>
-                            <input type="text" id="txtPH" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtPH" disabled="true" style="width: 160px" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.grossWGT" /></td>
                         <td>
-                            <input type="text" id="txtGrossWGT" disabled="true" style="width: 160px" maxlength="20" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtGrossWGT" disabled="true" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.containedLts" /></td>
                         <td>
-                            <input type="text" id="txtContainedLts" disabled="true" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="txtContainedLts" disabled="true" style="width: 160px" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
@@ -172,7 +172,7 @@
                         </td>
                         <td><spring:message code="outBoundBoL.containedKgs" /></td>
                         <td>
-                            <input type="text" id="content_containedKgsInput" style="width: 160px" class="text ui-widget-content ui-corner-all"/>
+                            <input type="text" id="content_containedKgsInput" style="width: 160px" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
