@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
     <head>
         <title><spring:message code="outBoundBoL" /></title>
@@ -25,7 +26,7 @@
                             <input type="text" id="bolDateInput" style="width: 150px" disabled="true" maxlength="10" class=""/>
                         </td>
                         <td ><spring:message code="outBoundBoL.shipDate" /></td>
-                        <td style="width: 350px">
+                        <td style="width: 430px">
                             <span class="validateTips"></span>
                             <input type="text" id="shipmentDateInput" disabled="true" maxlength="10" style="width: 150px" class=""/>
                         </td>
@@ -297,10 +298,15 @@
                                 Validator.cleanErrors(container);
                                 containers = data;
                                 //calular los valores de la caja de texto
-                                tareWGT.val('0');
-                                netWGT.val('0');
-                                grossWGT.val('0');
-                                containedLts.val(containers.ltsFillCapacity);
+                                
+                                
+                                if(data.ltsFillCapacity != ''){
+                                    containedLts.autoNumeric('set', containers.ltsFillCapacity);
+                                    tareWGT.val(containers.tareWeight);
+                                    var result = (containers.ltsFillCapacity * specificGR.val()) + containers.tareWeight;
+                                    netWGT.val(result);
+                                    grossWGT.val('0');
+                                }
                                 if($("input[name='productIdRB']:checked").val() == 'NACNL'){
                                     containedKgs.attr("disabled",true);
                                     if(data.ltsFillCapacity != ''){
@@ -313,7 +319,10 @@
                                 }
                             }else{
                                 containers = null;
-                                containedLts.val('');
+                                containedLts.autoNumeric('set', '');
+                                tareWGT.val('');
+                                netWGT.val('');
+                                grossWGT.val('');
                                 Validator.updateError(container,'<spring:message code="outBoundBoL.containerNotExist"/>');
                                 
                                 
@@ -346,22 +355,24 @@
                         });
                     }else{
                         container.unbind('focusout');  
-                        containedLts.val('');
+                        containedLts.autoNumeric('set', '');
                         containedKgs.val('');
                     }
                 }
                 
                 CrudHandler.populateProductTypeFields = function(){
-                    var successCallback = function(data){                        
-                        naCNPCT.val(data.nacnPct + ' %');
-                        specificGR.val(data.specificGravity);
-                        ph.val(data.ph);
+                    var successCallback = function(data){   
+                        
+                        
+                        naCNPCT.autoNumeric('set', (data.nacnPct == null ? '' : data.nacnPct));
+                        specificGR.autoNumeric('set', (data.specificGravity == null ? '' : data.specificGravity));
+                        ph.autoNumeric('set', (data.ph == null ? '' : data.ph));
                         if($("input[name='productIdRB']:checked").val() == 'NACNL'){
                             containedKgs.attr("disabled",true);
-                            
+                            //alert(JSON.stringify(data));
                             if(containers != null){
                                 if(containers.ltsFillCapacity!= ''){
-                                    containedLts.val(containers.ltsFillCapacity);
+                                    containedLts.autoNumeric('set', containers.ltsFillCapacity);
                                     var result = containers.ltsFillCapacity * data.specificGravity *data.ph;
                                     containedKgs.val(result);
                                 }
@@ -370,7 +381,7 @@
                         }else{
                             containedKgs.attr("disabled",false);
                             containedKgs.val('');
-                            containedLts.val('');
+                            containedLts.autoNumeric('set', '');
                         }
                     };
                     var errorCallback = function(xhr){
@@ -435,19 +446,19 @@
                     var isValid = true;
                     if(customerIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(customerIdSelect,'<spring:message code="outBoundBoL.customerIdSelect"/>');
+                        Validator.updateError(customerIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(customerIdSelect);
                     }
                     if(facilityIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(facilityIdSelect,'<spring:message code="outBoundBoL.facilityIdSelect"/>');
+                        Validator.updateError(facilityIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(facilityIdSelect);
                     }
                     if(carrierIdSelect.val() == 'select'){
                         isValid = false;
-                        Validator.updateError(carrierIdSelect,'<spring:message code="outBoundBoL.carrierIdSelect"/>');
+                        Validator.updateError(carrierIdSelect,'<spring:message code="org.hibernate.validator.constraints.NotEmpty.message"/>');
                     }else{
                         Validator.cleanErrors(carrierIdSelect);
                     }
@@ -455,11 +466,13 @@
                     if($("input[name='containerTypeRB']:checked").val() == 'ISO'){
                         if(driver.val() == ""){
                             isValid = false;
-                            Validator.updateError(driver,'<spring:message code="outBoundBoL.driveEmpty"/>');
+                            Validator.updateError(driver,'<spring:message code="org.hibernate.validator.constraints.NotBlank.message"/>');
                         }else{
                             Validator.cleanErrors(driver);
                         }                       
                         
+                    }else{
+                            Validator.cleanErrors(driver);
                     }
                     
                     return isValid;
@@ -526,13 +539,32 @@
                             }
                         }
                     });
+					
                     bolDate.datepicker('setDate', '+0');
                     shipDate.datepicker('setDate', '+0');
-                    naCNPCT.mask('99.99 %');
-                    specificGR.mask('9.9999');
-                    ph.mask('99.99');
-                    containedLts.mask('999,999.99');
-                        
+                    /*naCNPCT.inputmask({"mask" : "99.99 %",
+                        "oncomplete": function(text){
+                            alert('inputmask complete :' + a.val());
+                            naCNPCT.prop('disabled', true);
+                        },
+                        'autoUnmask' : true}); //specifying options only
+                    naCNPCT.val('12.32');
+                    naCNPCT.prop('disabled', true);
+                    naCNPCT.val('12.33')
+                    */
+                    naCNPCT.autoNumeric('init',{aSign: '%', pSign: 's', vMax: '99.99'});
+                    //naCNPCT.autoNumeric('set', 12.327);
+                    
+                    specificGR.autoNumeric('init',{vMax: '9.9999'});
+                    //specificGR.autoNumeric('set', 9.9999);
+                    //specificGR.mask('9.9999');
+                    ph.autoNumeric('init',{vMax: '99.99'});
+                    //ph.autoNumeric('set', 99.99);
+                    //ph.mask('99.99');
+                    containedLts.autoNumeric('init',{aSep: ',', dGroup: '3', aDec: '.', vMax: '999999.99'});
+                    //containedLts.autoNumeric('set', 999999.99);
+                    //containedLts.mask('999,999.99');
+                    
                     CrudHandler.getCustomers();
                     CrudHandler.getCarriers();
                     CrudHandler.populateContainerTypeFields();
