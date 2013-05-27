@@ -4,26 +4,32 @@
  */
 package com.posabro.web.pdf;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Font.FontFamily;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Cell;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.Table;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfTable;
+import com.lowagie.text.pdf.PdfWriter;
 import com.posabro.i18n.LocaleLocator;
 import com.posabro.web.commons.ReportSpec;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanMap;
@@ -32,13 +38,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 /**
- *
+ * Pdf View that renders a report by iterating a <code>ReportSpec</code> object
+ * 
  * @author Carlos Juarez
  */
-public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAware{
+public class ReportPdfView extends AbstractPdfView implements MessageSourceAware {
 
     /**
      * The logger
@@ -53,12 +62,12 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
     /**
      * head font
      */
-    private static Font catFont = new Font(FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+    private static Font catFont = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
     
     /**
      * regular font
      */
-    private static Font smallBold = new Font(FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+    private static Font smallBold = new Font(Font.TIMES_ROMAN, 12, Font.BOLD);
     
     /**
      * The messageSource for i18n purpose
@@ -93,8 +102,10 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
             } else {
                 currentUser = "anonymous";
             }
-            String author = messageSource.getMessage("report.author", new Object[]{currentUser, new Date()}, locale);
+            String author = messageSource.getMessage("report.author", new Object[]{currentUser,new Date()}, locale);
+            logger.debug("adding title header");
             addTitleHeader(document, title, realPath,author);
+            logger.debug("creating the pdf table");
             createTable(document, reportSpec, locale);
         }
     }
@@ -131,15 +142,14 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
      * @throws DocumentException 
      */
     private void addTitleHeader(Document document, String title, String imagePath, String author) throws DocumentException {
-        PdfPTable headerTable = new PdfPTable(2);
-        headerTable.setLockedWidth(true);
-        headerTable.setTotalWidth(500);
-        headerTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+        Table headerTable = new Table(2);
+        headerTable.setWidth(100);
+        headerTable.getDefaultCell().setBorder(Table.NO_BORDER);
+        headerTable.setBorder(Table.NO_BORDER);
         try {
             logger.debug("resource : " + imagePath);
-            PdfPCell image = new PdfPCell(Image.getInstance(imagePath));
-            image.setBorder(Rectangle.NO_BORDER);
-            headerTable.addCell(new PdfPCell(image));
+            Image image = Image.getInstance(imagePath);
+            headerTable.addCell(new Cell(image));
         } catch (BadElementException ex) {
             logger.error("Exception while loading image", ex);
         } catch (MalformedURLException ex) {
@@ -147,12 +157,13 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
         } catch (IOException ex) {
             logger.error("Exception while loading image", ex);
         }
-        PdfPTable titleTable = new PdfPTable(1);
-        titleTable.setTotalWidth(125);
-        titleTable.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        titleTable.addCell(new Phrase(title, catFont));
-        titleTable.addCell(new Phrase(author, smallBold));
-        headerTable.addCell(titleTable);
+        Table titleTable = new Table(1);
+        titleTable.setWidth(125);
+        titleTable.getDefaultCell().setBorder(Table.NO_BORDER);
+        titleTable.setBorder(Table.NO_BORDER);
+        titleTable.addCell(new Cell(new Chunk(title, catFont)));
+        titleTable.addCell(new Cell(new Chunk(author, smallBold)));
+        headerTable.addCell(new Cell(titleTable));
         // Will create: Report generated by: _name, _date
         document.add(headerTable);
         document.add(new Paragraph(" "));
@@ -177,7 +188,7 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
             table.addCell(c1);
         }
         table.setHeaderRows(1);
-        table.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
+        table.setHorizontalAlignment(PdfTable.ALIGN_LEFT);
 //        ObjectMapper mapper = new ObjectMapper();
 //        Map<String, Object> props;
         BeanMap beanMap;
@@ -220,5 +231,4 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
     public void setLocaleLocator(LocaleLocator localeLocator) {
         this.localeLocator = localeLocator;
     }
-    
 }
