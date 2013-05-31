@@ -9,9 +9,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -108,7 +106,7 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
     }
 
     public void init(BillOfLading billOfLading) throws DocumentException, FileNotFoundException {
-        Document document = new Document(PageSize.A4, 30, 15, 27, 27);
+        Document document = newDocument();
         PdfWriter.getInstance(document, new FileOutputStream("C:/temp/temp.pdf"));
         document.open();
         render(document, billOfLading);
@@ -119,6 +117,11 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BillOfLading billOfLading = (BillOfLading) model.get(OUTBOUNDBOL_MODEL);
         render(document, billOfLading);
+    }
+    
+    @Override
+    protected Document newDocument() {
+        return new Document(PageSize.A4, 30, 15, 27, 27);
     }
     
     public void render(Document document, BillOfLading billOfLading) throws DocumentException{
