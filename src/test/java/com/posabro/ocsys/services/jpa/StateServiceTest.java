@@ -47,12 +47,12 @@ public class StateServiceTest extends AbstractServiceTest{
         stateService.saveState(slp);
         StatePK stateId = new StatePK("SLP", "MX");
         //find
-        State foundState = stateService.findState(stateId);
+        State foundState = stateService.findStateById(stateId);
         assertNotNull(foundState);
         assertEquals("San Luis Potosi", slp.getName());
         //remove
         stateService.removeState(stateId);
-        assertNull(stateService.findState(stateId));
+        assertNull(stateService.findStateById(stateId));
         //cleanup
         countryService.removeCountry("MX");
     }

@@ -91,7 +91,7 @@ public class CustomerServiceTest extends AbstractServiceTest{
         //remove
         customerService.removeCustomer(customerId);
         assertNull(customerService.findCustomer(customerId));
-        assertNull(facilityService.findFacility(new FacilityPK("WH", "RG", "PO")));
+        assertNull(facilityService.findFacilityById(new FacilityPK("WH", "RG", "PO")));
         //cleanup
         companyService.removeCompany(posabro.getId());
         stateService.removeState(cordoba.getStatePK());

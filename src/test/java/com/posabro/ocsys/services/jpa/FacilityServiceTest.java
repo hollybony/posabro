@@ -77,12 +77,12 @@ public class FacilityServiceTest extends AbstractServiceTest{
         facilityService.saveFacility(facility);
         FacilityPK facilityId = new FacilityPK("F1", "CZ1", "SAS");
         //find
-        Facility foundFacility = facilityService.findFacility(facilityId);
+        Facility foundFacility = facilityService.findFacilityById(facilityId);
         assertNotNull(foundFacility);
         assertEquals("Dinner rom", foundFacility.getName());
         //remove
         facilityService.removeFacility(facilityId);
-        assertNull(facilityService.findFacility(facilityId));
+        assertNull(facilityService.findFacilityById(facilityId));
         //cleanup
         customerService.removeCustomer(new CustomerPK("CZ1","SAS"));
         companyService.removeCompany("SAS");
