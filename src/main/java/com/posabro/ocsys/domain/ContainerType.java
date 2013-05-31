@@ -5,7 +5,8 @@
 package com.posabro.ocsys.domain;
 
 /**
- *
+ * The different container types
+ * 
  * @author Carlos Juarez
  */
 public enum ContainerType {

@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>CountryService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("countryService")
@@ -26,23 +27,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultCountryService implements CountryService{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultCountryService.class);
     
+    /**
+     * The countryRepository
+     */
     @Autowired
     private CountryRepository countryRepository;
-            
+    
+    /**
+     * @see CountryService#findCountry(java.lang.String) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public Country findCountry(String id) {
         return countryRepository.findOne(id);
     }
 
+    /**
+     * @see CountryService#getAllCountries() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Country> getAllCountries() {
         return Lists.newArrayList(countryRepository.findAll());
     }
 
+    /**
+     * @see CountryService#saveCountry(com.posabro.ocsys.domain.Country) 
+     * 
+     * @param country 
+     */
     @Override
     public void saveCountry(Country country) {
         if(!countryRepository.exists(country.getId())){
@@ -52,11 +75,21 @@ public class DefaultCountryService implements CountryService{
         }
     }
 
+    /**
+     * @see CountryService#updateCountry(com.posabro.ocsys.domain.Country) 
+     * 
+     * @param country 
+     */
     @Override
     public void updateCountry(Country country) {
         countryRepository.save(country);
     }
 
+    /**
+     * @see CountryService#removeCountry(java.lang.String) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeCountry(String id) {
         countryRepository.delete(id);

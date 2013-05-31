@@ -5,7 +5,8 @@
 package com.posabro.ocsys.domain;
 
 /**
- *
+ * The different product types
+ * 
  * @author Carlos Juarez
  */
 public enum ProductType {

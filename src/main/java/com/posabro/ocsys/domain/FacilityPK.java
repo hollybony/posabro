@@ -9,51 +9,89 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * Primary key of <code>Facility</code>
+ * 
  * @author Carlos Juarez
  */
 @Embeddable
 public class FacilityPK implements Serializable{
     
+    /**
+     * The id
+     */
     @Column(name="FACILITY_ID", length=20)
     private String id;
     
+    /**
+     * The customerId
+     */
     @Column(name="CUST_ID", length=20)
     private String customerId;
     
+    /**
+     * The companyId
+     */
     @Column(name="COMPANY_ID", length=20)
     private String companyId;
     
+    /**
+     * Constructs an instance of <code>FacilityPK</code> class
+     */
     public FacilityPK(){
         this(null,null,null);
     }
     
+    /**
+     * Constructs an instance of <code>FacilityPK</code> class
+     * 
+     * @param id - the id to set
+     * @param customerId - the customerId to set
+     * @param companyId - the companyId to set
+     */
     public FacilityPK(String id, String customerId, String companyId){
         this.id = id;
         this.customerId = customerId;
         this.companyId = companyId;
     }
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id - the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the customerId
+     */
     public String getCustomerId() {
         return customerId;
     }
 
+    /**
+     * @param customerId - the customerId to set
+     */
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
+    /**
+     * @return the companyId
+     */
     public String getCompanyId() {
         return companyId;
     }
 
+    /**
+     * @param companyId - the companyId to set
+     */
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }

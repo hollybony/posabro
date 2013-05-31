@@ -9,39 +9,67 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * Primary key of <code>State</code>
+ * 
  * @author Carlos Juarez
  */
 @Embeddable
 public class StatePK implements Serializable{
     
+    /**
+     * The id
+     */
     @Column(name="STATE_ID", length=5)
     private String id;
     
+    /**
+     * The countryId
+     */
     @Column(name="COUNTRY_ID", length=5)
     private String countryId;
 
+    /**
+     * Creates an instance of <code>StatePK</code> class
+     */
     public StatePK(){
         this(null,null);
     }
     
+    /**
+     * Creates an instance of <code>StatePK</code> class
+     * 
+     * @param id - the id to set
+     * @param countryId - the countryId to set
+     */
     public StatePK(String id, String countryId){
         this.id = id;
         this.countryId = countryId;
     }
     
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id - the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the countryId
+     */
     public String getCountryId() {
         return countryId;
     }
 
+    /**
+     * @param countryId - the countryId to set
+     */
     public void setCountryId(String countryId) {
         this.countryId = countryId;
     }

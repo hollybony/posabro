@@ -8,7 +8,8 @@ import com.posabro.ocsys.domain.Carrier;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
+ * Contains all the repository methods related to <code>Carrier</code>s
+ * 
  * @author Carlos Juarez
  */
 public interface CarrierRepository extends PagingAndSortingRepository<Carrier,String> {

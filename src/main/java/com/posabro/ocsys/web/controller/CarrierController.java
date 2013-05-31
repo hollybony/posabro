@@ -16,18 +16,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Web controller that processes all the requests related to carriers
+ * 
  * @author Carlos Juarez
  */
 @Controller
 @RequestMapping("/carrierController/*")
 public class CarrierController extends ValidationController{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(CarrierController.class);
     
+    /**
+     * The carrierService
+     */
     @Autowired
     private CarrierService carrierService;
     
+    /**
+     * Gets all the carriers
+     * 
+     * @return the carriers found
+     */
     @RequestMapping(value="getAllCarriers", method = RequestMethod.POST)
     public @ResponseBody List<Carrier> getAllCarriers(){
         List<Carrier> allCarriers = carrierService.getAllCarriers();

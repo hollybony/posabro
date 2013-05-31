@@ -8,10 +8,6 @@ import com.posabro.i18n.LocaleLocator;
 import java.util.Locale;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * I18n version of <code>DeliveryBoyImpl</code>
@@ -25,6 +21,9 @@ public class PolyglotDeliveryBoy extends DeliveryBoyImpl implements MessageSourc
      */
     private MessageSource messageSource;
     
+    /**
+     * The localeLocator
+     */
     private LocaleLocator localeLocator;
 
     /**
@@ -50,6 +49,10 @@ public class PolyglotDeliveryBoy extends DeliveryBoyImpl implements MessageSourc
         this.messageSource = messageSource;
     }
     
+    /**
+     * 
+     * @param localeLocator - the localeLocator to set
+     */
     public void setLocaleLocator(LocaleLocator localeLocator) {
         this.localeLocator = localeLocator;
     }

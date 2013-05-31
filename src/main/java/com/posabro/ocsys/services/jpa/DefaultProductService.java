@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>ProductService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("productService")
@@ -28,11 +29,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultProductService implements ProductService{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultProductService.class);
     
+    /**
+     * The productRepository
+     */
     @Autowired
     private ProductRepository productRepository;
     
+    /**
+     * @see ProductService#findProduct(com.posabro.ocsys.domain.ProductType) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public Product findProduct(ProductType id) {
@@ -55,12 +68,22 @@ public class DefaultProductService implements ProductService{
         return productRepository.findOne(id);
     }
 
+    /**
+     * @see ProductService#getAllProducts() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Product> getAllProducts() {
         return Lists.newArrayList(productRepository.findAll());
     }
 
+    /**
+     * @see ProductService#saveProduct(com.posabro.ocsys.domain.Product) 
+     * 
+     * @param product 
+     */
     @Override
     public void saveProduct(Product product) {
         if(!productRepository.exists(product.getId())){
@@ -70,11 +93,21 @@ public class DefaultProductService implements ProductService{
         }
     }
 
+    /**
+     * @see ProductService#updateProduct(com.posabro.ocsys.domain.Product) 
+     * 
+     * @param product 
+     */
     @Override
     public void updateProduct(Product product) {
         productRepository.save(product);
     }
 
+    /**
+     * @see ProductService#removeProduct(com.posabro.ocsys.domain.ProductType) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeProduct(ProductType id) {
         productRepository.delete(id);

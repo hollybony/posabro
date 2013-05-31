@@ -9,7 +9,8 @@ import com.posabro.ocsys.domain.BranchPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
+ * Contains all the repository methods related to <code>Branch</code>s
+ * 
  * @author Carlos Juarez
  */
 public interface BranchRepository extends PagingAndSortingRepository<Branch, BranchPK> {

@@ -12,11 +12,16 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
- *
+ * Implementation of <code>LocaleLocator</code> suitable for web context
+ * when using Spring MVC
+ * 
  * @author Carlos Juarez
  */
 public class WebLocaleLocator implements LocaleLocator{
 
+    /**
+     * @return retrieves the locator from the localeResolver
+     */
     @Override
     public Locale lookLocale() {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

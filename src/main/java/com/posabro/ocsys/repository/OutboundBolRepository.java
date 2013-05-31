@@ -9,7 +9,8 @@ import com.posabro.ocsys.domain.OutboundBolPK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
+ * Contains all the repository methods related to <code>OutboundBol</code>s
+ * 
  * @author Carlos Juarez
  */
 public interface OutboundBolRepository extends PagingAndSortingRepository<OutboundBol,OutboundBolPK>{

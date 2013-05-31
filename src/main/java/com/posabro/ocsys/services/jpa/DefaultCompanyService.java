@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>CompanyService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("companyService")
@@ -26,23 +27,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultCompanyService implements CompanyService{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultCompanyService.class);
     
+    /**
+     * The companyRepositosy
+     */
     @Autowired
     private CompanyRepositosy companyRepositosy;
     
+    /**
+     * @see CompanyService#findCompany(java.lang.String) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public Company findCompany(String id) {
         return companyRepositosy.findOne(id);
     }
 
+    /**
+     * @see CompanyService#getAllCompanies() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Company> getAllCompanies() {
         return Lists.newArrayList(companyRepositosy.findAll());
     }
 
+    /**
+     * @see CompanyService#saveCompany(com.posabro.ocsys.domain.Company) 
+     * 
+     * @param company 
+     */
     @Override
     public void saveCompany(Company company) {
         if(!companyRepositosy.exists(company.getId())){
@@ -52,11 +75,21 @@ public class DefaultCompanyService implements CompanyService{
         }
     }
 
+    /**
+     * @see CompanyService#updateCompany(com.posabro.ocsys.domain.Company) 
+     * 
+     * @param company 
+     */
     @Override
     public void updateCompany(Company company) {
         companyRepositosy.save(company);
     }
 
+    /**
+     * @see CompanyService#removeCompany(java.lang.String) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeCompany(String id) {
         companyRepositosy.delete(id);

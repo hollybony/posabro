@@ -19,18 +19,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Web controller that processes all the requests related to facilities
+ * 
  * @author Carlos Juarez
  */
 @Controller
 @RequestMapping("/facilityController/*")
 public class FacilityController extends ValidationController{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(FacilityController.class);
     
+    /**
+     * The facilityService
+     */
     @Autowired
     private FacilityService facilityService;
     
+    /**
+     * Finds the facilities that belong to the customer id given
+     * 
+     * @param customerId - the customer id to match
+     * @return the facilities found
+     */
     @RequestMapping(value="findFacilitiesByCustomer", method = RequestMethod.POST)
     public @ResponseBody List<Facility> findFacilityByCustomer(@RequestBody String customerId){
         String companyId = UserInfoProvider.getLoggedUser().getBranch().getCompany().getId();

@@ -16,18 +16,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Web controller that processes all the requests related to containers
+ * 
  * @author Carlos Juarez
  */
 @Controller
 @RequestMapping("/containerController/*")
 public class ContainerController extends ValidationController{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(ContainerController.class);
     
+    /**
+     * The containerService
+     */
     @Autowired
     private ContainerService containerService;
     
+    /**
+     * Finds the container that has the id given
+     * 
+     * @param containerId - the containerId with which the container is looked for
+     * @return the container found
+     */
     @RequestMapping(value="findContainer", method = RequestMethod.POST)
     public @ResponseBody Container findContainer(@RequestBody String containerId){
         logger.debug("finding container : " + containerId);

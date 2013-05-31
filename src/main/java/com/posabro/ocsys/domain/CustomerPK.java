@@ -9,38 +9,66 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * Primary key of <code>Customer</code>
+ * 
  * @author Carlos Juarez
  */
 @Embeddable
 public class CustomerPK implements Serializable{
     
+    /**
+     * The id
+     */
     @Column(name="CUST_ID", length=20)
     private String id;
     
+    /**
+     * The companyId
+     */
     private String companyId;
     
+    /**
+     * Constructs an instance of <code>CustomerPK</code> class
+     */
     public CustomerPK(){
         this(null,null);
     }
     
+    /**
+     * Constructs an instance of <code>CustomerPK</code> class
+     * 
+     * @param id - the id to set
+     * @param companyId - the companyId to set
+     */
     public CustomerPK(String id, String companyId){
         this.id = id;
         this.companyId = companyId;
     }
 
+    /**
+     * @return the id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * @param id - the id to set
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * @return the companyId
+     */
     public String getCompanyId() {
         return companyId;
     }
 
+    /**
+     * @param companyId - the companyId to set
+     */
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
@@ -69,7 +97,5 @@ public class CustomerPK implements Serializable{
         }
         return true;
     }
-
-
     
 }

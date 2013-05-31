@@ -9,7 +9,8 @@ import com.posabro.ocsys.domain.StatePK;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
+ * Contains all the repository methods related to <code>State</code>s
+ * 
  * @author Carlos Juarez
  */
 public interface StateRepository extends PagingAndSortingRepository<State, StatePK> {

@@ -22,34 +22,54 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>GroupService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("stateService")
 @Repository
 @Transactional
 public class DefaultSateService implements StateService{
-    
+   
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultSateService.class);
 
+    /**
+     * The stateRepository
+     */
     @Autowired
     private StateRepository stateRepository;
     
-    @PersistenceContext
-    private EntityManager em;
-    
+    /**
+     * @see StateService#findStateById(com.posabro.ocsys.domain.StatePK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
-    public State findState(StatePK id) {
+    public State findStateById(StatePK id) {
         return stateRepository.findOne(id);
     }
 
+    /**
+     * @see StateService#getAllStates() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<State> getAllStates() {
         return Lists.newArrayList(stateRepository.findAll()); 
     }
 
+    /**
+     * @see StateService#saveState(com.posabro.ocsys.domain.State) 
+     * 
+     * @param state 
+     */
     @Override
     public void saveState(State state) {
         if(!stateRepository.exists(state.getStatePK())){
@@ -60,11 +80,21 @@ public class DefaultSateService implements StateService{
         }
     }
 
+    /**
+     * @see StateService#updateState(com.posabro.ocsys.domain.State) 
+     * 
+     * @param state 
+     */
     @Override
     public void updateState(State state) {
         stateRepository.save(state);
     }
 
+    /**
+     * @see StateService#removeState(com.posabro.ocsys.domain.StatePK) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeState(StatePK id) {
         stateRepository.delete(id);

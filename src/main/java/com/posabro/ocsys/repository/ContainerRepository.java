@@ -8,7 +8,8 @@ import com.posabro.ocsys.domain.Container;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- *
+ * Contains all the repository methods related to <code>Container</code>s
+ * 
  * @author Carlos Juarez
  */
 public interface ContainerRepository extends PagingAndSortingRepository<Container, String> {

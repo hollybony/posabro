@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>ConversionFactorService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("conversionFactorService")
@@ -27,23 +28,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultConversionFactorService implements ConversionFactorService{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultConversionFactorService.class);
 
+    /**
+     * The conversionFactorRepository
+     */
     @Autowired
     private ConversionFactorRepository conversionFactorRepository;
     
+    /**
+     * @see ConversionFactorService#findConversionFactor(com.posabro.ocsys.domain.ConversionFactorPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public ConversionFactor findConversionFactor(ConversionFactorPK id) {
         return conversionFactorRepository.findOne(id);
     }
 
+    /**
+     * @see ConversionFactorService#getAllConversionFactors() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<ConversionFactor> getAllConversionFactors() {
         return Lists.newArrayList(conversionFactorRepository.findAll());
     }
 
+    /**
+     * @see ConversionFactorService#saveConversionFactor(com.posabro.ocsys.domain.ConversionFactor) 
+     * 
+     * @param conversionFactor 
+     */
     @Override
     public void saveConversionFactor(ConversionFactor conversionFactor) {
         if(!conversionFactorRepository.exists(conversionFactor.getConversionFactorPK())){
@@ -53,11 +76,21 @@ public class DefaultConversionFactorService implements ConversionFactorService{
         }
     }
 
+    /**
+     * @see ConversionFactorService#updateConversionFactor(com.posabro.ocsys.domain.ConversionFactor) 
+     * 
+     * @param conversionFactor 
+     */
     @Override
     public void updateConversionFactor(ConversionFactor conversionFactor) {
         conversionFactorRepository.save(conversionFactor);
     }
 
+    /**
+     * @see ConversionFactorService#removeConversionFactor(com.posabro.ocsys.domain.ConversionFactorPK) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeConversionFactor(ConversionFactorPK id) {
         conversionFactorRepository.delete(id);

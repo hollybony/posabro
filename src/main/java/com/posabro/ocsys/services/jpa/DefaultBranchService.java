@@ -22,7 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Default implementation of <code>BranchService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("branchService")
@@ -30,28 +31,56 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultBranchService implements BranchService{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultBranchService.class);
     
+    /**
+     * The branchRepository
+     */
     @Autowired
     private BranchRepository branchRepository;
     
+    /**
+     * @see BranchService#findBranch(com.posabro.ocsys.domain.BranchPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public Branch findBranch(BranchPK id) {
         return branchRepository.findOne(id);
     }
     
+    /**
+     * @see BranchService#findAll(org.springframework.data.domain.Pageable) 
+     * 
+     * @param pageable
+     * @return 
+     */
     @Override
     public Page<Branch> findAll(Pageable pageable) {
         return branchRepository.findAll(pageable);
     }
 
+    /**
+     * @see BranchService#getAllBranches() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Branch> getAllBranches() {
         return Lists.newArrayList(branchRepository.findAll());
     }
 
+    /**
+     * @see BranchService#saveBranch(com.posabro.ocsys.domain.Branch) 
+     * 
+     * @param branch 
+     */
     @Override
     public void saveBranch(Branch branch) {
         branch.setCurrentYear(0);
@@ -63,16 +92,32 @@ public class DefaultBranchService implements BranchService{
         }
     }
 
+    /**
+     * @see BranchService#updateBranch(com.posabro.ocsys.domain.Branch) 
+     * 
+     * @param branch 
+     */
     @Override
     public void updateBranch(Branch branch) {
         branchRepository.save(branch);
     }
 
+    /**
+     * @see BranchService#removeBranch(com.posabro.ocsys.domain.BranchPK) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeBranch(BranchPK id) {
         branchRepository.delete(id);
     }
 
+    /**
+     * @see BranchService#generateNewConsecutive(com.posabro.ocsys.domain.BranchPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     public String generateNewConsecutive(BranchPK id) {
         Branch foundBranch = branchRepository.findOne(id);

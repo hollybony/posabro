@@ -32,7 +32,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.servlet.view.document.AbstractPdfView;
 
 /**
  *
@@ -65,6 +64,9 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
      */
     private MessageSource messageSource;
     
+    /**
+     * The localeLocator
+     */
     private LocaleLocator localeLocator;
 
     /**
@@ -217,6 +219,9 @@ public class ReportPdfView extends OwnAbstractPdfView implements MessageSourceAw
         this.messageSource = messageSource;
     }
     
+    /**
+     * @param localeLocator - the localeLocator to set
+     */
     public void setLocaleLocator(LocaleLocator localeLocator) {
         this.localeLocator = localeLocator;
     }

@@ -20,7 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>FacilityService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("facilityService")
@@ -28,29 +29,57 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultFacilityService implements FacilityService{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultFacilityService.class);
 
+    /**
+     * The facilityRepository
+     */
     @Autowired
     private FacilityRepository facilityRepository;
     
+    /**
+     * @see FacilityService#findFacilityById(com.posabro.ocsys.domain.FacilityPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
-    public Facility findFacility(FacilityPK id) {
+    public Facility findFacilityById(FacilityPK id) {
         return facilityRepository.findOne(id);
     }
 
+    /**
+     * @see FacilityService#findFacilitiesByCustomer(com.posabro.ocsys.domain.CustomerPK) 
+     * 
+     * @param customerPK
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Facility> findFacilitiesByCustomer(CustomerPK customerPK) {
         return facilityRepository.findByFacilityPK_CustomerIdAndFacilityPK_CompanyId(customerPK.getId(), customerPK.getCompanyId());
     }
     
+    /**
+     * @see FacilityService#getAllFacilities() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Facility> getAllFacilities() {
         return Lists.newArrayList(facilityRepository.findAll());
     }
 
+    /**
+     * @see FacilityService#saveFacility(com.posabro.ocsys.domain.Facility) 
+     * 
+     * @param facility 
+     */
     @Override
     public void saveFacility(Facility facility) {
         if(!facilityRepository.exists(facility.getFacilityPK())){
@@ -60,11 +89,21 @@ public class DefaultFacilityService implements FacilityService{
         }
     }
 
+    /**
+     * @see FacilityService#updateFacility(com.posabro.ocsys.domain.Facility) 
+     * 
+     * @param facility 
+     */
     @Override
     public void updateFacility(Facility facility) {
         facilityRepository.save(facility);
     }
 
+    /**
+     * @see FacilityService#removeFacility(com.posabro.ocsys.domain.FacilityPK) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeFacility(FacilityPK id) {
         facilityRepository.delete(id);

@@ -5,7 +5,8 @@
 package com.posabro.ocsys.domain;
 
 /**
- *
+ * The different units of measurement
+ * 
  * @author Carlos Juarez
  */
 public enum UnitOfMeasurement {

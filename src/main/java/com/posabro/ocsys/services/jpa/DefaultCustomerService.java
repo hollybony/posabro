@@ -5,8 +5,6 @@
 package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
-import com.posabro.ocsys.domain.Company;
-import com.posabro.ocsys.domain.Country;
 import com.posabro.ocsys.domain.Customer;
 import com.posabro.ocsys.domain.CustomerPK;
 import com.posabro.ocsys.repository.CustomerRepository;
@@ -24,7 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
+ * Defaults implementation of <code>CustomerService</code>
+ * 
  * @author Carlos Juarez
  */
 @Service("customerService")
@@ -32,35 +31,63 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultCustomerService implements CustomerService{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(DefaultCustomerService.class);
     
+    /**
+     * The customerRepository
+     */
     @Autowired
     private CustomerRepository customerRepository;
     
+    /**
+     * The facilityRepository
+     */
     @Autowired
     private FacilityRepository facilityRepository;
     
-    @PersistenceContext
-    private EntityManager em;
-    
+    /**
+     * @see CustomerService#findCustomer(com.posabro.ocsys.domain.CustomerPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public Customer findCustomer(CustomerPK id) {
         return customerRepository.findOne(id);
     }
     
+    /**
+     * @see CustomerService#findCustomersByCompany(java.lang.String) 
+     * 
+     * @param companyId
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Customer> findCustomersByCompany(String companyId) {
         return customerRepository.findByCustomerPK_CompanyId(companyId);
     }
 
+    /**
+     * @see CustomerService#getAllCustomers() 
+     * 
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public List<Customer> getAllCustomers() {
         return Lists.newArrayList(customerRepository.findAll());
     }
 
+    /**
+     * @see CustomerService#saveCustomer(com.posabro.ocsys.domain.Customer) 
+     * 
+     * @param customer 
+     */
     @Override
     public void saveCustomer(Customer customer) {
 //        if(em.find(Customer.class, new CustomerPK(customer.getId(), customer.getCompany().getId()))==null){
@@ -78,11 +105,21 @@ public class DefaultCustomerService implements CustomerService{
         }
     }
 
+    /**
+     * @see CustomerService#updateCustomer(com.posabro.ocsys.domain.Customer) 
+     * 
+     * @param customer 
+     */
     @Override
     public void updateCustomer(Customer customer) {
         customerRepository.save(customer);
     }
 
+    /**
+     * @see CustomerService#removeCustomer(com.posabro.ocsys.domain.CustomerPK) 
+     * 
+     * @param id 
+     */
     @Override
     public void removeCustomer(CustomerPK id) {
         facilityRepository.deleteFacilitiesByCustomer(id.getId(), id.getCompanyId());

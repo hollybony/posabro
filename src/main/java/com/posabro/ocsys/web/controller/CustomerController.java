@@ -17,18 +17,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ * Web controller that processes all the requests related to groups
+ * 
  * @author Carlos Juarez
  */
 @Controller
 @RequestMapping("/customerController/*")
 public class CustomerController extends ValidationController{
     
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(CustomerController.class);
     
+    /**
+     * The customerService
+     */
     @Autowired
     private CustomerService customerService;
     
+    /**
+     * Finds all the customers
+     * 
+     * @return the customers found
+     */
     @RequestMapping(value="findCustomers", method = RequestMethod.POST)
     public @ResponseBody List<Customer> findCustomers(){
         String companyId = UserInfoProvider.getLoggedUser().getBranch().getCompany().getId();
