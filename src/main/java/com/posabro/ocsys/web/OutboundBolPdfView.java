@@ -69,6 +69,8 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
     
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     
+    private static final String msgSeparator = "\n";
+    
     public static void main(String... args) throws FileNotFoundException, DocumentException {
         OutboundBolPdfView outboundBolPdfView = new OutboundBolPdfView();
         OutboundBol outboundBol = new OutboundBol();
@@ -147,13 +149,9 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
     }
 
     private PdfPCell getTitleCell() {
-        Phrase phrase = new Phrase();
-        phrase.setFont(FontsHelper.BOLD_12_5_FONT);
-        phrase.add("CONOCIMIENTO");
+        Phrase phrase = BlocksHelper.getPhrase(FontsHelper.BOLD_12_5_FONT, messageSource.getMessage("billOfLading.title", null, localeLocator.lookLocale()).split(msgSeparator));
         phrase.add(Chunk.NEWLINE);
-        phrase.add("DE EMBARQUE");
-        phrase.add(Chunk.NEWLINE);
-        phrase.add(new Chunk("bill of Lading", FontsHelper.BOLD_ITALIC_FONT));
+        phrase.add(new Chunk(messageSource.getMessage("billOfLading.2langTitle", null, localeLocator.lookLocale()), FontsHelper.BOLD_ITALIC_FONT));
         PdfPCell cell = new PdfPCell(phrase);
         cell.setLeading(0, 1.3f);
         cell.setBorder(Rectangle.NO_BORDER);
@@ -162,12 +160,7 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
 
     private PdfPCell getNoteCell() {
         Phrase phrase = BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_12_5_FONT, 0.9f,
-                "EN CASO DE SITUACION DE EMERGENCIA",
-                "CON PRODUCTOS QUIMICOS PELIGROSOS",
-                "LLAMAR A CHEMTREC:",
-                "1-800-424-9300 (FROM USA)",
-                "001-703-527-3887 (FROM MEXICO)",
-                "(24 HOURS)     (REFERENCE CYANCO)");
+                messageSource.getMessage("billOfLading.note", null, localeLocator.lookLocale()).split(msgSeparator));
         PdfPCell cell = new PdfPCell(phrase);
         cell.setLeading(0, 1.45f);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -181,25 +174,28 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
 
     public PdfPCell getBolNumAndDateCell(String bolId, Date bolDate) {
         PdfPTable table = new PdfPTable(1);
-        PdfPCell numCell = new PdfPCell(new Phrase("B/L NUMERO", FontsHelper.WHITE_BOLD_FONT));
-        numCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        numCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        numCell.setBackgroundColor(BaseColor.BLACK);
-        table.addCell(numCell);
+        PdfPCell bolNumCell = new PdfPCell(new Phrase(
+                messageSource.getMessage("billOfLading.bolNum", null, localeLocator.lookLocale()), FontsHelper.WHITE_BOLD_FONT));
+        bolNumCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        bolNumCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        bolNumCell.setBackgroundColor(BaseColor.BLACK);
+        table.addCell(bolNumCell);
         PdfPCell numValueCell = new PdfPCell(new Phrase(bolId));
         numValueCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(numValueCell);
         table.addCell(BlocksHelper.getNoBorderCell());
-        PdfPCell dateCell = new PdfPCell(new Phrase("B/L FECHA", FontsHelper.WHITE_BOLD_FONT));
-        dateCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        dateCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        dateCell.setBackgroundColor(BaseColor.BLACK);
-        table.addCell(dateCell);
+        PdfPCell bolDateCell = new PdfPCell(new Phrase(messageSource.getMessage("billOfLading.bolDate", null, localeLocator.lookLocale()),
+                FontsHelper.WHITE_BOLD_FONT));
+        bolDateCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        bolDateCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        bolDateCell.setBackgroundColor(BaseColor.BLACK);
+        table.addCell(bolDateCell);
         PdfPCell dateValueCell = new PdfPCell(new Phrase(dateFormatter.format(bolDate)));
         dateValueCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(dateValueCell);
         table.addCell(BlocksHelper.getNoBorderCell());
-        PdfPCell pageCell = new PdfPCell(new Phrase("page 1 of 1", FontsHelper.NORMAL_10_FONT));
+        PdfPCell pageCell = new PdfPCell(new Phrase(messageSource.getMessage("billOfLading.pageLegend", null, localeLocator.lookLocale()),
+            FontsHelper.NORMAL_10_FONT));
         pageCell.setBorder(Rectangle.NO_BORDER);
         pageCell.setVerticalAlignment(Element.ALIGN_BOTTOM);
         table.addCell(pageCell);
@@ -213,13 +209,13 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
 
     public PdfPCell getSenderCell(Company company) {
         PdfPTable table = new PdfPTable(1);
-        Phrase titlePhrase = new Phrase("DE ", FontsHelper.WHITE_BOLD_FONT);
-        titlePhrase.add(new Chunk("(From)", FontsHelper.WHITE_ITALIC_FONT));
+        Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.sender.title", null, localeLocator.lookLocale()), FontsHelper.WHITE_BOLD_FONT);
+        titlePhrase.add(new Chunk(messageSource.getMessage("billOfLading.sender.2langTitle", null, localeLocator.lookLocale()), FontsHelper.WHITE_ITALIC_FONT));
         PdfPCell titleCell = new PdfPCell(titlePhrase);
         titleCell.setBackgroundColor(BaseColor.BLACK);
         titleCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(titleCell);
-        //data
+        //TODO
         Phrase phrase = BlocksHelper.getPhrase(FontsHelper.NORMAL_10_FONT,
                 company.getName(),
                 "La Aaa 111",
@@ -242,8 +238,8 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
 
     public PdfPCell getCustomerCell(Customer customer) {
         PdfPTable table = new PdfPTable(1);
-        Phrase titlePhrase = new Phrase("CLIENTE ", FontsHelper.WHITE_BOLD_FONT);
-        titlePhrase.add(new Chunk("( Customer)", FontsHelper.WHITE_ITALIC_FONT));
+        Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.customer", null, localeLocator.lookLocale()) + " ", FontsHelper.WHITE_BOLD_FONT);
+        titlePhrase.add(new Chunk(messageSource.getMessage("billOfLading.2langCustomer", null, localeLocator.lookLocale()), FontsHelper.WHITE_ITALIC_FONT));
         PdfPCell titleCell = new PdfPCell(titlePhrase);
         titleCell.setBackgroundColor(BaseColor.BLACK);
         titleCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -268,13 +264,13 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
 
     public PdfPCell getAddresseeCell(Facility facility) {
         PdfPTable table = new PdfPTable(1);
-        Phrase titlePhrase = new Phrase("ENVIAR A ", FontsHelper.WHITE_BOLD_FONT);
-        titlePhrase.add(new Chunk("( Ship to)", FontsHelper.WHITE_ITALIC_FONT));
+        Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.addressee", null, localeLocator.lookLocale()) + " ", FontsHelper.WHITE_BOLD_FONT);
+        titlePhrase.add(new Chunk(messageSource.getMessage("billOfLading.2langAddressee", null, localeLocator.lookLocale()), FontsHelper.WHITE_ITALIC_FONT));
         PdfPCell titleCell = new PdfPCell(titlePhrase);
         titleCell.setBackgroundColor(BaseColor.BLACK);
         titleCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         table.addCell(titleCell);
-        //data
+        //TODO
         Phrase phrase = BlocksHelper.getPhrase(FontsHelper.NORMAL_10_FONT,
                 facility.getName(),
                 facility.getAddress().getLine1(),
@@ -303,12 +299,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         table.setSpacingBefore(defaultPadding);
         table.setWidthPercentage(97);
         table.setWidths(new int[]{95, 95, 95, 105, 115, 95});
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "CARRO TANQUE #"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "CONTENEDOR #"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "TRANSPORTISTA"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "CHOFER"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "BILL OF LADING CYANGO"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "FECHA DE ENVIO"));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.railcar", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.container", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.carrier", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.driver", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.billNum", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.shipmentDate", null, localeLocator.lookLocale())));
         //setting values
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getInboundBolData().getInbouundContId1()));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getContainerId()==null?"":outboundBol.getContainerId()));
@@ -327,44 +323,46 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         table.setSpacingBefore(defaultPadding);
         table.setWidthPercentage(100);
         table.setWidths(new int[]{40, 80, 100, 320, 85, 85, 40});
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "PKGS"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "TIPO PKGS"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "CONTENIDO KG"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "DESCRIPCION"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "PESO", "NETO"));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, "PESO", "BRUTO"));
+        
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.pkgs", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.pkgsType", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.kgContain", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.desc", null, localeLocator.lookLocale())));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.netWeight", null, localeLocator.lookLocale()).split(msgSeparator)));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.content.grossWeight", null, localeLocator.lookLocale()).split(msgSeparator)));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, ""));
         //setting values
+        String weightMeasure = messageSource.getMessage("billOfLading.weightMeasure", null, localeLocator.lookLocale());
         PdfPCell pkgsCell = new PdfPCell(new Phrase("1", FontsHelper.NORMAL_10_FONT));
         pkgsCell.setRowspan(2);
         pkgsCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(pkgsCell);
-        PdfPCell pkgsTypeCell = new PdfPCell(new Phrase("TRAILER", FontsHelper.NORMAL_10_FONT));
+        PdfPCell pkgsTypeCell = new PdfPCell(new Phrase(messageSource.getMessage("billOfLading.content.trailer", null, localeLocator.lookLocale()), FontsHelper.NORMAL_10_FONT));
         pkgsTypeCell.setRowspan(2);
         pkgsTypeCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(pkgsTypeCell);
-        PdfPCell contentKgsCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getContent().getContainedKgs()) + " KG", FontsHelper.NORMAL_10_FONT));
+        PdfPCell contentKgsCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getContent().getContainedKgs()) + " " + weightMeasure, FontsHelper.NORMAL_10_FONT));
         contentKgsCell.setRowspan(2);
         contentKgsCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(contentKgsCell);
         table.addCell(getProductDescCell(outboundBol));
-        PdfPCell netWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getNetWeight()) + " KG", FontsHelper.NORMAL_10_FONT));
+        PdfPCell netWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getNetWeight()) + " " + weightMeasure, FontsHelper.NORMAL_10_FONT));
         netWeightCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(netWeightCell);
-        PdfPCell grossWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getGrossWeight()) + " KG", FontsHelper.NORMAL_10_FONT));
+        PdfPCell grossWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getGrossWeight()) + " " + weightMeasure, FontsHelper.NORMAL_10_FONT));
         grossWeightCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(grossWeightCell);
         table.addCell("");
-        PdfPCell weightTotalCell = new PdfPCell(new Phrase("Total Peso:", FontsHelper.BOLD_10_FONT));
+        PdfPCell weightTotalCell = new PdfPCell(new Phrase(messageSource.getMessage("billOfLading.content.totalWeight", null, localeLocator.lookLocale()), FontsHelper.BOLD_10_FONT));
         weightTotalCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         weightTotalCell.setBorder(Rectangle.BOTTOM);
         weightTotalCell.setPaddingBottom(15);
         table.addCell(weightTotalCell);
-        PdfPCell totalNetWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getNetWeight()) + " KG", FontsHelper.BOLD_10_FONT));
+        PdfPCell totalNetWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getNetWeight()) + " " + weightMeasure, FontsHelper.BOLD_10_FONT));
         totalNetWeightCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         totalNetWeightCell.setPaddingBottom(15);
         table.addCell(totalNetWeightCell);
-        PdfPCell totalGrossWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getGrossWeight()) + " KG", FontsHelper.BOLD_10_FONT));
+        PdfPCell totalGrossWeightCell = new PdfPCell(new Phrase(formatter.format(outboundBol.getGrossWeight()) + " " + weightMeasure, FontsHelper.BOLD_10_FONT));
         totalGrossWeightCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         totalGrossWeightCell.setPaddingBottom(15);
         table.addCell(totalGrossWeightCell);
@@ -382,24 +380,24 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         productCell.setBorder(Rectangle.NO_BORDER);
         table.addCell(productCell);
         Phrase analysisPhrase = new Phrase();
-        analysisPhrase.add(new Chunk("CERTIFICADO DE ANALISIS", FontsHelper.UNDERLINED_8_FONT));
+        analysisPhrase.add(new Chunk(messageSource.getMessage("billOfLading.productDesc.cert", null, localeLocator.lookLocale()), FontsHelper.UNDERLINED_8_FONT));
         PdfPCell analysisCell = new PdfPCell(analysisPhrase);
         analysisCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         analysisCell.setBorder(Rectangle.NO_BORDER);
         table.addCell(analysisCell);
         Phrase prodDataPhrase = new Phrase();
-        prodDataPhrase.add(new Chunk("% NaCN: " + outboundBol.getNacnPct() + "%", FontsHelper.BOLD_FONT));
+        prodDataPhrase.add(new Chunk(messageSource.getMessage("billOfLading.productDesc.percent",new Object[]{outboundBol.getNacnPct()}, localeLocator.lookLocale()), FontsHelper.BOLD_FONT));
         prodDataPhrase.add(Chunk.NEWLINE);
-        prodDataPhrase.add(new Chunk("SP. GR: " + outboundBol.getSpecificGravity(), FontsHelper.BOLD_FONT));
+        prodDataPhrase.add(new Chunk(messageSource.getMessage("billOfLading.productDesc.gravity",new Object[]{outboundBol.getSpecificGravity()}, localeLocator.lookLocale()), FontsHelper.BOLD_FONT));
         prodDataPhrase.add(Chunk.NEWLINE);
-        prodDataPhrase.add(new Chunk("pH: " + outboundBol.getPh(), FontsHelper.BOLD_FONT));
+        prodDataPhrase.add(new Chunk(messageSource.getMessage("billOfLading.productDesc.ph",new Object[]{outboundBol.getPh()}, localeLocator.lookLocale()), FontsHelper.BOLD_FONT));
         prodDataPhrase.add(Chunk.NEWLINE);
         PdfPCell prodDataCell = new PdfPCell(prodDataPhrase);
         prodDataCell.setBorder(Rectangle.NO_BORDER);
         prodDataCell.setPaddingLeft(33);
         table.addCell(prodDataCell);
         Phrase contenedLtsPhrase = new Phrase();
-        contenedLtsPhrase.add(new Chunk("Contenido LITROS:", FontsHelper.BOLD_UNDERLINED_FONT));
+        contenedLtsPhrase.add(new Chunk(messageSource.getMessage("billOfLading.productDesc.containedLts", null, localeLocator.lookLocale()), FontsHelper.BOLD_UNDERLINED_FONT));
         contenedLtsPhrase.add(new Chunk(" " + formatter.format(outboundBol.getContent().getContainedLts()), FontsHelper.BOLD_FONT));
         PdfPCell contenedLtsCell = new PdfPCell(contenedLtsPhrase);
         contenedLtsCell.setPaddingLeft(15);
@@ -418,42 +416,33 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         table.setWidthPercentage(100);
         table.setWidths(new int[]{285, 240, 175});
         Phrase shipmentCertPhrase = BlocksHelper.getPhrase(FontsHelper.NORMAL_8_FONT,
-                "CERTIFICACION DE EMBARQUE: Este documento certifica",
-                "que los materiales anteriormente mencionados estan",
-                "correctamente clasificados, descritos, empacados, marcados",
-                "y etiquetados y se encuentran en condiciones adecuadas",
-                "para su transporte de acuerdo con las normas aplicables.",
-                "",
-                "(Firma/Puesto)",
-                "",
-                "",
-                "X_____________________________________________");
+                messageSource.getMessage("billOfLading.shipmentCert", null, localeLocator.lookLocale()).split(msgSeparator));
         PdfPCell shipmentCertCell = new PdfPCell(shipmentCertPhrase);
         shipmentCertCell.setRowspan(4);
         shipmentCertCell.setPaddingBottom(5);
         shipmentCertCell.setLeading(0, 1.45f);
         table.addCell(shipmentCertCell);
         Phrase containersLevelPhrase = new Phrase();
-        containersLevelPhrase.add(new Chunk("                   Nivel de tanques", FontsHelper.BOLD_9_FONT));
+        containersLevelPhrase.add(new Chunk(messageSource.getMessage("billOfLading.levelRailcar", null, localeLocator.lookLocale()), FontsHelper.BOLD_9_FONT));
         containersLevelPhrase.add(Chunk.NEWLINE);
         containersLevelPhrase.add(Chunk.NEWLINE);
-        containersLevelPhrase.add(new Chunk("Antes:       ______________________", FontsHelper.NORMAL_8_FONT));
+        containersLevelPhrase.add(new Chunk(messageSource.getMessage("billOfLading.levelRailcar.before", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         containersLevelPhrase.add(Chunk.NEWLINE);
         containersLevelPhrase.add(Chunk.NEWLINE);
-        containersLevelPhrase.add(new Chunk("Despues:  ______________________", FontsHelper.NORMAL_8_FONT));
+        containersLevelPhrase.add(new Chunk(messageSource.getMessage("billOfLading.levelRailcar.after", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         PdfPCell containersLevelCell = new PdfPCell(containersLevelPhrase);
         containersLevelCell.setRowspan(2);
         containersLevelCell.setPaddingBottom(5);
         table.addCell(containersLevelCell);
         Phrase deliveredByPhrase = new Phrase();
-        deliveredByPhrase.add(new Chunk("ENTREGADO POR:", FontsHelper.NORMAL_8_FONT));
+        deliveredByPhrase.add(new Chunk(messageSource.getMessage("billOfLading.deliveredBy", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         deliveredByPhrase.add(Chunk.NEWLINE);
         deliveredByPhrase.add(Chunk.NEWLINE);
         deliveredByPhrase.add(Chunk.NEWLINE);
         deliveredByPhrase.add(Chunk.NEWLINE);
         table.addCell(deliveredByPhrase);
         Phrase receivedByPhrase = new Phrase();
-        receivedByPhrase.add(new Chunk("RECIBIDO POR:", FontsHelper.NORMAL_8_FONT));
+        receivedByPhrase.add(new Chunk(messageSource.getMessage("billOfLading.receivedBy", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         receivedByPhrase.add(Chunk.NEWLINE);
         receivedByPhrase.add(Chunk.NEWLINE);
         receivedByPhrase.add(Chunk.NEWLINE);
@@ -461,30 +450,27 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         PdfPCell receivedByCell = new PdfPCell(receivedByPhrase);
         receivedByCell.setRowspan(2);
         table.addCell(receivedByCell);
-        Phrase driverSignaturePhrase = new Phrase();
-        driverSignaturePhrase.add(new Chunk("I verify that Mine Attendant was present during making and", FontsHelper.NORMAL_7_FONT));
-        driverSignaturePhrase.add(Chunk.NEWLINE);
-        driverSignaturePhrase.add(new Chunk("breaking of connections and start of product flow", FontsHelper.NORMAL_7_FONT));
+        Phrase driverSignaturePhrase = BlocksHelper.getPhrase(FontsHelper.NORMAL_7_FONT, messageSource.getMessage("billOfLading.driveSignatureLegend", null, localeLocator.lookLocale()).split(msgSeparator));
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
-        driverSignaturePhrase.add(new Chunk("FIRMA CHOFER", FontsHelper.NORMAL_8_FONT));
+        driverSignaturePhrase.add(new Chunk(messageSource.getMessage("billOfLading.driveSignature", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
-        driverSignaturePhrase.add(new Chunk("X______________________________", FontsHelper.NORMAL_8_FONT));
+        driverSignaturePhrase.add(new Chunk(messageSource.getMessage("billOfLading.driveSignatureLine", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
-        driverSignaturePhrase.add(new Chunk("FIRMA RESPONSABLE MINA", FontsHelper.NORMAL_8_FONT));
+        driverSignaturePhrase.add(new Chunk(messageSource.getMessage("billOfLading.mineResponsable", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
         driverSignaturePhrase.add(Chunk.NEWLINE);
-        driverSignaturePhrase.add(new Chunk("X______________________________", FontsHelper.NORMAL_8_FONT));
+        driverSignaturePhrase.add(new Chunk(messageSource.getMessage("billOfLading.mineResponsableLine", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         PdfPCell driverSignatureCell = new PdfPCell(driverSignaturePhrase);
         driverSignatureCell.setRowspan(3);
         driverSignatureCell.setPaddingBottom(5);
         table.addCell(driverSignatureCell);
         Phrase datePhrase = new Phrase();
-        datePhrase.add(new Chunk("FECHA:", FontsHelper.NORMAL_8_FONT));
+        datePhrase.add(new Chunk(messageSource.getMessage("billOfLading.date", null, localeLocator.lookLocale()), FontsHelper.NORMAL_8_FONT));
         datePhrase.add(Chunk.NEWLINE);
         datePhrase.add(Chunk.NEWLINE);
         datePhrase.add(Chunk.NEWLINE);
@@ -493,10 +479,7 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         emptyCell.setBorder(Rectangle.NO_BORDER);
         table.addCell(emptyCell);
         Phrase finalNotePhrase = BlocksHelper.getPhrase(FontsHelper.NORMAL_8_FONT,
-                "",
-                "LA FIRMA POR ESTE MEDIO CONFIRMA QUE",
-                "LA CANTIDAD ESPECIFICADA ES CORRECTA Y",
-                "RECIBIDA EN BUEN ESTADO");
+                messageSource.getMessage("billOfLading.smallLetters", null, localeLocator.lookLocale()).split(msgSeparator));
         table.addCell(finalNotePhrase);
         return table;
     }
