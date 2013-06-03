@@ -43,12 +43,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
+
 /**
- *
+ * Pdf view of a Bill of lading
+ * 
  * @author Carlos Juarez
  */
 public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSourceAware{
 
+    /**
+     * The logger
+     */
     final org.slf4j.Logger logger = LoggerFactory.getLogger(OutboundBolPdfView.class);
     
     /**
@@ -61,14 +66,29 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
      */
     private LocaleLocator localeLocator;
     
+    /**
+     * The key with which the bill of lading is looked for
+     */
     public static final String OUTBOUNDBOL_MODEL = "outboundBol";
     
+    /**
+     * padding used to separate the different tables in the Pdf
+     */
     public static final float defaultPadding = 15;
     
+    /**
+     * formatter used in the numbers showed in the view
+     */
     private static final NumberFormat formatter = NumberFormat.getInstance(Locale.US);
     
+    /**
+     * date formatter used in the dates showed in the view
+     */
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     
+    /**
+     * separator of the messages to split them in different lines
+     */
     private static final String msgSeparator = "\n";
     
     public static void main(String... args) throws FileNotFoundException, DocumentException {
@@ -115,17 +135,39 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         document.close();
     }
     
+    /**
+     * Updated the document in such a way that all the bill of lading properties are placed there
+     * 
+     * @param model - where the bill of lading is looked for
+     * @param document - where the bill of lading is draw 
+     * @param writer - the writer of the document
+     * @param request - current request
+     * @param response - current response
+     * @throws Exception 
+     */
     @Override
     protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BillOfLading billOfLading = (BillOfLading) model.get(OUTBOUNDBOL_MODEL);
         render(document, billOfLading);
     }
     
+    /**
+     * Instances the new document with the size and margins required
+     * 
+     * @return the new document
+     */
     @Override
     protected Document newDocument() {
         return new Document(PageSize.A4, 30, 15, 27, 27);
     }
     
+    /**
+     * Renders the four sections of the bill of lading in the document
+     * 
+     * @param document - the document
+     * @param billOfLading - the bill of lading
+     * @throws DocumentException 
+     */
     public void render(Document document, BillOfLading billOfLading) throws DocumentException{
         document.add(getHeaderInfoTable(billOfLading));
         document.add(getInboundBolDetails(billOfLading.getOutboundBol()));
@@ -133,7 +175,14 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         document.add(getFooterDetails());
     }
     
-      private PdfPTable getHeaderInfoTable(BillOfLading billOfLading) throws DocumentException {
+    /**
+     * Creates the header info table
+     * 
+     * @param billOfLading
+     * @return the info table
+     * @throws DocumentException 
+     */
+    private PdfPTable getHeaderInfoTable(BillOfLading billOfLading) throws DocumentException {
         PdfPTable headerTable = new PdfPTable(4);
         headerTable.setWidthPercentage(100);
         headerTable.setWidths(new int[]{310, 320, 165, 165});
@@ -148,6 +197,11 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return headerTable;
     }
 
+    /**
+     * Creates the title cell
+     * 
+     * @return the title cell
+     */
     private PdfPCell getTitleCell() {
         Phrase phrase = BlocksHelper.getPhrase(FontsHelper.BOLD_12_5_FONT, messageSource.getMessage("billOfLading.title", null, localeLocator.lookLocale()).split(msgSeparator));
         phrase.add(Chunk.NEWLINE);
@@ -158,6 +212,11 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Creates the note cell
+     * 
+     * @return the cell created
+     */
     private PdfPCell getNoteCell() {
         Phrase phrase = BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_12_5_FONT, 0.9f,
                 messageSource.getMessage("billOfLading.note", null, localeLocator.lookLocale()).split(msgSeparator));
@@ -172,6 +231,13 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Creates the boL number and date cell
+     * 
+     * @param bolId
+     * @param bolDate
+     * @return the cell created
+     */
     public PdfPCell getBolNumAndDateCell(String bolId, Date bolDate) {
         PdfPTable table = new PdfPTable(1);
         PdfPCell bolNumCell = new PdfPCell(new Phrase(
@@ -207,6 +273,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Crates the sender table cell
+     * 
+     * @param company
+     * @return the cell created
+     */
     public PdfPCell getSenderCell(Company company) {
         PdfPTable table = new PdfPTable(1);
         Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.sender.title", null, localeLocator.lookLocale()), FontsHelper.WHITE_BOLD_FONT);
@@ -236,6 +308,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Creates the customer table cell
+     * 
+     * @param customer
+     * @return the cell created
+     */
     public PdfPCell getCustomerCell(Customer customer) {
         PdfPTable table = new PdfPTable(1);
         Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.customer", null, localeLocator.lookLocale()) + " ", FontsHelper.WHITE_BOLD_FONT);
@@ -262,6 +340,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Created the addressee table cell
+     * 
+     * @param facility
+     * @return the cell created
+     */
     public PdfPCell getAddresseeCell(Facility facility) {
         PdfPTable table = new PdfPTable(1);
         Phrase titlePhrase = new Phrase(messageSource.getMessage("billOfLading.addressee", null, localeLocator.lookLocale()) + " ", FontsHelper.WHITE_BOLD_FONT);
@@ -291,6 +375,13 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Created the InbooundBol details table
+     * 
+     * @param outboundBol
+     * @return the table created
+     * @throws DocumentException 
+     */
     private PdfPTable getInboundBolDetails(OutboundBol outboundBol) throws DocumentException {
         PdfPTable table = new PdfPTable(6);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -315,6 +406,13 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return table;
     }
 
+    /**
+     * Created the content details table
+     * 
+     * @param outboundBol
+     * @return the table created
+     * @throws DocumentException 
+     */
     private PdfPTable getContentDetails(OutboundBol outboundBol) throws DocumentException {
         PdfPTable table = new PdfPTable(7);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -370,6 +468,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return table;
     }
 
+    /**
+     * Creates product description cell
+     * 
+     * @param outboundBol
+     * @return the cell created
+     */
     private PdfPCell getProductDescCell(OutboundBol outboundBol) {
         Phrase productPhrase = new Phrase();
         PdfPTable table = new PdfPTable(1);
@@ -410,6 +514,12 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         return cell;
     }
 
+    /**
+     * Creates the footer details cell
+     * 
+     * @return the created cell
+     * @throws DocumentException 
+     */
     private PdfPTable getFooterDetails() throws DocumentException {
         PdfPTable table = new PdfPTable(3);
         table.setSpacingBefore(defaultPadding);
@@ -492,6 +602,9 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         this.messageSource = messageSource;
     }
     
+    /**
+     * @param localeLocator - the localeLocator to set
+     */
     public void setLocaleLocator(LocaleLocator localeLocator) {
         this.localeLocator = localeLocator;
     }

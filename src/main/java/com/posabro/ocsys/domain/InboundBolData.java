@@ -47,10 +47,18 @@ public class InboundBolData implements Serializable {
     @Column(name="INBOUND_CONT_ID_02", length=20)
     private String inbouundContId2;
 
+    /**
+     * Creates an instance of <code>InboundBolData</code> class
+     */
     public InboundBolData(){
         this(null);
     }
     
+    /**
+     * Creates an instance of <code>InboundBolData</code> class
+     * 
+     * @param inbouundContId1 - the inbouundContId1 to set
+     */
     public InboundBolData(String inbouundContId1){
         this.inbouundContId1 = inbouundContId1;
     }

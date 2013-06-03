@@ -8,7 +8,8 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Font;
 
 /**
- *
+ * Provides fonts with different styles and sizes
+ * 
  * @author Carlos Juarez
  */
 public class FontsHelper {
@@ -51,6 +52,7 @@ public class FontsHelper {
         WHITE_BOLD_FONT.setColor(BaseColor.WHITE);
         WHITE_BOLD_FONT.setStyle(Font.BOLD);
         WHITE_BOLD_FONT.setSize(10);
+        
         WHITE_ITALIC_FONT.setColor(BaseColor.WHITE);
         WHITE_ITALIC_FONT.setStyle(Font.ITALIC);
         WHITE_ITALIC_FONT.setSize(10);
@@ -81,9 +83,7 @@ public class FontsHelper {
         
         NORMAL_12_5_FONT.setSize(12.5f);
         
-        
         UNDERLINED_8_FONT.setStyle(Font.UNDERLINE);
         UNDERLINED_8_FONT.setSize(8);
-        
     }
 }

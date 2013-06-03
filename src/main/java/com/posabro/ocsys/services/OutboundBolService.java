@@ -24,6 +24,12 @@ public interface OutboundBolService {
      */
     public OutboundBol findOutboundBol(OutboundBolPK id);
     
+    /**
+     * Finds an billOfLading by boL id
+     * 
+     * @param id - the id with which the bill of lading is looked for
+     * @return the bill of lading found
+     */
     public BillOfLading findBillOfLading(OutboundBolPK id);
     
     /**

@@ -109,6 +109,12 @@ public class DefaultOutboundBolService implements OutboundBolService{
         return outboundBolRepository.findOne(id);
     }
     
+    /**
+     * @see OutboundBolService#findBillOfLading(com.posabro.ocsys.domain.OutboundBolPK) 
+     * 
+     * @param id
+     * @return 
+     */
     @Override
     @Transactional(readOnly=true)
     public BillOfLading findBillOfLading(OutboundBolPK id) {

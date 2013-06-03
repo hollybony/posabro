@@ -5,14 +5,11 @@
 package com.posabro.ocsys.services.jpa;
 
 import com.google.common.collect.Lists;
-import com.posabro.ocsys.domain.Country;
 import com.posabro.ocsys.domain.State;
 import com.posabro.ocsys.domain.StatePK;
 import com.posabro.ocsys.repository.StateRepository;
 import com.posabro.ocsys.services.StateService;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

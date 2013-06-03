@@ -20,10 +20,21 @@ import javax.validation.constraints.DecimalMin;
 @Embeddable
 public class Content implements Serializable {
     
+    /**
+     * Creates an instance of <code>Content</code> class
+     */
     public Content(){
         this(null, null, null, null);
     }
     
+    /**
+     * Creates an instance of <code>Content</code> class
+     * 
+     * @param containedGallons - the containedGallons to set
+     * @param containedKgs - the containedKgs to set
+     * @param containedLbs - the containedLbs to set
+     * @param containedLts - the containedLts to set
+     */
     public Content(BigDecimal containedGallons, BigDecimal containedKgs, BigDecimal containedLbs, BigDecimal containedLts){
         this.containedGallons = containedGallons;
         this.containedKgs = containedKgs;
