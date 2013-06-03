@@ -11,7 +11,6 @@ import com.posabro.ocsys.domain.OutboundBolPK;
 import com.posabro.ocsys.services.OutboundBolService;
 import com.posabro.ocsys.web.UserInfoProvider;
 import com.posabro.web.controller.ValidationController;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +84,9 @@ public class BillOfLoadingController extends ValidationController{
             mav.addObject("outboundBol", billOfLading);
             return mav;
         }else{
-            return null;
+            ModelAndView mav = new ModelAndView("billOfLadingNotExist");
+            mav.addObject("bolId", bolId);
+            return mav;
         }
     }
     
