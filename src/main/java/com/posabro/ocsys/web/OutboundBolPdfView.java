@@ -397,11 +397,11 @@ public class OutboundBolPdfView extends OwnAbstractPdfView implements MessageSou
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.billNum", null, localeLocator.lookLocale())));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, messageSource.getMessage("billOfLading.inboundBol.shipmentDate", null, localeLocator.lookLocale())));
         //setting values
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getInboundBolData().getInbouundContId1()));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getInboundBolData().getInboundContId1()));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getContainerId()==null?"":outboundBol.getContainerId()));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getCarrierId()));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getDriver()));
-        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getInboundBolData().getInbouundBolId1()==null?"":outboundBol.getInboundBolData().getInbouundBolId1()));
+        table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, outboundBol.getInboundBolData().getInboundBolId1()==null?"":outboundBol.getInboundBolData().getInboundBolId1()));
         table.addCell(BlocksHelper.getNarrowPhrase(FontsHelper.NORMAL_9_FONT, 0.8f, dateFormatter.format(outboundBol.getShipmentDate())));
         return table;
     }

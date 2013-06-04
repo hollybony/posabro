@@ -64,24 +64,24 @@
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId01" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundContId1Input" style="width: 160px" maxlength="20" class=""/>
+                            <input type="text" id="inboundBolData_inboundContId1Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId01" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundBolId1Input" style="width: 160px" maxlength="20" class=""/>
+                            <input type="text" id="inboundBolData_inboundBolId1Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
                     <tr>
                         <td><spring:message code="outBoundBoL.inboundContId02" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundContId2Input" style="width: 160px" maxlength="20" class=""/>
+                            <input type="text" id="inboundBolData_inboundContId2Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                         <td><spring:message code="outBoundBoL.inboundBolId02" /></td>
                         <td>
-                            <input type="text" id="inboundBolData_inbouundBolId2Input" style="width: 160px" maxlength="20" class=""/>
+                            <input type="text" id="inboundBolData_inboundBolId2Input" style="width: 160px" maxlength="20" class=""/>
                             <span class="validateTips"></span>
                         </td>
                     </tr>
@@ -205,10 +205,10 @@
                 facilityIdSelect = $('#facilityIdSelect'),
                 carrierIdSelect = $('#carrierIdSelect'),
                 driver = $('#driverInput'),
-                inboundContId01 = $('#inboundBolData_inbouundContId1Input'),
-                inboundBolId01 = $('#inboundBolData_inbouundBolId1Input'),
-                inboundContId02 = $('#inboundBolData_inbouundContId2Input'),
-                inboundBolId02 = $('#inboundBolData_inbouundBolId2Input'),
+                inboundContId01 = $('#inboundBolData_inboundContId1Input'),
+                inboundBolId01 = $('#inboundBolData_inboundBolId1Input'),
+                inboundContId02 = $('#inboundBolData_inboundContId2Input'),
+                inboundBolId02 = $('#inboundBolData_inboundBolId2Input'),
                 iSOContainer = $('#rdBtnISOContainer'),
                 railcar = $('#rdBtnRailcar'),
                 naCNL = $('#rdBtnNaCNL'),
@@ -402,7 +402,7 @@
                         var dataOutBoundBoL = CrudHandler.getOutBoundBoL();
                         var successCallback = function(data){                            
                             CrudHandler.cleanScreen();
-                            var newMessage = '<spring:message code="outBoundBoL.print.confirm" />'.replace('{0}', data);
+                            var newMessage = '<spring:message code="outBoundBoL.print.confirm" htmlEscape="false" />'.replace('{0}', data);
                             $('#printConfirmDialog').text(newMessage).data('id',data).dialog('open');
                         };
                         var errorCallback = function(xhr){                            
@@ -418,7 +418,7 @@
                     }
                 };
                 CrudHandler.printOutBoundBoL = function(id){
-                    window.open('billOfLoadingController/outboundBolToPdf/' + id, '<spring:message code="outBoundBoL.printDialog"/>');
+                window.open('billOfLoadingController/outboundBolToPdf/' + id, '<spring:message code="outBoundBoL.printDialog"/>');
                 };
                 
                 CrudHandler.cleanScreen = function(){
@@ -484,10 +484,10 @@
                     var shipDateTemp = $.datepicker.formatDate('yy-mm-dd', shipDate.datepicker('getDate'));					
                     var data = {
                         "inboundBolData":{
-                            "inbouundBolId1":(inboundBolId01.val()=="" ? null : inboundBolId01.val()),
-                            "inbouundBolId2":(inboundBolId02.val() == "" ? null : inboundBolId02.val()),
-                            "inbouundContId1":(inboundContId01.val()=="" ? null : inboundContId01.val()),
-                            "inbouundContId2":(inboundContId02.val()=="" ? null : inboundContId02.val())
+                            "inboundBolId1":(inboundBolId01.val()=="" ? null : inboundBolId01.val()),
+                            "inboundBolId2":(inboundBolId02.val() == "" ? null : inboundBolId02.val()),
+                            "inboundContId1":(inboundContId01.val()=="" ? null : inboundContId01.val()),
+                            "inboundContId2":(inboundContId02.val()=="" ? null : inboundContId02.val())
                         },
                         "content":{
                             "containedKgs":(containedKgs.val()=="" ? null : containedKgs.val())

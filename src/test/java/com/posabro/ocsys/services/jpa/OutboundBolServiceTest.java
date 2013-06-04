@@ -150,7 +150,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBol.setFacilityId("FAC1");
         outboundBol.setCarrierId("CAR1");
         outboundBol.setDriver("the driver");
-        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.getInboundBolData().setInboundContId1("CON1");
         outboundBol.setContainerType(ContainerType.ISO);
         //
         outboundBol.setProductId(ProductType.NACNL);
@@ -186,7 +186,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBol.setFacilityId("FAC1");
         outboundBol.setCarrierId("CAR1");
         outboundBol.setDriver(null);
-        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.getInboundBolData().setInboundContId1("CON1");
         outboundBol.setContainerType(ContainerType.RAILCAR);
         //
         outboundBol.setProductId(ProductType.NACNL);
@@ -213,7 +213,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBol.setCustomerId("CUST1");
         outboundBol.setFacilityId("FAC1");
         outboundBol.setCarrierId("CAR1");
-        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.getInboundBolData().setInboundContId1("CON1");
         outboundBol.setContainerType(ContainerType.RAILCAR);
         outboundBol.getContent().setContainedKgs(new BigDecimal("2000.20"));
         outboundBol.setProductId(ProductType.NACNB);
@@ -238,7 +238,7 @@ public class OutboundBolServiceTest extends AbstractServiceTest{
         outboundBol.setFacilityId("FAC1");
         outboundBol.setCarrierId("CAR1");
         outboundBol.setDriver("the driver");
-        outboundBol.getInboundBolData().setInbouundContId1("CON1");
+        outboundBol.getInboundBolData().setInboundContId1("CON1");
         outboundBol.setContainerType(ContainerType.ISO);
         outboundBol.getContent().setContainedKgs(new BigDecimal("2000.20"));
         outboundBol.setProductId(ProductType.NACNB);
