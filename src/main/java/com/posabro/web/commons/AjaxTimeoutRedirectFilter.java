@@ -4,7 +4,6 @@
  */
 package com.posabro.web.commons;
 
-import com.posabro.security.web.controller.UserController;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -41,7 +40,7 @@ public class AjaxTimeoutRedirectFilter extends GenericFilterBean {
     /**
      * The logger
      */
-    final org.slf4j.Logger loggerin = LoggerFactory.getLogger(UserController.class);
+    final org.slf4j.Logger loggerin = LoggerFactory.getLogger(AjaxTimeoutRedirectFilter.class);
     
     /**
      * The throwable analyzer
